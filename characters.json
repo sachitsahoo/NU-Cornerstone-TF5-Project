@@ -1,0 +1,28 @@
+{
+  "correct_culprit_id": "steve",
+  "culprit_explanation": "Steve had been secretly dumping industrial waste into the river for years, hiding it behind his role as a community volunteer. Lab analysis of the pollutants matched chemicals used exclusively at his facility.",
+  "characters": [
+    {
+      "uid": "steve",
+      "tag_ids": ["390485036"],
+      "name": "Steve",
+      "role": "Factory Manager",
+      "description": "Steve has managed the riverside processing plant for over a decade. He's well-liked in the community and sponsors the local football team — but his books don't add up.",
+      "suspicious_detail": "His plant's waste disposal logs have unexplained gaps every third month — exactly when pollution spikes were recorded downstream.",
+      "image": "assets/images/steve_logo.png",
+      "sound_theme": "assets/sounds/steve_theme.wav",
+      "led_color": [255, 80, 20]
+    },
+    {
+      "uid": "tung",
+      "tag_ids": ["3593868791"],
+      "name": "Tung Tung Tung Sahur",
+      "role": "Night-shift Supervisor",
+      "description": "Tung oversees operations after hours and has almost unrestricted site access. He's been at the plant for two years but keeps to himself.",
+      "suspicious_detail": "Multiple colleagues report seeing his van parked near the drainage outflow at 3am on several occasions last autumn.",
+      "image": "assets/images/sahur_logo.png",
+      "sound_theme": "assets/sounds/sahur_theme.wav",
+      "led_color": [20, 120, 255]
+    }
+  ]
+}
