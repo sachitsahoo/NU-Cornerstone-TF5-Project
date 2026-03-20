@@ -115,20 +115,20 @@ Note these numbers — you'll need them when editing `characters.json`.
 
 ## Install dependencies
 ```
-### Create and activate a virtual environment
+**Create and activate a virtual environment**
 python -m venv venv
 
-### On Mac/Linux:
+**On Mac/Linux:**
 source venv/bin/activate
 
-### On Windows:
+**On Windows:**
 venv\Scripts\activate
 
-### Then install dependencies
+**Then install dependencies**
 pip install -r requirements.txt
-
-### Run the app
 ```
+### Run the app
+
 ```bash
 # Auto-detect Pico port
 python display_app.py
