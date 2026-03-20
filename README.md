@@ -111,10 +111,10 @@ Note these numbers — you'll need them when editing `characters.json`.
 
 ---
 
-# PC / Mac Setup
+## PC / Mac Setup
 
 ## Install dependencies
-
+```
 ### Create and activate a virtual environment
 python -m venv venv
 
@@ -128,7 +128,7 @@ venv\Scripts\activate
 pip install -r requirements.txt
 
 ### Run the app
-
+```
 ```bash
 # Auto-detect Pico port
 python display_app.py
