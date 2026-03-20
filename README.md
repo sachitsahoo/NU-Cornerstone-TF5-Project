@@ -1,4 +1,4 @@
-# 🔍 The Pollution Mystery — RFID Experience
+# 🔍 The Pollution Mystery — TF5 Cornerstone Project
 
 An interactive Clue-style exhibit powered by a Raspberry Pi Pico, RFID cards, NeoPixel LEDs, and a PyQt5 display app running on a PC or Mac. Players scan suspect cards to reveal character profiles, then make their accusation. This project is made for the final project for Cornerstone of Engineering 1502 at Northeastern University. 
 
