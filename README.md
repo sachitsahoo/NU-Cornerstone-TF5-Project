@@ -113,7 +113,7 @@ Note these numbers — you'll need them when editing `characters.json`.
 
 ## PC / Mac Setup
 
-## Install dependencies
+### Install dependencies
 ```
 # Create and activate a virtual environment
 python -m venv venv
