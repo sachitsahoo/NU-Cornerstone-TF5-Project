@@ -1,17 +1,5 @@
-'''
-Modified: 24 October 2025
-By Jordan Spencer
-Edited by Caroline Vooss
-Adapted from Microcontrollers Lab
-
-Purpose: Read the ID of a RFID card/tag
-Notes: One library needs to be installed prior to running code:
-Look for [mfrc522.py]and save to Raspberry Pi.
-You can run this code to get the ID numbers of the RFID cards you are using, and then edit the code to suit your needs.
-'''
-
 from mfrc522 import MFRC522
-import utime    #utime is a library that controlls the sleep function that happens at the end of the code.
+import utime
 import neopixel
 
 reader = MFRC522(spi_id=0,sck=2,miso=4,mosi=3,cs=1,rst=0)
