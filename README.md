@@ -138,7 +138,7 @@ python display_app.py --port COM3
 
 # Specify port manually (Mac/Linux)
 python display_app.py --port /dev/tty.usbmodem14201
-OR
+# Try this if that doesn't work
 python display_app.py --port /dev/cu.usbmodem14201
 
 # Launch in fullscreen mode
