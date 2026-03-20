@@ -118,7 +118,7 @@ Note these numbers — you'll need them when editing `characters.json`.
 # Create and activate a virtual environment
 python -m venv venv
 
-# On Mac/Linux:**
+# On Mac/Linux:
 source venv/bin/activate
 
 # On Windows:
