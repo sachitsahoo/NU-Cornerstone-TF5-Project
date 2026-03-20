@@ -128,6 +128,8 @@ python display_app.py --port COM3
 
 # Specify port manually (Mac/Linux)
 python display_app.py --port /dev/tty.usbmodem14201
+OR
+python display_app.py --port /dev/cu.usbmodem14201
 
 # Launch in fullscreen mode
 python display_app.py --fullscreen
@@ -213,6 +215,7 @@ Sound requires `pygame`. If it isn't installed, all audio is silently disabled a
 
 **App says "Could not auto-detect Pico"**
 Pass the port manually with `--port`. On Mac, run `ls /dev/tty.usbmodem*` to find it. On Windows, check Device Manager under Ports (COM & LPT).
+If tty doesn't work, try using cu.usbmodem* instead
 
 **Tag scans do nothing**
 Open a serial monitor and scan the card. Check that the number printed matches the `tag_ids` value in `characters.json` exactly (it's a plain decimal string).
