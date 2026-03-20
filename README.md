@@ -25,8 +25,10 @@ The system has two parts that communicate over USB serial:
 project/
 ├── display_app.py        ← PyQt5 app (runs on PC/Mac)
 ├── characters.json       ← character data — edit this to customise the mystery
-├── main.py               ← MicroPython firmware (copy to Pico as main.py)
+├── CITATIONS.MD          ← contains citations
 ├── requirements.txt      ← Python dependencies
+├── microcontroller/
+│   └── main.py           ← MicroPython firmware (copy to Pico as main.py)
 └── assets/
     ├── images/           ← character portrait PNGs
     └── sounds/
