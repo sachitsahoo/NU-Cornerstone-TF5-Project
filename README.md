@@ -113,9 +113,17 @@ Note these numbers — you'll need them when editing `characters.json`.
 
 ### Install dependencies
 
-```bash
-pip install PyQt5 pyserial pygame
-```
+# Create and activate a virtual environment
+python -m venv venv
+
+# On Mac/Linux:
+source venv/bin/activate
+
+# On Windows:
+venv\Scripts\activate
+
+# Then install dependencies
+pip install -r requirements.txt
 
 ### Run the app
 
