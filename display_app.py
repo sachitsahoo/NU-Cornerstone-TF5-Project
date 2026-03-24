@@ -27,6 +27,7 @@ import os
 import json
 import argparse
 import threading
+import signal
 import serial
 import serial.tools.list_ports
 
@@ -755,6 +756,15 @@ def main():
     app.setApplicationName("The Pollution Mystery")
     window = MysteryApp(serial_port=port)
     window.show()
+
+    # Allow Ctrl+C in the terminal to quit cleanly.
+    # Qt's event loop blocks Python's signal handler by default, so we run a
+    # no-op timer every 200 ms to give Python a chance to check for signals.
+    signal.signal(signal.SIGINT, lambda *_: app.quit())
+    _sigint_pulse = QTimer()
+    _sigint_pulse.start(200)
+    _sigint_pulse.timeout.connect(lambda: None)
+
     sys.exit(app.exec_())
 
 
