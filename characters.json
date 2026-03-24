@@ -11,7 +11,7 @@
       "suspicious_detail": "His plant's waste disposal logs have unexplained gaps every third month — exactly when pollution spikes were recorded downstream.",
       "image": "assets/images/steve_logo.png",
       "sound_theme": "assets/sounds/steve_theme.wav",
-      "led_color": [255, 80, 20]
+      "led_color": [20, 120, 255]
     },
     {
       "uid": "tung",
@@ -22,7 +22,7 @@
       "suspicious_detail": "Multiple colleagues report seeing his van parked near the drainage outflow at 3am on several occasions last autumn.",
       "image": "assets/images/sahur_logo.png",
       "sound_theme": "assets/sounds/sahur_theme.wav",
-      "led_color": [20, 120, 255]
+      "led_color": [255, 80, 20]
     }
   ]
 }

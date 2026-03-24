@@ -159,6 +159,13 @@ class SerialWorker(threading.Thread):
                 self.signals.status_update.emit(False, f"Serial error: {e}")
                 break
 
+    def send_output(self, message: str):
+        if self._ser and self._ser.is_open:
+            try:
+                self._ser.write((message + "\n").encode())
+            except Exception as e:
+                print(f"⚠ Serial write error: {e}")
+
 
 # ─── Auto-detect Pico ─────────────────────────────────────────────────────────
 def auto_detect_pico_port() -> str | None:
@@ -440,17 +447,23 @@ class MysteryApp(QMainWindow):
         self.char_by_uid              = {c["uid"]: c for c in self.characters}
 
         # Build raw-tag → uid lookup for the serial worker
-        # Each character in characters.json has a "tag_ids": ["390485036", ...]
         tag_map: dict[str, str] = {}
         for char in self.characters:
             for raw_id in char.get("tag_ids", []):
                 tag_map[raw_id] = char["uid"]
 
         # ── App state ─────────────────────────────────────────────────────
-        self.stage       = self.STAGE_EXPLORE
-        self.seen_uids   = set()
-        self.current_uid = None
-        self.all_seen    = False
+        self.stage         = self.STAGE_EXPLORE
+        self.seen_uids     = set()
+        self.current_uid   = None
+        self.displayed_uid = None   # ← tracks what's actually on screen
+        self.all_seen      = False
+
+        # ── Removal debounce ──────────────────────────────────────────────
+        self._removal_timer = QTimer(self)
+        self._removal_timer.setSingleShot(True)
+        self._removal_timer.setInterval(600)   # ms — adjust to taste
+        self._removal_timer.timeout.connect(self._do_tag_removed)
 
         # ── Serial ────────────────────────────────────────────────────────
         self.signals = SerialSignals()
@@ -575,10 +588,12 @@ class MysteryApp(QMainWindow):
         self.on_tag_detected(uid)
 
     def _dev_reset(self):
-        self.stage       = self.STAGE_EXPLORE
-        self.seen_uids   = set()
-        self.all_seen    = False
-        self.current_uid = None
+        self.stage         = self.STAGE_EXPLORE
+        self.seen_uids     = set()
+        self.all_seen      = False
+        self.current_uid   = None
+        self.displayed_uid = None
+        self._removal_timer.stop()   # cancel any pending removal
         self.stack.setCurrentIndex(0)
         self.statusBar().showMessage("🔄  DEV RESET")
 
@@ -596,19 +611,37 @@ class MysteryApp(QMainWindow):
         self.statusBar().showMessage(("🟢  " if connected else "🔴  ") + msg)
 
     def on_tag_detected(self, uid: str):
+        self._removal_timer.stop()   # cancel any pending removal
+
+        if uid == self.current_uid:
+            return   # 🚫 don't resend same color
+
         self.current_uid = uid
+
         char = self.char_by_uid.get(uid)
         if char is None:
             self.statusBar().showMessage(f"Unknown tag uid: {uid}")
             return
 
+        r, g, b = char.get("led_color", [0, 0, 0])
+        self.serial_worker.send_output(f"{r},{g},{b}")
         if self.stage == self.STAGE_EXPLORE:
             self._show_character(char)
         elif self.stage == self.STAGE_ACCUSE:
             self._handle_accusation(uid, char)
 
     def on_tag_removed(self):
-        self.current_uid = None
+        # Start (or restart) the debounce timer — if a tag is re-detected
+        # within the interval the timer is cancelled and nothing happens.
+        self._removal_timer.start()
+
+    def _do_tag_removed(self):
+        # Only fires if no tag was re-detected within the debounce window.
+        self.current_uid   = None
+        self.displayed_uid = None
+
+        self.serial_worker.send_output("0,0,0")
+
         if self.stage == self.STAGE_EXPLORE:
             self.stack.setCurrentIndex(0)
             if SOUND_AVAILABLE:
@@ -621,6 +654,10 @@ class MysteryApp(QMainWindow):
     # ─── Stage logic ──────────────────────────────────────────────────────────
 
     def _show_character(self, char: dict):
+        if char["uid"] == self.displayed_uid:
+            return  # already showing this character — do nothing
+
+        self.displayed_uid = char["uid"]
         already_seen = char["uid"] in self.seen_uids
         self.character_screen.load_character(char, already_seen)
         self.stack.setCurrentIndex(1)
