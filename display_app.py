@@ -612,10 +612,10 @@ class MysteryApp(QMainWindow):
         self.statusBar().showMessage(("🟢  " if connected else "🔴  ") + msg)
 
     def on_tag_detected(self, uid: str):
-        self._removal_timer.stop()   # cancel any pending removal
+        self._removal_timer.stop()
 
         if uid == self.current_uid:
-            return   # 🚫 don't resend same color
+            return
 
         self.current_uid = uid
 
@@ -624,12 +624,12 @@ class MysteryApp(QMainWindow):
             self.statusBar().showMessage(f"Unknown tag uid: {uid}")
             return
 
-        r, g, b = char.get("led_color", [0, 0, 0])
-        self.serial_worker.send_output(f"{r},{g},{b}")
         if self.stage == self.STAGE_EXPLORE:
+            r, g, b = char.get("led_color", [0, 0, 0])
+            self.serial_worker.send_output(f"{r},{g},{b}")
             self._show_character(char)
         elif self.stage == self.STAGE_ACCUSE:
-            self._handle_accusation(uid, char)
+            self._handle_accusation(uid, char)   # sends green/red itself
 
     def on_tag_removed(self):
         # Start (or restart) the debounce timer — if a tag is re-detected
@@ -706,9 +706,11 @@ class MysteryApp(QMainWindow):
 
         if correct:
             self.statusBar().showMessage("Correct! Case closed.")
+            self.serial_worker.send_output("0,255,0")
             play_sound("assets/sounds/victory.wav")
         else:
             self.statusBar().showMessage("Wrong accusation. The mystery remains unsolved.")
+            self.serial_worker.send_output("255,0,0")
             play_sound("assets/sounds/wrong.wav")
 
     # ─── Keyboard shortcuts ───────────────────────────────────────────────────
