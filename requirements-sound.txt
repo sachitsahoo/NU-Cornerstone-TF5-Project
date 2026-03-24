@@ -1,0 +1,4 @@
+# Optional WAV playback. Requires a Python version with pygame wheels (e.g. 3.11–3.13)
+# or system SDL headers for a source build.
+-r requirements.txt
+pygame>=2.0.0

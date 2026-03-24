@@ -1,3 +1,8 @@
+# Core — needed to run the display app (including without Pico / without sound).
 PyQt5>=5.15.0
 pyserial>=3.5
-pygame>=2.0.0
+
+# Optional: sound (WAV playback). Install separately if you want audio:
+#   pip install -r requirements-sound.txt
+# On Python 3.14+, pygame may not have a prebuilt wheel yet; use Python 3.12/3.11
+# or install SDL2 (e.g. brew install sdl2 sdl2_mixer) before pip install pygame.

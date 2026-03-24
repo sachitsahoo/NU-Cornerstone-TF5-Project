@@ -1,6 +1,5 @@
 {
-  "correct_culprit_id": "steve",
-  "culprit_explanation": "Steve had been secretly dumping industrial waste into the river for years, hiding it behind his role as a community volunteer. Lab analysis of the pollutants matched chemicals used exclusively at his facility.",
+  "round_culprits": ["steve", "tung", "maya"],
   "characters": [
     {
       "uid": "steve",
@@ -9,8 +8,9 @@
       "role": "Factory Manager",
       "description": "Steve has managed the riverside processing plant for over a decade. He's well-liked in the community and sponsors the local football team — but his books don't add up.",
       "suspicious_detail": "His plant's waste disposal logs have unexplained gaps every third month — exactly when pollution spikes were recorded downstream.",
+      "innocent_explanation": "Steve's gaps in paperwork were from a software migration — independent audits showed his discharge pipes met standards during the incident window.",
+      "culprit_explanation": "Steve had been secretly diverting industrial waste into the storm drain. Lab traces matched solvents used only in his finishing line.",
       "image": "assets/images/steve_logo.png",
-      "sound_theme": "assets/sounds/steve_theme.wav",
       "led_color": [255, 80, 20]
     },
     {
@@ -20,9 +20,22 @@
       "role": "Night-shift Supervisor",
       "description": "Tung oversees operations after hours and has almost unrestricted site access. He's been at the plant for two years but keeps to himself.",
       "suspicious_detail": "Multiple colleagues report seeing his van parked near the drainage outflow at 3am on several occasions last autumn.",
+      "innocent_explanation": "Security footage confirmed Tung was responding to equipment alarms; his route only passed the outflow on the way to the control room.",
+      "culprit_explanation": "Tung falsified night logs and flushed concentrated brine during storms to avoid treatment costs, overwhelming the river's buffer.",
       "image": "assets/images/sahur_logo.png",
-      "sound_theme": "assets/sounds/sahur_theme.wav",
       "led_color": [20, 120, 255]
+    },
+    {
+      "uid": "maya",
+      "tag_ids": [],
+      "name": "Dr. Maya Okonkwo",
+      "role": "Environmental Consultant",
+      "description": "Maya contracts with the city to monitor water quality. She has sampling gear on-site weekly and issues compliance reports.",
+      "suspicious_detail": "A intern found a shredded draft report in her recycling that mentioned 'anomalous spikes' weeks before the public advisory.",
+      "innocent_explanation": "The draft was superseded after her team verified the spikes were from a faulty sensor — the published report reflected corrected data.",
+      "culprit_explanation": "Maya delayed disclosure of real readings to protect a client's timeline, allowing illegal dumping to continue unchecked downstream.",
+      "image": "assets/images/maya_logo.png",
+      "led_color": [80, 200, 120]
     }
   ]
 }
