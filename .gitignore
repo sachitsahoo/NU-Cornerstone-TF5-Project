@@ -217,3 +217,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Node / Vite (never commit dependencies or build caches)
+node_modules/
+web/node_modules/
+web/dist/
+*.tsbuildinfo

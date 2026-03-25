@@ -1,0 +1,103 @@
+"""
+Background thread: read raw bytes from the Pico, match tag substrings, detect BUTTON.
+Events are pushed to a thread-safe queue as dicts (no PyQt).
+"""
+
+from __future__ import annotations
+
+import queue
+import threading
+
+import serial
+import serial.tools.list_ports
+
+SERIAL_BAUD = 115200
+
+
+def auto_detect_pico_port() -> str | None:
+    for p in serial.tools.list_ports.comports():
+        desc = (p.description or "").lower()
+        mfr = (p.manufacturer or "").lower()
+        if "pico" in desc or "raspberry" in mfr or "MicroPython" in (p.product or ""):
+            return p.device
+        if p.vid == 0x2E8A:
+            return p.device
+    return None
+
+
+class SerialWorker(threading.Thread):
+    """
+    Tag map: raw_id substring -> character uid (from characters.json tag_ids).
+    Pushes dicts to event_queue:
+      {"type":"tag","uid":...}
+      {"type":"tag_removed"}
+      {"type":"button"}
+      {"type":"status","connected":bool,"message":str}
+    """
+
+    def __init__(
+        self,
+        port: str,
+        tag_map: dict[str, str],
+        event_queue: queue.Queue,
+    ):
+        super().__init__(daemon=True)
+        self.port = port
+        self.tag_map = tag_map
+        self.event_queue = event_queue
+        self._running = True
+        self._ser = None
+        self._last_uid: str | None = None
+
+    def stop(self):
+        self._running = False
+
+    def _emit(self, d: dict):
+        self.event_queue.put(d)
+
+    def run(self):
+        if self.port == "DUMMY":
+            self._emit({"type": "status", "connected": False, "message": "No serial port — UI-only mode"})
+            return
+
+        try:
+            self._ser = serial.Serial(self.port, SERIAL_BAUD, timeout=1)
+            self._emit({"type": "status", "connected": True, "message": f"Connected on {self.port}"})
+        except serial.SerialException as e:
+            self._emit({"type": "status", "connected": False, "message": str(e)})
+            return
+
+        buffer = ""
+        while self._running:
+            try:
+                data = self._ser.read(64).decode(errors="ignore")
+                if not data:
+                    continue
+                buffer += data
+                while "\n" in buffer:
+                    line, buffer = buffer.split("\n", 1)
+                    line = line.strip()
+                    if not line:
+                        continue
+
+                    matched_uid = None
+                    for raw_id, char_uid in self.tag_map.items():
+                        if raw_id in line:
+                            matched_uid = char_uid
+                            break
+
+                    if matched_uid:
+                        if matched_uid != self._last_uid:
+                            self._last_uid = matched_uid
+                            self._emit({"type": "tag", "uid": matched_uid})
+                    else:
+                        if self._last_uid is not None:
+                            self._last_uid = None
+                            self._emit({"type": "tag_removed"})
+
+                    if line == "BUTTON":
+                        self._emit({"type": "button"})
+
+            except Exception as e:
+                self._emit({"type": "status", "connected": False, "message": f"Serial error: {e}"})
+                break

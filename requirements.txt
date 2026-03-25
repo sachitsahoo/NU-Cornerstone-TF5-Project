@@ -1,6 +1,10 @@
-# Core — needed to run the display app (including without Pico / without sound).
-PyQt5>=5.15.0
+# Core — pyserial for Pico; PyQt5 optional (legacy display_app_legacy.py).
 pyserial>=3.5
+PyQt5>=5.15.0
+
+# Web kiosk bridge (python bridge.py)
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
 
 # Optional: sound (WAV playback). Install separately if you want audio:
 #   pip install -r requirements-sound.txt

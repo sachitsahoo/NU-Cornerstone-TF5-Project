@@ -43,22 +43,23 @@ from PyQt5.QtWidgets import (
     QWidget,
 )
 
-# ─── Global style (noir + bold accents — tween/teen mystery, not “little kid”) ─
+# ─── Global style (monochrome UI + readable gameplay accents) ────────────────
 BG_COLOR = "#000000"
-ACCENT_COLOR = "#ff3d57"
-GOLD_COLOR = "#fbbf24"
-CYAN_POP = "#22d3ee"
-DANGER_COLOR = "#f87171"
-SUCCESS_COLOR = "#4ade80"
-TEXT_COLOR = "#ffffff"
-DIM_TEXT_COLOR = "#a1a1aa"
+ACCENT_COLOR = "#d4d4d4"
+MUTED_ACCENT = "#9ca3af"
+DANGER_COLOR = "#b91c1c"
+SUCCESS_COLOR = "#15803d"
+TEXT_COLOR = "#f5f5f5"
+DIM_TEXT_COLOR = "#a3a3a3"
 CARD_COLOR = "#0f0f0f"
-DEV_PANEL_COLOR = "#c2410c"
+CTA_FILL_COLOR = "#2a2a2a"
+CTA_BORDER_COLOR = "#1a1a1a"
+DEV_PANEL_COLOR = "#404040"
+DEV_PANEL_BORDER = "#525252"
 OVERLAY_COLOR = "rgba(0, 0, 0, 205)"
 
 TITLE_FONT_SIZE = 38
-MAIN_TITLE_LINE1 = 44
-MAIN_TITLE_LINE2 = 52
+MAIN_TITLE_FONT_SIZE = 58
 HEADING_FONT_SIZE = 24
 BODY_FONT_SIZE = 15
 SMALL_FONT_SIZE = 11
@@ -70,8 +71,7 @@ DEV_MODE = True
 
 STRINGS = {
     "en": {
-        "main_title_line1": "THE POLLUTION",
-        "main_title_line2": "MYSTERY",
+        "main_title": "POLLUTION MYSTERY",
         "tagline": "A Murder Mystery Experience",
         "press_to_start": "Press button to start",
         "how_to_play": "How to Play",
@@ -103,8 +103,7 @@ STRINGS = {
         "status_connecting": "Connecting…",
     },
     "es": {
-        "main_title_line1": "EL MISTERIO",
-        "main_title_line2": "DE LA CONTAMINACIÓN",
+        "main_title": "MISTERIO DE CONTAMINACIÓN",
         "tagline": "Una experiencia de misterio",
         "press_to_start": "Presiona el botón para comenzar",
         "how_to_play": "Cómo Jugar",
@@ -347,118 +346,120 @@ def auto_detect_pico_port() -> str | None:
     return None
 
 
-# ─── Skyline background (animated smog) — reads clearly on #000000 ───────────
+# ─── Skyline: top 1/3 stars + fog; bottom = city, taller at sides, mono greys ─
 class SkylineBackgroundWidget(QWidget):
-    _SKYLINE = [
-        (0, 92, 88),
-        (88, 118, 62),
-        (148, 78, 58),
-        (208, 168, 72),
-        (274, 104, 48),
-        (318, 152, 68),
-        (382, 66, 54),
-        (432, 128, 56),
-        (486, 196, 78),
-        (578, 98, 52),
-        (628, 138, 64),
-        (688, 74, 50),
-        (738, 162, 76),
-        (808, 88, 58),
-        (862, 112, 60),
-        (920, 54, 48),
-        (968, 144, 70),
-    ]
-
     def __init__(self):
         super().__init__()
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         random.seed(42)
-        w, h = 1200, 400
-        self._stars = [(random.randint(0, w), random.randint(0, int(h * 0.55))) for _ in range(110)]
-        self._star_bright = [random.random() > 0.65 for _ in self._stars]
+        self._stars_rel = [(random.random(), random.random()) for _ in range(95)]
         self._phase = 0.0
         self._timer = QTimer(self)
         self._timer.timeout.connect(self._tick)
         self._timer.start(33)
 
     def _tick(self):
-        self._phase += 0.08
+        self._phase += 0.055
         self.update()
 
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         w, h = self.width(), self.height()
-        painter.fillRect(self.rect(), QColor(0, 0, 0))
+        if w < 16 or h < 24:
+            return
 
-        horizon = int(h * 0.68)
-        # Stars — brighter on true black
-        for i, ((sx, sy), bright) in enumerate(zip(self._stars, self._star_bright)):
-            if sx >= w or sy >= horizon:
-                continue
-            c = QColor(220, 235, 255) if bright else QColor(180, 190, 210)
-            painter.setPen(Qt.NoPen)
-            painter.setBrush(QBrush(c))
-            r = 2 if bright else 1
-            painter.drawEllipse(QPoint(sx, sy), r, r)
+        painter.fillRect(0, 0, w, h, QColor(0, 0, 0))
 
-        # Smog band (stronger contrast vs black)
-        smog_y = int(horizon - 48 + 5 * math.sin(self._phase))
-        smog = QLinearGradient(0, smog_y - 60, 0, smog_y + 90)
-        smog.setColorAt(0.0, QColor(0, 0, 0, 0))
-        smog.setColorAt(0.4, QColor(200, 110, 70, 95))
-        smog.setColorAt(0.75, QColor(90, 55, 40, 75))
-        smog.setColorAt(1.0, QColor(0, 0, 0, 0))
-        painter.fillRect(0, 0, w, min(h, horizon + 40), smog)
+        sky_h = h // 3
+        h_min = int(h / 3.0)
+        h_max = int(2.0 * h / 3.0)
+        h_min = max(12, min(h_min, h - sky_h - 2))
+        h_max = max(h_min + 4, min(h_max, h - sky_h))
 
-        # Trees (left) — readable green
+        ph = self._phase
+        # Fog layers (grey only, top third)
+        for layer in range(4):
+            fy = sky_h * (0.15 + 0.2 * layer) + 6.0 * math.sin(ph * 0.8 + layer * 1.1)
+            g = QLinearGradient(0, fy - 45, 0, fy + 55)
+            a = 28 - layer * 5
+            g.setColorAt(0.0, QColor(0, 0, 0, 0))
+            g.setColorAt(0.45, QColor(75, 75, 75, a))
+            g.setColorAt(1.0, QColor(0, 0, 0, 0))
+            painter.fillRect(0, 0, w, sky_h + 24, g)
+
+        drift = 10.0 * math.sin(ph)
+        mist = QLinearGradient(0, sky_h - 40 + drift, 0, sky_h + 15)
+        mist.setColorAt(0.0, QColor(0, 0, 0, 0))
+        mist.setColorAt(1.0, QColor(18, 18, 18, 100))
+        painter.fillRect(0, 0, w, sky_h + 20, mist)
+
+        # Stars — only in top third
         painter.setPen(Qt.NoPen)
-        painter.setBrush(QBrush(QColor("#166534")))
-        for i, tx in enumerate(range(16, min(w // 3, 300), 48)):
-            base_y = horizon - 4
-            tri = QPolygon(
-                [
-                    QPoint(tx, base_y - 58 - (i % 2) * 10),
-                    QPoint(tx - 24, base_y),
-                    QPoint(tx + 24, base_y),
-                ]
-            )
-            painter.drawPolygon(tri)
-            painter.fillRect(tx - 5, base_y, 10, 14, QColor("#292524"))
-
-        # Buildings — mid greys + warm window lights
-        wall = QColor("#3f3f4e")
-        wall_hi = QColor("#52525f")
-        win_on = QColor("#fde68a")
-        win_dim = QColor("#a16207")
-        x_scale = w / 1080.0 if w > 0 else 1.0
-        h_scale = h / 420.0 if h > 0 else 1.0
-        for x, bw, bh in self._SKYLINE:
-            sx = int(x * x_scale)
-            sbw = max(28, int(bw * x_scale))
-            sbh = min(int(bh * h_scale), horizon - 6)
-            sbh = max(42, sbh)
-            if sx + sbw > w:
-                continue
+        for i, (rx, ry) in enumerate(self._stars_rel):
+            sx = int(rx * (w - 1))
+            sy = int(ry * max(1, sky_h - 4))
+            br = 2 if (i % 8 == 0) else 1
+            v = 130 + (i % 9) * 12
+            painter.setBrush(QBrush(QColor(v, v, v)))
             painter.setPen(Qt.NoPen)
-            painter.setBrush(QBrush(wall))
-            painter.drawRect(sx, horizon - sbh, sbw, sbh)
-            painter.setBrush(QBrush(wall_hi))
-            painter.drawRect(sx, horizon - sbh, 4, sbh)
-            # Windows (deterministic per building slice)
-            seed = x + bw * 7
-            rng = random.Random(seed)
-            for _ in range(rng.randint(5, 16)):
-                wx = sx + rng.randint(6, max(7, sbw - 10))
-                wy = horizon - sbh + rng.randint(10, max(12, sbh - 14))
-                ww, wh = rng.randint(2, 4), rng.randint(3, 6)
-                lit = rng.random() > 0.35
-                painter.fillRect(wx, wy, ww, wh, win_on if lit else win_dim)
+            painter.drawEllipse(QPoint(sx, sy), br, br)
 
-        # Ground strip + horizon line (subtle cyan glint)
-        painter.fillRect(0, horizon, w, max(1, h - horizon), QColor(0, 0, 0))
-        painter.setPen(QPen(QColor(CYAN_POP), 1))
-        painter.drawLine(0, horizon, w, horizon)
+        wall = QColor("#1c1c1c")
+        wall_hi = QColor("#262626")
+        win_lit = QColor("#4a4a4a")
+        win_dim = QColor("#2e2e2e")
+
+        rng = random.Random(90210)
+        n = max(18, w // 26)
+        col_w = w / float(n)
+
+        for i in range(n):
+            x0 = int(i * col_w)
+            bw = max(10, int(col_w) - (1 if i < n - 1 else 0))
+            if x0 >= w:
+                break
+            cx = x0 + bw * 0.5
+            t = abs(2.0 * cx / float(w) - 1.0)
+            bh = int(h_min + (h_max - h_min) * (0.22 + 0.78 * t))
+            bh += rng.randint(-max(3, h // 50), max(3, h // 50))
+            bh = max(h_min, min(h_max, bh))
+            top_y = h - bh
+            if top_y < sky_h:
+                bh = h - sky_h
+                top_y = sky_h
+
+            painter.setBrush(QBrush(wall))
+            painter.setPen(Qt.NoPen)
+            painter.drawRect(x0, top_y, bw, h - top_y)
+            painter.setBrush(QBrush(wall_hi))
+            painter.drawRect(x0, top_y, min(3, max(1, bw // 5)), bh)
+
+            pad = max(2, bw // 10)
+            inner_w = bw - 2 * pad
+            inner_h = bh - 2 * pad
+            if inner_w < 4 or inner_h < 8:
+                continue
+
+            cols = max(1, inner_w // 8)
+            rows = max(2, inner_h // 11)
+            gap_x = 1
+            gap_y = 1
+            ww = (inner_w - (cols - 1) * gap_x) // cols
+            hh = (inner_h - (rows - 1) * gap_y) // rows
+            ww = max(2, ww)
+            hh = max(2, hh)
+            for row in range(rows):
+                for col in range(cols):
+                    wx = x0 + pad + col * (ww + gap_x)
+                    wy = top_y + pad + row * (hh + gap_y)
+                    if wx + ww > x0 + bw or wy + hh > top_y + bh:
+                        continue
+                    lit = rng.random() > 0.48
+                    painter.fillRect(wx, wy, ww, hh, win_lit if lit else win_dim)
+
+        painter.setPen(QPen(QColor("#141414"), 1))
+        painter.drawLine(0, sky_h, w, sky_h)
 
 
 class PulsingAccentLabel(QLabel):
@@ -491,7 +492,7 @@ class PulsingAccentLabel(QLabel):
 
 class PulsingContinueLabel(PulsingAccentLabel):
     def __init__(self, app_get_lang):
-        super().__init__("", app_get_lang, cta_text_color=GOLD_COLOR)
+        super().__init__("", app_get_lang, cta_text_color=MUTED_ACCENT)
 
     def refresh_style(self):
         lang = self._app_get_lang()
@@ -520,40 +521,37 @@ class TitleScreen(QWidget):
         mid = QVBoxLayout()
         mid.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
         mid.setSpacing(0)
-        mid.setContentsMargins(40, 32, 40, 36)
+        mid.setContentsMargins(40, 28, 40, 32)
 
-        self._hero1 = QLabel()
-        self._hero1.setAlignment(Qt.AlignCenter)
-        self._hero2 = QLabel()
-        self._hero2.setAlignment(Qt.AlignCenter)
+        self._hero = QLabel()
+        self._hero.setAlignment(Qt.AlignCenter)
+        self._hero.setWordWrap(True)
 
-        self._tagline = make_label("", BODY_FONT_SIZE + 1, False, CYAN_POP, Qt.AlignCenter, False)
-        self._tagline.setStyleSheet("letter-spacing: 0.12em;")
+        self._tagline = make_label("", BODY_FONT_SIZE + 1, False, DIM_TEXT_COLOR, Qt.AlignCenter, False)
+        self._tagline.setStyleSheet("letter-spacing: 0.1em;")
 
         self._cta_frame = QFrame()
         self._cta_frame.setObjectName("titleCtaFrame")
         self._cta_frame.setStyleSheet(
             f"""
             QFrame#titleCtaFrame {{
-                background-color: {BG_COLOR};
-                border: 3px solid {GOLD_COLOR};
-                border-radius: 8px;
+                background-color: {CTA_FILL_COLOR};
+                border: 2px solid {CTA_BORDER_COLOR};
+                border-radius: 6px;
             }}
             """
         )
-        self._cta_frame.setMinimumWidth(360)
+        self._cta_frame.setMinimumWidth(380)
         cta_inner = QVBoxLayout(self._cta_frame)
-        cta_inner.setContentsMargins(28, 22, 28, 22)
+        cta_inner.setContentsMargins(32, 20, 32, 20)
         self._cta = PulsingAccentLabel(
             "", lambda: self._app.state["language"], cta_text_color=TEXT_COLOR
         )
 
         cta_inner.addWidget(self._cta)
 
-        mid.addWidget(self._hero1)
-        mid.addSpacing(4)
-        mid.addWidget(self._hero2)
-        mid.addSpacing(18)
+        mid.addWidget(self._hero)
+        mid.addSpacing(14)
         mid.addWidget(self._tagline)
         mid.addStretch(1)
         mid.addWidget(self._cta_frame, alignment=Qt.AlignCenter)
@@ -564,24 +562,17 @@ class TitleScreen(QWidget):
         self.apply_strings()
 
     def _apply_hero_fonts(self):
-        f1 = QFont()
-        f1.setPointSize(MAIN_TITLE_LINE1)
-        f1.setBold(True)
-        f1.setWeight(QFont.Black)
-        self._hero1.setFont(f1)
-        self._hero1.setStyleSheet(f"color: {TEXT_COLOR}; background: transparent;")
-
-        f2 = QFont()
-        f2.setPointSize(MAIN_TITLE_LINE2)
-        f2.setBold(True)
-        f2.setWeight(QFont.Black)
-        self._hero2.setFont(f2)
-        self._hero2.setStyleSheet(f"color: {GOLD_COLOR}; background: transparent;")
+        f = QFont()
+        f.setPointSize(MAIN_TITLE_FONT_SIZE)
+        f.setBold(True)
+        f.setWeight(QFont.Black)
+        f.setLetterSpacing(QFont.PercentageSpacing, 102)
+        self._hero.setFont(f)
+        self._hero.setStyleSheet(f"color: {TEXT_COLOR}; background: transparent;")
 
     def apply_strings(self):
         lang = self._app.state["language"]
-        self._hero1.setText(S(lang, "main_title_line1"))
-        self._hero2.setText(S(lang, "main_title_line2"))
+        self._hero.setText(S(lang, "main_title"))
         self._tagline.setText(S(lang, "tagline"))
         self._cta.refresh_style()
 
@@ -619,13 +610,13 @@ class LanguageOverlay(QWidget):
                 QPushButton {{
                     background-color: {CARD_COLOR};
                     color: {TEXT_COLOR};
-                    border: 3px solid {GOLD_COLOR};
+                    border: 2px solid #525252;
                     border-radius: 12px;
                     font-size: {BODY_FONT_SIZE + 2}px;
                     font-weight: bold;
                     padding: 12px;
                 }}
-                QPushButton:hover {{ border-color: {ACCENT_COLOR}; background-color: #141414; }}
+                QPushButton:hover {{ border-color: {MUTED_ACCENT}; background-color: #141414; }}
                 QPushButton:pressed {{ background-color: #0a0a0a; }}
                 """
             )
@@ -763,18 +754,18 @@ class SceneBackgroundWidget(QWidget):
 
         horizon = int(h * 0.42)
         sky = QLinearGradient(0, 0, 0, horizon)
-        sky.setColorAt(0.0, QColor("#151520"))
-        sky.setColorAt(1.0, QColor("#0a0e14"))
+        sky.setColorAt(0.0, QColor("#121212"))
+        sky.setColorAt(1.0, QColor("#0a0a0a"))
         painter.fillRect(0, 0, w, horizon, sky)
 
         haze = QLinearGradient(0, horizon - 100, 0, horizon + 40)
-        haze.setColorAt(0.0, QColor(80, 70, 50, 0))
-        haze.setColorAt(1.0, QColor(60, 50, 40, 90))
+        haze.setColorAt(0.0, QColor(55, 55, 55, 0))
+        haze.setColorAt(1.0, QColor(28, 28, 28, 95))
         painter.fillRect(0, 0, w, horizon + 20, haze)
 
-        # Distant trees left
+        # Distant trees left (mono)
         painter.setPen(Qt.NoPen)
-        painter.setBrush(QBrush(QColor("#0d2818")))
+        painter.setBrush(QBrush(QColor("#1a1a1a")))
         for i, tx in enumerate(range(30, min(w // 2, 400), 50)):
             base_y = horizon - 2
             tri = QPolygon(
@@ -802,10 +793,10 @@ class SceneBackgroundWidget(QWidget):
         # Water bottom third
         water_top = int(h * 0.62)
         water = QLinearGradient(0, water_top, 0, h)
-        water.setColorAt(0.0, QColor("#0c1218"))
-        water.setColorAt(1.0, QColor("#05080c"))
+        water.setColorAt(0.0, QColor("#0e0e0e"))
+        water.setColorAt(1.0, QColor("#050505"))
         painter.fillRect(0, water_top, w, h - water_top, water)
-        painter.setPen(QPen(QColor("#1a2830"), 1))
+        painter.setPen(QPen(QColor("#2a2a2a"), 1))
         for i in range(0, w, 40):
             painter.drawLine(i, water_top + 20 + (i % 17), i + 30, water_top + 25 + (i % 17))
 
@@ -1316,7 +1307,7 @@ class MysteryApp(QMainWindow):
         panel.setFixedHeight(80)
         panel.setStyleSheet(
             f"""
-            QWidget {{ background-color: {DEV_PANEL_COLOR}; border-top: 2px solid #b34700; }}
+            QWidget {{ background-color: {DEV_PANEL_COLOR}; border-top: 2px solid {DEV_PANEL_BORDER}; }}
             QPushButton {{
                 background-color: #1a1a1a;
                 color: {TEXT_COLOR};
