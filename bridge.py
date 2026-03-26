@@ -157,6 +157,16 @@ async def api_characters():
     return load_characters()
 
 
+@app.post("/api/led")
+async def api_led(body: dict):
+    r = body.get("r", 0)
+    g = body.get("g", 0)
+    b = body.get("b", 0)
+    if serial_worker is not None:
+        serial_worker.send_output(f"{r},{g},{b}")
+    return {"ok": True}
+
+
 @app.post("/dev/event")
 async def dev_event(body: dict):
     if not DEV_MODE:

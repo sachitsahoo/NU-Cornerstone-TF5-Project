@@ -101,3 +101,10 @@ class SerialWorker(threading.Thread):
             except Exception as e:
                 self._emit({"type": "status", "connected": False, "message": f"Serial error: {e}"})
                 break
+
+    def send_output(self, message: str):
+        if self._ser and self._ser.is_open:
+            try:
+                self._ser.write((message + "\n").encode())
+            except Exception as e:
+                print(f"Serial write error: {e}")

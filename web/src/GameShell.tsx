@@ -74,6 +74,14 @@ export default function GameShell() {
 
   const confirmTimerRef = useRef<number | null>(null);
 
+  const sendLed = useCallback((r: number, g: number, b: number) => {
+    void fetch("/api/led", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ r, g, b }),
+    });
+  }, []);
+
   const clearConfirmTimer = useCallback(() => {
     if (confirmTimerRef.current != null) {
       window.clearTimeout(confirmTimerRef.current);
@@ -115,7 +123,12 @@ export default function GameShell() {
     confirmOpenRef.current = false;
     setConfirmOpen(false);
     clearConfirmTimer();
-  }, [clearConfirmTimer]);
+    if (correct) {
+      sendLed(0, 255, 0);
+    } else {
+      sendLed(255, 0, 0);
+    }
+  }, [clearConfirmTimer, sendLed]);
 
   const onBridgeMessage = useCallback(
     (msg: BridgeMessage) => {
@@ -139,7 +152,10 @@ export default function GameShell() {
         if (revealRef.current) return;
         if (viewRef.current !== "playing") return;
         const uid = msg.uid;
-        if (!charactersRef.current.some((c) => c.uid === uid)) return;
+        const char = charactersRef.current.find((c) => c.uid === uid);
+        if (!char) return;
+        const [r, g, b] = char.led_color;
+        sendLed(r, g, b);
         clearConfirmTimer();
         setScannedUid(uid);
         scannedUidRef.current = uid;
@@ -161,9 +177,10 @@ export default function GameShell() {
         setHighlightUid(null);
         confirmOpenRef.current = false;
         setConfirmOpen(false);
+        sendLed(255, 200, 25);
       }
     },
-    [clearConfirmTimer, submitReveal]
+    [clearConfirmTimer, submitReveal, sendLed]
   );
 
   const { bridgeLine, bridgeFooterMeta, lastEvent, setLastEvent } =
@@ -194,7 +211,8 @@ export default function GameShell() {
     setHighlightUid(null);
     confirmOpenRef.current = false;
     setConfirmOpen(false);
-  }, [clearConfirmTimer]);
+    sendLed(255, 200, 25);
+  }, [clearConfirmTimer, sendLed]);
 
   const enableDebugMode = useCallback(() => {
     window.sessionStorage.setItem("polluter_debug", "1");
