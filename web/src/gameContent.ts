@@ -84,6 +84,8 @@ export const UI = {
     langSpanish: "Español",
     sceneEyebrow: "Case file",
     sceneTitle: "The riverside scene",
+    sceneContext:
+      "Last night, polluted runoff reached the riverbank and wildlife was harmed. Use the clues to identify who caused it.",
     sceneHint: "Place a suspect card on the reader to investigate.",
     cluesTitle: "Clues",
     confirmTitle: "Confirm your selection?",
@@ -107,6 +109,8 @@ export const UI = {
     langSpanish: "Español",
     sceneEyebrow: "Expediente",
     sceneTitle: "La escena junto al río",
+    sceneContext:
+      "Anoche, el escurrimiento contaminado llegó a la orilla del río y dañó la vida silvestre. Usa las pistas para descubrir quién lo causó.",
     sceneHint: "Coloca la tarjeta de un sospechoso en el lector para investigar.",
     cluesTitle: "Pistas",
     confirmTitle: "¿Confirmas tu elección?",

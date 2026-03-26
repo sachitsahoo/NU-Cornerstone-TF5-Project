@@ -10,6 +10,8 @@ import type { CharacterJson, CharactersApiResponse } from "./gameTypes";
 import { COPY } from "./strings";
 import { useScrollParallax } from "./useScrollParallax";
 import {
+  BRIDGE_EVENT_SCHEMA_NAME,
+  BRIDGE_EVENT_SCHEMA_VERSION,
   devEventRequest,
   type BridgeMessage,
   type DevEventRequestV1,
@@ -26,6 +28,12 @@ type RevealState = {
 };
 
 export default function GameShell() {
+  const debugFromQuery =
+    new URLSearchParams(window.location.search).get("debug") === "1";
+  const [debugEnabled, setDebugEnabled] = useState(
+    debugFromQuery || window.sessionStorage.getItem("polluter_debug") === "1"
+  );
+  const debugMode = debugEnabled;
   const scrollY = useScrollParallax();
   const [view, setView] = useState<GameView>("landing");
   const viewRef = useRef<GameView>("landing");
@@ -188,6 +196,11 @@ export default function GameShell() {
     setConfirmOpen(false);
   }, [clearConfirmTimer]);
 
+  const enableDebugMode = useCallback(() => {
+    window.sessionStorage.setItem("polluter_debug", "1");
+    setDebugEnabled(true);
+  }, []);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const target = e.target;
@@ -197,6 +210,7 @@ export default function GameShell() {
         if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
       }
       if (e.key === "Escape" && devOpen) {
+        if (!debugMode) return;
         e.preventDefault();
         setDevOpen(false);
         return;
@@ -213,6 +227,7 @@ export default function GameShell() {
         return;
       }
       if (e.key === "d" || e.key === "D") {
+        if (!debugMode) return;
         e.preventDefault();
         setDevOpen((v) => !v);
       }
@@ -229,6 +244,20 @@ export default function GameShell() {
 
   const sendDev = useCallback(
     async (body: DevEventRequestV1) => {
+      const runLocalSimulation = () => {
+        const schema = {
+          name: BRIDGE_EVENT_SCHEMA_NAME,
+          version: BRIDGE_EVENT_SCHEMA_VERSION,
+        } as const;
+        const msg: BridgeMessage =
+          body.type === "tag"
+            ? { type: "tag", uid: body.uid, schema }
+            : body.type === "button"
+              ? { type: "button", schema }
+              : { type: "tag_removed", schema };
+        onBridgeMessage(msg);
+        setLastEvent(`dev local: ${JSON.stringify(msg)}`);
+      };
       setDevBusy(true);
       try {
         const r = await fetch("/dev/event", {
@@ -236,15 +265,20 @@ export default function GameShell() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
         });
+        if (!r.ok) {
+          runLocalSimulation();
+          return;
+        }
         const t = await r.text();
-        setLastEvent(`dev: ${r.status} ${t}`);
+        setLastEvent(`dev bridge: ${r.status} ${t}`);
       } catch (e) {
-        setLastEvent(`dev error: ${String(e)}`);
+        runLocalSimulation();
+        setLastEvent(`dev local (bridge unavailable): ${String(e)}`);
       } finally {
         setDevBusy(false);
       }
     },
-    [setLastEvent]
+    [onBridgeMessage, setLastEvent]
   );
 
   const landingVisible = view === "landing";
@@ -272,6 +306,7 @@ export default function GameShell() {
           scannedUid={scannedUid}
           reveal={reveal}
           lastEventLine={lastEvent}
+          showHud={debugMode}
           onContinueReveal={onContinueReveal}
         />
       </div>
@@ -284,22 +319,47 @@ export default function GameShell() {
         />
       )}
 
-      <footer className="landing__footer" title={COPY.keyboardFooterHint}>
-        <span className="landing__bridge" title="Latest serial / bridge status">
-          {bridgeLine}
-        </span>
-        <span
-          className="landing__bridge-meta"
-          title="Bridge protocol version and connection hints"
-        >
-          {bridgeFooterMeta}
-        </span>
-        <span className="landing__last" title="Last hardware / dev event">
-          {lastEvent}
-        </span>
+      {!debugMode && (
         <button
           type="button"
-          className="landing__dev-toggle"
+          className="game-shell__debug-entry"
+          onClick={enableDebugMode}
+          title="Enable developer tools"
+        >
+          Enable Dev
+        </button>
+      )}
+
+      {debugMode && (
+        <footer className="landing__footer" title={COPY.keyboardFooterHint}>
+          <span className="landing__bridge" title="Latest serial / bridge status">
+            {bridgeLine}
+          </span>
+          <span
+            className="landing__bridge-meta"
+            title="Bridge protocol version and connection hints"
+          >
+            {bridgeFooterMeta}
+          </span>
+          <span className="landing__last" title="Last hardware / dev event">
+            {lastEvent}
+          </span>
+          <button
+            type="button"
+            className="landing__dev-toggle"
+            aria-expanded={devOpen}
+            aria-controls={devOpen ? "dev-controls-panel" : undefined}
+            title={COPY.devToggleTitle}
+            onClick={() => setDevOpen((v) => !v)}
+          >
+            Dev
+          </button>
+        </footer>
+      )}
+      {debugMode && (
+        <button
+          type="button"
+          className="game-shell__dev-fab"
           aria-expanded={devOpen}
           aria-controls={devOpen ? "dev-controls-panel" : undefined}
           title={COPY.devToggleTitle}
@@ -307,9 +367,9 @@ export default function GameShell() {
         >
           Dev
         </button>
-      </footer>
+      )}
 
-      {devOpen && (
+      {debugMode && devOpen && (
         <div
           className="dev-strip"
           id="dev-controls-panel"
@@ -318,7 +378,7 @@ export default function GameShell() {
         >
           <div className="dev-strip__row">
             <span className="dev-strip__hint">
-              POST /dev/event (only when MYSTERY_DEV is set on the bridge)
+              Works with bridge when available; auto-falls back to local simulation when unavailable.
             </span>
             <button
               ref={devFirstBtnRef}

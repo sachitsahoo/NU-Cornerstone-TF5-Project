@@ -24,6 +24,7 @@ type PlayingViewProps = {
   scannedUid: string | null;
   reveal: RevealState | null;
   lastEventLine: string;
+  showHud: boolean;
   onContinueReveal: () => void;
 };
 
@@ -36,6 +37,7 @@ export function PlayingView({
   scannedUid,
   reveal,
   lastEventLine,
+  showHud,
   onContinueReveal,
 }: PlayingViewProps) {
   const clues = cluesFor(lang);
@@ -58,6 +60,7 @@ export function PlayingView({
           <header className="scene__header">
             <p className="scene__eyebrow">{t(lang, "sceneEyebrow")}</p>
             <h1 className="scene__title">{t(lang, "sceneTitle")}</h1>
+            <p className="scene__context">{t(lang, "sceneContext")}</p>
             <p className="scene__hint">{t(lang, "sceneHint")}</p>
           </header>
 
@@ -188,12 +191,14 @@ export function PlayingView({
         </div>
       )}
 
-      <section className="playing__hud" aria-label="Live hardware events">
-        <span className="playing__hud-label">{COPY.playingHudLabel}</span>
-        <output className="playing__hud-value" title={lastEventLine}>
-          {lastEventLine}
-        </output>
-      </section>
+      {showHud && (
+        <section className="playing__hud" aria-label="Live hardware events">
+          <span className="playing__hud-label">{COPY.playingHudLabel}</span>
+          <output className="playing__hud-value" title={lastEventLine}>
+            {lastEventLine}
+          </output>
+        </section>
+      )}
     </div>
   );
 }
