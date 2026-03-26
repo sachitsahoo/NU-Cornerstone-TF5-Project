@@ -3,6 +3,7 @@ export const COPY = {
   titleLine1: "Polluter",
   titleLine2: "Mystery",
   playLabel: "Play",
+  playChooseLanguage: "Choose language…",
   playStarting: "Starting…",
   /** Below-the-fold (scroll) — replace with final product story / instructions. */
   belowTitle: "The mystery continues",

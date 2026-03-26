@@ -1,5 +1,5 @@
 {
-  "round_culprits": ["steve", "tung", "maya"],
+  "round_culprits": ["steve", "tung"],
   "characters": [
     {
       "uid": "steve",
@@ -24,18 +24,6 @@
       "culprit_explanation": "Tung falsified night logs and flushed concentrated brine during storms to avoid treatment costs, overwhelming the river's buffer.",
       "image": "assets/images/sahur_logo.png",
       "led_color": [20, 120, 255]
-    },
-    {
-      "uid": "maya",
-      "tag_ids": [],
-      "name": "Dr. Maya Okonkwo",
-      "role": "Environmental Consultant",
-      "description": "Maya contracts with the city to monitor water quality. She has sampling gear on-site weekly and issues compliance reports.",
-      "suspicious_detail": "A intern found a shredded draft report in her recycling that mentioned 'anomalous spikes' weeks before the public advisory.",
-      "innocent_explanation": "The draft was superseded after her team verified the spikes were from a faulty sensor — the published report reflected corrected data.",
-      "culprit_explanation": "Maya delayed disclosure of real readings to protect a client's timeline, allowing illegal dumping to continue unchecked downstream.",
-      "image": "assets/images/maya_logo.png",
-      "led_color": [80, 200, 120]
     }
   ]
 }

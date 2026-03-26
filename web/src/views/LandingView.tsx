@@ -5,6 +5,8 @@ import { COPY } from "../strings";
 type LandingViewProps = {
   scrollY: number;
   playActive: boolean;
+  /** True while language picker is open (blocks repeat Play). */
+  playBusy?: boolean;
   onPlay: () => void;
   /** When false, hero/below are visually hidden (playing view takes over). */
   visible: boolean;
@@ -13,6 +15,7 @@ type LandingViewProps = {
 export function LandingView({
   scrollY,
   playActive,
+  playBusy = false,
   onPlay,
   visible,
 }: LandingViewProps) {
@@ -35,11 +38,15 @@ export function LandingView({
               <button
                 type="button"
                 className="landing__play"
-                disabled={playActive}
+                disabled={playActive || playBusy}
                 title={COPY.playShortcutTitle}
                 onClick={onPlay}
               >
-                {playActive ? COPY.playStarting : COPY.playLabel}
+                {playActive
+                  ? COPY.playStarting
+                  : playBusy
+                    ? COPY.playChooseLanguage
+                    : COPY.playLabel}
               </button>
             </div>
           </div>
