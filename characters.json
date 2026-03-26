@@ -22,7 +22,7 @@
       "suspicious_detail": "Multiple colleagues report seeing his van parked near the drainage outflow at 3am on several occasions last autumn.",
       "image": "assets/images/sahur_logo.png",
       "sound_theme": "assets/sounds/sahur_theme.wav",
-      "led_color": [255, 80, 20]
+      "led_color": [210, 35, 5]
     }
   ]
 }

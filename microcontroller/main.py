@@ -7,7 +7,7 @@ import select
 
 reader = MFRC522(spi_id=0,sck=2,miso=4,mosi=3,cs=1,rst=0)
 
-n = 8
+n = 35
 p = 28
 np = neopixel.NeoPixel(machine.Pin(p), n)
 
@@ -16,6 +16,10 @@ def set_color(r, g, b):
         np[i] = (r, g, b)
     np.write()
 
+try:
+    set_color(255, 200, 25)
+except:
+    print("Error setting color on init")
 
 while True:
 
