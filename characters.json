@@ -6,24 +6,24 @@
       "tag_ids": ["390485036"],
       "name": "Steve",
       "role": "Factory Manager",
-      "description": "Steve has managed the riverside processing plant for over a decade. He's well-liked in the community and sponsors the local football team — but his books don't add up.",
-      "suspicious_detail": "His plant's waste disposal logs have unexplained gaps every third month — exactly when pollution spikes were recorded downstream.",
-      "innocent_explanation": "Steve's gaps in paperwork were from a software migration — independent audits showed his discharge pipes met standards during the incident window.",
-      "culprit_explanation": "Steve had been secretly diverting industrial waste into the storm drain. Lab traces matched solvents used only in his finishing line.",
+      "description": "Steve runs the big factory by the river. He seems nice, but some of his records are missing.",
+      "suspicious_detail": "His waste logs have gaps every few months — right when the river turned dirty.",
+      "innocent_explanation": "The missing records were from a computer upgrade. Inspectors checked his pipes and everything was okay.",
+      "culprit_explanation": "Steve was secretly dumping factory chemicals into the storm drain! Lab tests matched chemicals from his factory.",
       "image": "assets/images/steve_logo.png",
-      "led_color": [255, 80, 20]
+      "led_color": [20, 120, 255]
     },
     {
       "uid": "tung",
       "tag_ids": ["3593868791"],
       "name": "Tung Tung Tung Sahur",
       "role": "Night-shift Supervisor",
-      "description": "Tung oversees operations after hours and has almost unrestricted site access. He's been at the plant for two years but keeps to himself.",
-      "suspicious_detail": "Multiple colleagues report seeing his van parked near the drainage outflow at 3am on several occasions last autumn.",
-      "innocent_explanation": "Security footage confirmed Tung was responding to equipment alarms; his route only passed the outflow on the way to the control room.",
-      "culprit_explanation": "Tung falsified night logs and flushed concentrated brine during storms to avoid treatment costs, overwhelming the river's buffer.",
+      "description": "Tung works at the factory at night. He can go almost anywhere on site.",
+      "suspicious_detail": "Workers saw his van near the river drain at 3am — several times!",
+      "innocent_explanation": "Security cameras showed Tung was fixing broken machines. He just drove past the drain on his way back.",
+      "culprit_explanation": "Tung faked his night reports and poured chemicals into the river during storms to save money.",
       "image": "assets/images/sahur_logo.png",
-      "led_color": [20, 120, 255]
+      "led_color": [255, 80, 20]
     }
   ]
 }

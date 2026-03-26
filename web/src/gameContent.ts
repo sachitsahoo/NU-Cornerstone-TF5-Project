@@ -10,13 +10,13 @@ export const FALLBACK_CHARACTERS: CharacterJson[] = [
     name: "Steve",
     role: "Factory Manager",
     description:
-      "Steve has managed the riverside processing plant for over a decade. He's well-liked in the community and sponsors the local football team — but his books don't add up.",
+      "Steve runs the big factory by the river. He seems nice, but some of his records are missing.",
     suspicious_detail:
-      "His plant's waste disposal logs have unexplained gaps every third month — exactly when pollution spikes were recorded downstream.",
+      "His waste logs have gaps every few months — right when the river turned dirty.",
     innocent_explanation:
-      "Steve's gaps in paperwork were from a software migration — independent audits showed his discharge pipes met standards during the incident window.",
+      "The missing records were from a computer upgrade. Inspectors checked his pipes and everything was okay.",
     culprit_explanation:
-      "Steve had been secretly diverting industrial waste into the storm drain. Lab traces matched solvents used only in his finishing line.",
+      "Steve was secretly dumping factory chemicals into the storm drain! Lab tests matched chemicals from his factory.",
     image: "assets/images/steve_logo.png",
     led_color: [255, 80, 20],
   },
@@ -26,13 +26,13 @@ export const FALLBACK_CHARACTERS: CharacterJson[] = [
     name: "Tung Tung Tung Sahur",
     role: "Night-shift Supervisor",
     description:
-      "Tung oversees operations after hours and has almost unrestricted site access. He's been at the plant for two years but keeps to himself.",
+      "Tung works at the factory at night. He can go almost anywhere on site.",
     suspicious_detail:
-      "Multiple colleagues report seeing his van parked near the drainage outflow at 3am on several occasions last autumn.",
+      "Workers saw his van near the river drain at 3am — several times!",
     innocent_explanation:
-      "Security footage confirmed Tung was responding to equipment alarms; his route only passed the outflow on the way to the control room.",
+      "Security cameras showed Tung was fixing broken machines. He just drove past the drain on his way back.",
     culprit_explanation:
-      "Tung falsified night logs and flushed concentrated brine during storms to avoid treatment costs, overwhelming the river's buffer.",
+      "Tung faked his night reports and poured chemicals into the river during storms to save money.",
     image: "assets/images/sahur_logo.png",
     led_color: [20, 120, 255],
   },
@@ -40,32 +40,32 @@ export const FALLBACK_CHARACTERS: CharacterJson[] = [
 
 const CLUES: Record<Lang, string[]> = {
   en: [
-    "Foam and sheen on the water near the outfall after storms.",
-    "Fish counts dropped the month night shifts doubled.",
-    "A broken fence lets vehicles reach the embankment unseen.",
+    "Slimy bubbles and rainbow slick on the water near the drain after rain.",
+    "Fewer fish were spotted the month night shifts doubled.",
+    "A broken fence lets vehicles sneak down to the riverbank.",
   ],
   es: [
-    "Espuma y brillo en el agua cerca del desagüe tras las tormentas.",
-    "El número de peces bajó el mes en que se duplicaron los turnos nocturnos.",
-    "Una valla rota permite que vehículos lleguen al terraplén sin ser vistos.",
+    "Burbujas viscosas y manchas de colores en el agua cerca del desagüe tras la lluvia.",
+    "Se vieron menos peces el mes en que se duplicaron los turnos nocturnos.",
+    "Una valla rota permite que vehículos lleguen al río sin ser vistos.",
   ],
 };
 
 const FUN_FACT: Record<Lang, string> = {
-  en: "Industrial runoff often carries oils and solvents that form visible sheens and harm aquatic life in slow-moving rivers.",
-  es: "El escurrimiento industrial suele arrastrar aceites y disolventes que forman brillos visibles y dañan la vida acuática en ríos lentos.",
+  en: "Factory chemicals can make river water look shiny or foamy — and even small amounts can hurt fish, frogs, and bugs that live there!",
+  es: "Los químicos de fábrica pueden hacer que el agua del río parezca brillante o espumosa — ¡y hasta una pequeña cantidad puede dañar peces, ranas e insectos!",
 };
 
 const SOLUTIONS: Record<Lang, string[]> = {
   en: [
-    "Require real-time monitoring at outfalls and public dashboards.",
-    "Buffer zones with native plants filter runoff before it reaches water.",
-    "Whistleblower protections encourage workers to report illegal dumping.",
+    "Check drain pipes automatically and share the results with everyone.",
+    "Plant bushes and grasses near rivers — they catch dirty water before it gets in!",
+    "Let workers report rule-breaking without getting into trouble.",
   ],
   es: [
-    "Exigir monitoreo en tiempo real en los desagües y tableros públicos.",
-    "Zonas de amortiguación con plantas nativas filtran el escurrimiento antes de llegar al agua.",
-    "Protección a denunciantes para que trabajadores reporten vertidos ilegales.",
+    "Revisar las tuberías automáticamente y compartir los resultados con todos.",
+    "Plantar arbustos y hierbas junto al río — ¡atrapan el agua sucia antes de que entre!",
+    "Permitir que los trabajadores reporten irregularidades sin miedo a consecuencias.",
   ],
 };
 
@@ -89,23 +89,23 @@ export const UI = {
     sceneEyebrow: "Case file",
     sceneTitle: "The riverside scene",
     sceneContext:
-      "Last night, polluted runoff reached the riverbank and wildlife was harmed. Use the clues to identify who caused it.",
-    sceneHint: "Place a suspect card on the reader to investigate.",
+      "Someone polluted the river last night and hurt the animals! Use the clues to figure out who did it.",
+    sceneHint: "Put a suspect card on the reader to learn more.",
     cluesTitle: "Clues",
-    confirmTitle: "Confirm your selection?",
-    confirmBody: "Press the physical button to lock in this suspect.",
+    confirmTitle: "Is this your suspect?",
+    confirmBody: "Press the big button to make your choice!",
     confirmButton: "Confirm",
     cancelHint: "Remove the card to pick someone else.",
-    suspiciousDetailLabel: "Why they're suspicious",
-    resultCorrect: "Correct!",
-    resultIncorrect: "Not quite",
+    suspiciousDetailLabel: "Why they’re suspicious",
+    resultCorrect: "You got it!",
+    resultIncorrect: "Not quite...",
     yourPick: "Your pick",
     whyWrong: "Why this doesn’t fit",
     whyRight: "Why the evidence points here",
     theRealAnswer: "What really happened",
-    funFactLabel: "Fun fact",
-    solutionsLabel: "Solutions that help",
-    continue: "Continue",
+    funFactLabel: "Did you know?",
+    solutionsLabel: "How can we fix it?",
+    continue: "Play again",
     needTagFirst: "Scan a suspect card first.",
   },
   es: {
@@ -115,23 +115,23 @@ export const UI = {
     sceneEyebrow: "Expediente",
     sceneTitle: "La escena junto al río",
     sceneContext:
-      "Anoche, el escurrimiento contaminado llegó a la orilla del río y dañó la vida silvestre. Usa las pistas para descubrir quién lo causó.",
-    sceneHint: "Coloca la tarjeta de un sospechoso en el lector para investigar.",
+      "¡Alguien contaminó el río anoche y lastimó a los animales! Usa las pistas para descubrir quién fue.",
+    sceneHint: "Pon la tarjeta de un sospechoso en el lector para saber más.",
     cluesTitle: "Pistas",
-    confirmTitle: "¿Confirmas tu elección?",
-    confirmBody: "Presiona el botón físico para confirmar a este sospechoso.",
+    confirmTitle: "¿Es este tu sospechoso?",
+    confirmBody: "¡Presiona el botón grande para hacer tu elección!",
     confirmButton: "Confirmar",
     cancelHint: "Quita la tarjeta para elegir a otra persona.",
     suspiciousDetailLabel: "Por qué son sospechosos",
-    resultCorrect: "¡Correcto!",
-    resultIncorrect: "Casi",
+    resultCorrect: "¡Lo lograste!",
+    resultIncorrect: "Casi...",
     yourPick: "Tu elección",
     whyWrong: "Por qué no encaja",
     whyRight: "Por qué apunta la evidencia aquí",
     theRealAnswer: "Lo que pasó en realidad",
-    funFactLabel: "Dato curioso",
-    solutionsLabel: "Soluciones que ayudan",
-    continue: "Continuar",
+    funFactLabel: "¿Sabías que...?",
+    solutionsLabel: "¿Cómo podemos arreglarlo?",
+    continue: "Jugar de nuevo",
     needTagFirst: "Primero escanea una tarjeta de sospechoso.",
   },
 } as const;

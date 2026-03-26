@@ -641,7 +641,7 @@ class MysteryApp(QMainWindow):
         self.current_uid   = None
         self.displayed_uid = None
 
-        self.serial_worker.send_output("255, 200, 25")
+        self.serial_worker.send_output("255, 180, 100")
 
         if self.stage == self.STAGE_EXPLORE:
             self.stack.setCurrentIndex(0)

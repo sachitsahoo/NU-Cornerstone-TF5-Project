@@ -177,7 +177,7 @@ export default function GameShell() {
         setHighlightUid(null);
         confirmOpenRef.current = false;
         setConfirmOpen(false);
-        sendLed(255, 200, 25);
+        sendLed(255, 180, 100);
       }
     },
     [clearConfirmTimer, submitReveal, sendLed]
@@ -211,7 +211,7 @@ export default function GameShell() {
     setHighlightUid(null);
     confirmOpenRef.current = false;
     setConfirmOpen(false);
-    sendLed(255, 200, 25);
+    sendLed(255, 180, 100);
   }, [clearConfirmTimer, sendLed]);
 
   const enableDebugMode = useCallback(() => {

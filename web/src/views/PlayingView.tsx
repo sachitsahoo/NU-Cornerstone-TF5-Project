@@ -8,6 +8,7 @@ import {
   t,
 } from "../gameContent";
 import { COPY } from "../strings";
+import { RiverAnimation } from "./RiverAnimation";
 
 type RevealState = {
   correct: boolean;
@@ -63,6 +64,8 @@ export function PlayingView({
             <p className="scene__context">{t(lang, "sceneContext")}</p>
             <p className="scene__hint">{t(lang, "sceneHint")}</p>
           </header>
+
+          <RiverAnimation />
 
           <div className="scene__lower">
             <div className="scene__glass scene__glass--suspects">

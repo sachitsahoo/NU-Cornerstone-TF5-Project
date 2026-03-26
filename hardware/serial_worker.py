@@ -48,6 +48,8 @@ class SerialWorker(threading.Thread):
         self._running = True
         self._ser = None
         self._last_uid: str | None = None
+        self._miss_count: int = 0
+        self._MISS_THRESHOLD: int = 4  # consecutive misses before emitting tag_removed (~800ms at 200ms loop)
 
     def stop(self):
         self._running = False
@@ -87,13 +89,17 @@ class SerialWorker(threading.Thread):
                             break
 
                     if matched_uid:
+                        self._miss_count = 0
                         if matched_uid != self._last_uid:
                             self._last_uid = matched_uid
                             self._emit({"type": "tag", "uid": matched_uid})
                     else:
                         if self._last_uid is not None:
-                            self._last_uid = None
-                            self._emit({"type": "tag_removed"})
+                            self._miss_count += 1
+                            if self._miss_count >= self._MISS_THRESHOLD:
+                                self._miss_count = 0
+                                self._last_uid = None
+                                self._emit({"type": "tag_removed"})
 
                     if line == "BUTTON":
                         self._emit({"type": "button"})
