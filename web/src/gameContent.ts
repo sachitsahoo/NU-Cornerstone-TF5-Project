@@ -9,8 +9,10 @@ export const FALLBACK_CHARACTERS: CharacterJson[] = [
     tag_ids: ["390485036"],
     name: "Steve",
     role: "Factory Manager",
-    description: "",
-    suspicious_detail: "",
+    description:
+      "Steve has managed the riverside processing plant for over a decade. He's well-liked in the community and sponsors the local football team — but his books don't add up.",
+    suspicious_detail:
+      "His plant's waste disposal logs have unexplained gaps every third month — exactly when pollution spikes were recorded downstream.",
     innocent_explanation:
       "Steve's gaps in paperwork were from a software migration — independent audits showed his discharge pipes met standards during the incident window.",
     culprit_explanation:
@@ -23,8 +25,10 @@ export const FALLBACK_CHARACTERS: CharacterJson[] = [
     tag_ids: ["3593868791"],
     name: "Tung Tung Tung Sahur",
     role: "Night-shift Supervisor",
-    description: "",
-    suspicious_detail: "",
+    description:
+      "Tung oversees operations after hours and has almost unrestricted site access. He's been at the plant for two years but keeps to himself.",
+    suspicious_detail:
+      "Multiple colleagues report seeing his van parked near the drainage outflow at 3am on several occasions last autumn.",
     innocent_explanation:
       "Security footage confirmed Tung was responding to equipment alarms; his route only passed the outflow on the way to the control room.",
     culprit_explanation:
@@ -92,6 +96,7 @@ export const UI = {
     confirmBody: "Press the physical button to lock in this suspect.",
     confirmButton: "Confirm",
     cancelHint: "Remove the card to pick someone else.",
+    suspiciousDetailLabel: "Why they're suspicious",
     resultCorrect: "Correct!",
     resultIncorrect: "Not quite",
     yourPick: "Your pick",
@@ -117,6 +122,7 @@ export const UI = {
     confirmBody: "Presiona el botón físico para confirmar a este sospechoso.",
     confirmButton: "Confirmar",
     cancelHint: "Quita la tarjeta para elegir a otra persona.",
+    suspiciousDetailLabel: "Por qué son sospechosos",
     resultCorrect: "¡Correcto!",
     resultIncorrect: "Casi",
     yourPick: "Tu elección",

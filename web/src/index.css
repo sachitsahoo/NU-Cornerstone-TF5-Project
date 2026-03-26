@@ -1014,9 +1014,63 @@ button {
   text-align: left;
 }
 
+.game-modal__panel--confirm {
+  text-align: left;
+}
+
+.game-modal__char-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.game-modal__char-img {
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 2px solid rgba(124, 92, 173, 0.5);
+  object-fit: cover;
+  background: rgba(124, 92, 173, 0.12);
+}
+
+.game-modal__char-id {
+  min-width: 0;
+}
+
+.game-modal__char-id .game-modal__accent {
+  margin-bottom: 0.15rem;
+}
+
+.game-modal__char-img[data-uid="steve"] {
+  object-position: center 30%;
+}
+
+.game-modal__action-box {
+  margin-top: 1.25rem;
+  padding: 0.9rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(124, 92, 173, 0.45);
+  background: rgba(124, 92, 173, 0.1);
+  text-align: center;
+}
+
+.game-modal__action-box .game-modal__title {
+  margin-bottom: 0.5rem;
+}
+
+.game-modal__action-box .game-modal__body {
+  margin-bottom: 0.4rem;
+}
+
+.game-modal__action-box .game-modal__hint {
+  font-size: 0.78rem;
+}
+
 .game-modal__title {
   margin: 0 0 0.75rem;
-  font-size: clamp(1.25rem, 3.5vw, 1.5rem);
+  font-size: 1.15rem;
   font-weight: 800;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -1042,9 +1096,50 @@ button {
 
 .game-modal__accent {
   margin: 0 0 0.5rem;
-  font-size: 1.15rem;
+  font-size: clamp(1.25rem, 3.5vw, 1.5rem);
   font-weight: 800;
   color: var(--accent-neon);
+}
+
+.game-modal__role {
+  margin: 0 0 0.75rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.game-modal__description {
+  margin: 0 0 0.75rem;
+  font-size: 0.93rem;
+  color: var(--text-body, #e8d5f5);
+  line-height: 1.55;
+}
+
+.game-modal__clue-block {
+  margin: 0 0 1rem;
+  padding: 0.6rem 0.75rem;
+  border-left: 3px solid var(--accent-neon);
+  background: rgba(180, 100, 255, 0.07);
+  border-radius: 0 6px 6px 0;
+}
+
+.game-modal__clue-label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-neon);
+}
+
+.game-modal__clue-text {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-body, #e8d5f5);
+  line-height: 1.5;
 }
 
 .game-modal__hint {

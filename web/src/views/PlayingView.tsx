@@ -113,13 +113,40 @@ export function PlayingView({
           aria-modal="true"
           aria-labelledby="confirm-title"
         >
-          <div className="game-modal__panel">
-            <h2 id="confirm-title" className="game-modal__title">
-              {t(lang, "confirmTitle")}
-            </h2>
-            <p className="game-modal__body">{t(lang, "confirmBody")}</p>
-            <p className="game-modal__accent">{picked.name}</p>
-            <p className="game-modal__hint">{t(lang, "cancelHint")}</p>
+          <div className="game-modal__panel game-modal__panel--confirm">
+            <div className="game-modal__char-header">
+              <img
+                className="game-modal__char-img"
+                src={imageSrc(picked.image)}
+                data-uid={picked.uid}
+                alt=""
+                width={72}
+                height={72}
+                decoding="async"
+              />
+              <div className="game-modal__char-id">
+                <p className="game-modal__accent">{picked.name}</p>
+                <p className="game-modal__role">{picked.role}</p>
+              </div>
+            </div>
+            {picked.description && (
+              <p className="game-modal__description">{picked.description}</p>
+            )}
+            {picked.suspicious_detail && (
+              <div className="game-modal__clue-block">
+                <span className="game-modal__clue-label">
+                  {t(lang, "suspiciousDetailLabel")}
+                </span>
+                <p className="game-modal__clue-text">{picked.suspicious_detail}</p>
+              </div>
+            )}
+            <div className="game-modal__action-box">
+              <h2 id="confirm-title" className="game-modal__title">
+                {t(lang, "confirmTitle")}
+              </h2>
+              <p className="game-modal__body">{t(lang, "confirmBody")}</p>
+              <p className="game-modal__hint">{t(lang, "cancelHint")}</p>
+            </div>
           </div>
         </div>
       )}
