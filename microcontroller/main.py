@@ -51,10 +51,10 @@ while True:
 
     # ─── 3. BUTTON (press + release) ───
     button_now = button.value()
-    if button_now == 0 and button_last == 1:
-        print("BUTTON_DOWN")
-    elif button_now == 1 and button_last == 0:
-        print("BUTTON_UP")
+    if button_now == 0:
+        print("BUTTON_DOWN")          # sent every loop while held
+    if button_now == 1 and button_last == 0:
+        print("BUTTON_UP")            # sent once on release
     button_last = button_now
 
-    utime.sleep_ms(200)
+    utime.sleep_ms(10)

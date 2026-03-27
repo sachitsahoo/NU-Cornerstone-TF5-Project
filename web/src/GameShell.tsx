@@ -56,6 +56,8 @@ export default function GameShell() {
   const holdConfirmTimerRef = useRef<number | null>(null);
   // True when the picker was opened by the current button press (ignore its release)
   const pickerOpenedThisPressRef = useRef(false);
+  // True after returning from reveal — ignore button_down until button is released
+  const awaitingButtonUpRef = useRef(false);
 
   const [devOpen, setDevOpen] = useState(false);
   const [devBusy, setDevBusy] = useState(false);
@@ -148,7 +150,7 @@ export default function GameShell() {
     window.dispatchEvent(new CustomEvent("polluter:play"));
   }, [cancelHold]);
 
-  const HOLD_MS = 1000;
+  const HOLD_MS = 3000;
 
   const startHold = useCallback(() => {
     cancelHold();
@@ -190,19 +192,43 @@ export default function GameShell() {
     }
   }, [clearConfirmTimer, sendLed]);
 
+  const onContinueReveal = useCallback(() => {
+    setReveal(null);
+    revealRef.current = null;
+    clearConfirmTimer();
+    setScannedUid(null);
+    scannedUidRef.current = null;
+    setHighlightUid(null);
+    confirmOpenRef.current = false;
+    setConfirmOpen(false);
+    sendLed(255, 180, 100);
+    setView("landing");
+    viewRef.current = "landing";
+    setPlayActive(false);
+    awaitingButtonUpRef.current = true;
+  }, [clearConfirmTimer, sendLed]);
+
   const onBridgeMessage = useCallback(
     (msg: BridgeMessage) => {
       if (msg.type === "status") return;
 
       if (msg.type === "button_down") {
-        if (revealRef.current) return;
+        if (awaitingButtonUpRef.current) return;
+        if (revealRef.current) {
+          onContinueReveal();
+          return;
+        }
         if (viewRef.current === "landing") {
           if (!langPickerOpenRef.current) {
-            // Opening picker — remember this press so we don't cycle on its release
-            pickerOpenedThisPressRef.current = true;
-            setLangPickerOpen(true);
-            langPickerOpenRef.current = true;
-          } else {
+            // Opening picker — only on the first down of this press
+            if (!pickerOpenedThisPressRef.current) {
+              pickerOpenedThisPressRef.current = true;
+              setLangPickerOpen(true);
+              langPickerOpenRef.current = true;
+            }
+          } else if (holdStartRef.current === null) {
+            // Picker already open, new press, hold not yet started.
+            // Also clears pickerOpenedThisPressRef as a fallback in case BUTTON_UP was dropped.
             pickerOpenedThisPressRef.current = false;
             startHold();
           }
@@ -211,6 +237,7 @@ export default function GameShell() {
         if (viewRef.current === "playing") {
           if (confirmOpenRef.current && scannedUidRef.current) {
             submitReveal();
+            awaitingButtonUpRef.current = true;
           }
           return;
         }
@@ -218,6 +245,7 @@ export default function GameShell() {
       }
 
       if (msg.type === "button_up") {
+        awaitingButtonUpRef.current = false;
         if (langPickerOpenRef.current) {
           if (pickerOpenedThisPressRef.current) {
             // This release paired with the press that opened the picker — ignore
@@ -288,7 +316,7 @@ export default function GameShell() {
         sendLed(255, 180, 100);
       }
     },
-    [clearConfirmTimer, submitReveal, sendLed, startHold, cancelHold]
+    [clearConfirmTimer, submitReveal, sendLed, startHold, cancelHold, onContinueReveal]
   );
 
   const { bridgeLine, bridgeFooterMeta, lastEvent, setLastEvent } =
@@ -305,7 +333,6 @@ export default function GameShell() {
       setPickerLang("en");
       pickerLangRef.current = "en";
       setHoldProgress(0);
-      pickerOpenedThisPressRef.current = false;
     } else {
       cancelHold();
     }
@@ -316,16 +343,6 @@ export default function GameShell() {
     setLangPickerOpen(false);
   }, [cancelHold]);
 
-  const onContinueReveal = useCallback(() => {
-    setReveal(null);
-    clearConfirmTimer();
-    setScannedUid(null);
-    scannedUidRef.current = null;
-    setHighlightUid(null);
-    confirmOpenRef.current = false;
-    setConfirmOpen(false);
-    sendLed(255, 180, 100);
-  }, [clearConfirmTimer, sendLed]);
 
   const enableDebugMode = useCallback(() => {
     window.sessionStorage.setItem("polluter_debug", "1");
