@@ -14,13 +14,24 @@ export function CharacterLogoStrip({ variant }: { variant: Variant }) {
       <figure className="logo-strip__item">
         <img
           className="logo-strip__img"
-          src={ASSETS.steveLogo}
+          src={ASSETS.bhLogo}
           alt=""
           width={200}
           height={200}
           decoding="async"
         />
-        <figcaption className="logo-strip__caption">{COPY.logoSteve}</figcaption>
+        <figcaption className="logo-strip__caption">{COPY.logoBh}</figcaption>
+      </figure>
+      <figure className="logo-strip__item">
+        <img
+          className="logo-strip__img"
+          src={ASSETS.bcLogo}
+          alt=""
+          width={200}
+          height={200}
+          decoding="async"
+        />
+        <figcaption className="logo-strip__caption">{COPY.logoBc}</figcaption>
       </figure>
       <figure className="logo-strip__item">
         <img

@@ -5,20 +5,36 @@ export type Lang = "en" | "es";
 /** Used when GET /api/characters fails (e.g. Vite without bridge). */
 export const FALLBACK_CHARACTERS: CharacterJson[] = [
   {
-    uid: "steve",
-    tag_ids: ["390485036"],
-    name: "Steve",
-    role: "Factory Manager",
+    uid: "bacon_hair",
+    tag_ids: ["000000001"],
+    name: "Bacon Hair",
+    role: "Factory Maintenance Worker",
     description:
-      "Steve runs the big factory by the river. He seems nice, but some of his records are missing.",
+      "Bacon Hair keeps the factory machines running. He has access to every corner of the building — even the waste storage room.",
     suspicious_detail:
-      "His waste logs have gaps every few months — right when the river turned dirty.",
+      "He was seen carrying heavy drums near the river drain late at night, just before the pollution was discovered.",
     innocent_explanation:
-      "The missing records were from a computer upgrade. Inspectors checked his pipes and everything was okay.",
+      "The drums held old motor oil he was hauling to the certified recycling drop-off. His receipt checks out.",
     culprit_explanation:
-      "Steve was secretly dumping factory chemicals into the storm drain! Lab tests matched chemicals from his factory.",
-    image: "assets/images/steve_logo.png",
-    led_color: [255, 80, 20],
+      "Bacon Hair skipped the recycling fee and dumped chemical waste straight into the storm drain. Lab samples matched oil from the factory's machines.",
+    image: "assets/images/bh_logo.png",
+    led_color: [20, 120, 255],
+  },
+  {
+    uid: "ballerina_cappuccina",
+    tag_ids: ["000000002"],
+    name: "Ballerina Cappuccina",
+    role: "Riverside Café Owner",
+    description:
+      "Ballerina Cappuccina runs the popular café right on the riverbank. She uses lots of cleaning supplies to keep the place sparkling.",
+    suspicious_detail:
+      "Empty bottles of industrial cleaner were found hidden in the bushes near the river — the same brand she orders by the case.",
+    innocent_explanation:
+      "She threw out the empties during a big spring clean and forgot to sort them for recycling. No traces of her cleaners matched the river samples.",
+    culprit_explanation:
+      "Ballerina Cappuccina poured leftover cleaning chemicals behind her café for months. Runoff carried them straight into the river after every rain.",
+    image: "assets/images/bc_logo.png",
+    led_color: [255, 80, 180],
   },
   {
     uid: "tung",
@@ -34,7 +50,7 @@ export const FALLBACK_CHARACTERS: CharacterJson[] = [
     culprit_explanation:
       "Tung faked his night reports and poured chemicals into the river during storms to save money.",
     image: "assets/images/sahur_logo.png",
-    led_color: [20, 120, 255],
+    led_color: [255, 80, 20],
   },
 ];
 
@@ -143,7 +159,7 @@ export function t(lang: Lang, key: UiKey): string {
 }
 
 export function culpritUid(roundCulprits: string[]): string {
-  return roundCulprits[0] ?? "steve";
+  return roundCulprits[0] ?? "bacon_hair";
 }
 
 export function charByUid(

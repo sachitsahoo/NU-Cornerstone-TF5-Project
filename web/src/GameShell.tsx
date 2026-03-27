@@ -54,10 +54,10 @@ export default function GameShell() {
   charactersRef.current = characters;
 
   const [roundCulprits, setRoundCulprits] = useState<string[]>([
-    "steve",
+    "bacon_hair",
     "tung",
   ]);
-  const culpritUidRef = useRef<string>("steve");
+  const culpritUidRef = useRef<string>("bacon_hair");
 
   const [highlightUid, setHighlightUid] = useState<string | null>(null);
   const [scannedUid, setScannedUid] = useState<string | null>(null);
@@ -99,7 +99,7 @@ export default function GameShell() {
         const r = await fetch("/api/characters");
         if (!r.ok) {
           setCharacters(FALLBACK_CHARACTERS);
-          setRoundCulprits(["steve", "tung"]);
+          setRoundCulprits(["bacon_hair", "tung"]);
           return;
         }
         const data = (await r.json()) as CharactersApiResponse;
@@ -107,7 +107,7 @@ export default function GameShell() {
         setRoundCulprits(data.round_culprits);
       } catch {
         setCharacters(FALLBACK_CHARACTERS);
-        setRoundCulprits(["steve", "tung"]);
+        setRoundCulprits(["bacon_hair", "tung"]);
       }
     })();
   }, []);
@@ -414,10 +414,20 @@ export default function GameShell() {
               className="dev-strip__btn"
               disabled={devBusy}
               onClick={() => {
-                void sendDev(devEventRequest("tag", "steve"));
+                void sendDev(devEventRequest("tag", "bacon_hair"));
               }}
             >
-              Simulate tag (Steve)
+              Simulate tag (Bacon Hair)
+            </button>
+            <button
+              type="button"
+              className="dev-strip__btn"
+              disabled={devBusy}
+              onClick={() => {
+                void sendDev(devEventRequest("tag", "ballerina_cappuccina"));
+              }}
+            >
+              Simulate tag (Ballerina Cappuccina)
             </button>
             <button
               type="button"
