@@ -44,6 +44,19 @@ export default function GameShell() {
   const langPickerOpenRef = useRef(false);
   langPickerOpenRef.current = langPickerOpen;
 
+  // Language picker: which option is currently highlighted (cycles on short press)
+  const [pickerLang, setPickerLang] = useState<Lang>("en");
+  const pickerLangRef = useRef<Lang>("en");
+  pickerLangRef.current = pickerLang;
+
+  // Hold-to-confirm: fill progress [0..1]
+  const [holdProgress, setHoldProgress] = useState(0);
+  const holdStartRef = useRef<number | null>(null);
+  const holdRafRef = useRef<number | null>(null);
+  const holdConfirmTimerRef = useRef<number | null>(null);
+  // True when the picker was opened by the current button press (ignore its release)
+  const pickerOpenedThisPressRef = useRef(false);
+
   const [devOpen, setDevOpen] = useState(false);
   const [devBusy, setDevBusy] = useState(false);
   const [playActive, setPlayActive] = useState(false);
@@ -89,6 +102,19 @@ export default function GameShell() {
     }
   }, []);
 
+  const cancelHold = useCallback(() => {
+    if (holdRafRef.current != null) {
+      cancelAnimationFrame(holdRafRef.current);
+      holdRafRef.current = null;
+    }
+    if (holdConfirmTimerRef.current != null) {
+      window.clearTimeout(holdConfirmTimerRef.current);
+      holdConfirmTimerRef.current = null;
+    }
+    holdStartRef.current = null;
+    setHoldProgress(0);
+  }, []);
+
   useEffect(() => {
     culpritUidRef.current = culpritUid(roundCulprits);
   }, [roundCulprits]);
@@ -112,6 +138,40 @@ export default function GameShell() {
     })();
   }, []);
 
+  const onLanguagePick = useCallback((next: Lang) => {
+    cancelHold();
+    setLang(next);
+    setLangPickerOpen(false);
+    langPickerOpenRef.current = false;
+    setPlayActive(true);
+    setView("playing");
+    window.dispatchEvent(new CustomEvent("polluter:play"));
+  }, [cancelHold]);
+
+  const HOLD_MS = 1000;
+
+  const startHold = useCallback(() => {
+    cancelHold();
+    const start = Date.now();
+    holdStartRef.current = start;
+
+    const tick = () => {
+      const elapsed = Date.now() - start;
+      const progress = Math.min(elapsed / HOLD_MS, 1);
+      setHoldProgress(progress);
+      if (progress < 1) {
+        holdRafRef.current = requestAnimationFrame(tick);
+      }
+    };
+    holdRafRef.current = requestAnimationFrame(tick);
+
+    holdConfirmTimerRef.current = window.setTimeout(() => {
+      holdRafRef.current = null;
+      setHoldProgress(1);
+      onLanguagePick(pickerLangRef.current);
+    }, HOLD_MS);
+  }, [cancelHold, onLanguagePick]);
+
   const submitReveal = useCallback(() => {
     const uid = scannedUidRef.current;
     if (!uid || !confirmOpenRef.current) return;
@@ -134,10 +194,58 @@ export default function GameShell() {
     (msg: BridgeMessage) => {
       if (msg.type === "status") return;
 
-      if (msg.type === "button") {
+      if (msg.type === "button_down") {
         if (revealRef.current) return;
         if (viewRef.current === "landing") {
-          if (!langPickerOpenRef.current) setLangPickerOpen(true);
+          if (!langPickerOpenRef.current) {
+            // Opening picker — remember this press so we don't cycle on its release
+            pickerOpenedThisPressRef.current = true;
+            setLangPickerOpen(true);
+            langPickerOpenRef.current = true;
+          } else {
+            pickerOpenedThisPressRef.current = false;
+            startHold();
+          }
+          return;
+        }
+        if (viewRef.current === "playing") {
+          if (confirmOpenRef.current && scannedUidRef.current) {
+            submitReveal();
+          }
+          return;
+        }
+        return;
+      }
+
+      if (msg.type === "button_up") {
+        if (langPickerOpenRef.current) {
+          if (pickerOpenedThisPressRef.current) {
+            // This release paired with the press that opened the picker — ignore
+            pickerOpenedThisPressRef.current = false;
+          } else if (holdStartRef.current != null) {
+            // Short press: cycle language
+            const next: Lang = pickerLangRef.current === "en" ? "es" : "en";
+            setPickerLang(next);
+            pickerLangRef.current = next;
+            cancelHold();
+          }
+          return;
+        }
+        return;
+      }
+
+      if (msg.type === "button") {
+        // Legacy firmware (no button_down/button_up): cycle if picker open, otherwise existing behavior
+        if (langPickerOpenRef.current) {
+          const next: Lang = pickerLangRef.current === "en" ? "es" : "en";
+          setPickerLang(next);
+          pickerLangRef.current = next;
+          return;
+        }
+        if (revealRef.current) return;
+        if (viewRef.current === "landing") {
+          setLangPickerOpen(true);
+          langPickerOpenRef.current = true;
           return;
         }
         if (viewRef.current === "playing") {
@@ -180,7 +288,7 @@ export default function GameShell() {
         sendLed(255, 180, 100);
       }
     },
-    [clearConfirmTimer, submitReveal, sendLed]
+    [clearConfirmTimer, submitReveal, sendLed, startHold, cancelHold]
   );
 
   const { bridgeLine, bridgeFooterMeta, lastEvent, setLastEvent } =
@@ -191,17 +299,22 @@ export default function GameShell() {
     setLangPickerOpen(true);
   }, [playActive]);
 
-  const onLanguagePick = useCallback((next: Lang) => {
-    setLang(next);
-    setLangPickerOpen(false);
-    setPlayActive(true);
-    setView("playing");
-    window.dispatchEvent(new CustomEvent("polluter:play"));
-  }, []);
+  // Reset picker highlight whenever the overlay opens
+  useEffect(() => {
+    if (langPickerOpen) {
+      setPickerLang("en");
+      pickerLangRef.current = "en";
+      setHoldProgress(0);
+      pickerOpenedThisPressRef.current = false;
+    } else {
+      cancelHold();
+    }
+  }, [langPickerOpen, cancelHold]);
 
   const onLanguageOverlayClose = useCallback(() => {
+    cancelHold();
     setLangPickerOpen(false);
-  }, []);
+  }, [cancelHold]);
 
   const onContinueReveal = useCallback(() => {
     setReveal(null);
@@ -332,6 +445,8 @@ export default function GameShell() {
       {langPickerOpen && landingVisible && (
         <LanguagePickerOverlay
           lang={lang}
+          pickerLang={pickerLang}
+          holdProgress={holdProgress}
           onPick={onLanguagePick}
           onClose={onLanguageOverlayClose}
         />
@@ -407,7 +522,27 @@ export default function GameShell() {
                 void sendDev(devEventRequest("button"));
               }}
             >
-              Simulate button
+              Simulate button (legacy)
+            </button>
+            <button
+              type="button"
+              className="dev-strip__btn"
+              disabled={devBusy}
+              onClick={() => {
+                void sendDev(devEventRequest("button_down"));
+              }}
+            >
+              Simulate button down
+            </button>
+            <button
+              type="button"
+              className="dev-strip__btn"
+              disabled={devBusy}
+              onClick={() => {
+                void sendDev(devEventRequest("button_up"));
+              }}
+            >
+              Simulate button up
             </button>
             <button
               type="button"

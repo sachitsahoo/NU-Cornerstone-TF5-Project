@@ -977,6 +977,8 @@ button {
 }
 
 .lang-overlay__btn {
+  position: relative;
+  overflow: hidden;
   min-width: 10rem;
   padding: 0.85rem 1.25rem;
   font-family: inherit;
@@ -994,6 +996,24 @@ button {
   border-radius: 12px;
   box-shadow: 0 0 24px rgba(245, 180, 255, 0.35);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.lang-overlay__btn--active {
+  border-color: #fff;
+  box-shadow: 0 0 36px rgba(255, 255, 255, 0.5);
+}
+
+.lang-overlay__btn-fill {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.55);
+  transform-origin: left center;
+  pointer-events: none;
+}
+
+.lang-overlay__btn-label {
+  position: relative;
+  z-index: 1;
 }
 
 .lang-overlay__btn:hover {

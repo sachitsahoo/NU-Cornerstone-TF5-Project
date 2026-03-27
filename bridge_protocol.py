@@ -62,6 +62,10 @@ def parse_dev_event_body(body: dict[str, Any]) -> dict[str, Any]:
         return {"type": "tag", "uid": uid}
     if t == "button":
         return {"type": "button"}
+    if t == "button_down":
+        return {"type": "button_down"}
+    if t == "button_up":
+        return {"type": "button_up"}
     if t == "tag_removed":
         return {"type": "tag_removed"}
     raise ValueError(f"unknown type: {t!r}")

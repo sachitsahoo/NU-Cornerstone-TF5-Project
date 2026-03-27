@@ -3,12 +3,16 @@ import { t } from "../gameContent";
 
 type LanguagePickerOverlayProps = {
   lang: Lang;
+  pickerLang: Lang;
+  holdProgress: number;
   onPick: (lang: Lang) => void;
   onClose: () => void;
 };
 
 export function LanguagePickerOverlay({
   lang,
+  pickerLang,
+  holdProgress,
   onPick,
   onClose,
 }: LanguagePickerOverlayProps) {
@@ -30,20 +34,28 @@ export function LanguagePickerOverlay({
           {t(lang, "chooseLanguage")}
         </h2>
         <div className="lang-overlay__buttons">
-          <button
-            type="button"
-            className="lang-overlay__btn"
-            onClick={() => onPick("en")}
-          >
-            {t(lang, "langEnglish")}
-          </button>
-          <button
-            type="button"
-            className="lang-overlay__btn"
-            onClick={() => onPick("es")}
-          >
-            {t(lang, "langSpanish")}
-          </button>
+          {(["en", "es"] as Lang[]).map((l) => {
+            const isActive = pickerLang === l;
+            const progress = isActive ? holdProgress : 0;
+            return (
+              <button
+                key={l}
+                type="button"
+                className={`lang-overlay__btn${isActive ? " lang-overlay__btn--active" : ""}`}
+                onClick={() => onPick(l)}
+              >
+                {progress > 0 && (
+                  <span
+                    className="lang-overlay__btn-fill"
+                    style={{ transform: `scaleX(${progress})` }}
+                  />
+                )}
+                <span className="lang-overlay__btn-label">
+                  {t(lang, l === "en" ? "langEnglish" : "langSpanish")}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -49,10 +49,12 @@ while True:
     else:
         print("REMOVED")
 
-    # ─── 3. BUTTON (rising-edge only) ───
+    # ─── 3. BUTTON (press + release) ───
     button_now = button.value()
     if button_now == 0 and button_last == 1:
-        print("BUTTON")
+        print("BUTTON_DOWN")
+    elif button_now == 1 and button_last == 0:
+        print("BUTTON_UP")
     button_last = button_now
 
     utime.sleep_ms(200)

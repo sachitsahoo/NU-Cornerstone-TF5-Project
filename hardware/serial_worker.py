@@ -101,8 +101,12 @@ class SerialWorker(threading.Thread):
                                 self._last_uid = None
                                 self._emit({"type": "tag_removed"})
 
-                    if line == "BUTTON":
-                        self._emit({"type": "button"})
+                    if line == "BUTTON_DOWN":
+                        self._emit({"type": "button_down"})
+                    elif line == "BUTTON_UP":
+                        self._emit({"type": "button_up"})
+                    elif line == "BUTTON":
+                        self._emit({"type": "button"})  # legacy firmware
 
             except Exception as e:
                 self._emit({"type": "status", "connected": False, "message": f"Serial error: {e}"})
