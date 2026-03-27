@@ -73,13 +73,7 @@ project/
 | 3.3V    | 3V3(OUT) |
 | GND     | GND      |
 
-**NeoPixel strip → Pico**
-
-| NeoPixel | Pico pin |
-|----------|----------|
-| Data     | GP28     |
-| +5V      | VBUS     |
-| GND      | GND      |
+--
 
 Default pixel count is 8. To change it, edit `n` at the top of `microcontroller/main.py`.
 
@@ -87,7 +81,7 @@ Default pixel count is 8. To change it, edit `n` at the top of `microcontroller/
 
 | Button  | Pico pin |
 |---------|----------|
-| One leg | GP14     |
+| One leg | GP15     |
 | Other   | GND      |
 
 The button uses the internal pull-up — no resistor needed.
