@@ -24,6 +24,8 @@ try:
 except:
     print("Error setting color on init")
 
+reader.init()
+
 while True:
     # ─── 1. CHECK FOR SERIAL INPUT (FROM PC) ───
     if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
@@ -36,7 +38,6 @@ while True:
             print("Invalid input:", line)
 
     # ─── 2. RFID READING ───
-    reader.init()
     (stat, tag_type) = reader.request(reader.REQIDL)
 
     if stat == reader.OK:
@@ -58,3 +59,5 @@ while True:
     button_last = button_now
 
     utime.sleep_ms(10)
+
+

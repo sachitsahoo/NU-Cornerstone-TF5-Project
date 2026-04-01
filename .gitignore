@@ -223,3 +223,4 @@ node_modules/
 web/node_modules/
 web/dist/
 *.tsbuildinfo
+.claude-memory.md
