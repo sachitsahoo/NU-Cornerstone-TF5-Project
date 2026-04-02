@@ -8,7 +8,8 @@ An interactive Clue-style exhibit powered by a Raspberry Pi Pico, RFID cards, Ne
 
 The system has three layers that communicate in sequence:
 
-- **Pico (MicroPython)** — reads RFID tags and drives NeoPixel LEDs. Prints tag IDs and button events to USB serial.
+- **Pico #1 — RFID** (`microcontroller/rfid/main.py`) — reads RFID tags and prints tag IDs over USB serial.
+- **Pico #2 — LED + Button** (`microcontroller/led_button/main.py`) — drives NeoPixel LEDs, reads the button, receives RGB commands from the bridge.
 - **Bridge (Python/FastAPI)** — runs on a connected PC or Mac, reads serial output from the Pico, and exposes a WebSocket endpoint for the UI.
 - **Web UI (React/TypeScript)** — full-screen browser experience with character profiles and the accusation finale. Connects to the bridge over WebSocket.
 
@@ -32,7 +33,10 @@ project/
 ├── display_app.py        ← legacy PyQt5 app (superseded by web UI)
 ├── CITATIONS.md          ← citations
 ├── microcontroller/
-│   └── main.py           ← MicroPython firmware (copy to Pico root as main.py)
+│   ├── rfid/
+│   │   └── main.py       ← MicroPython firmware for RFID Pico
+│   └── led_button/
+│       └── main.py       ← MicroPython firmware for LED+Button Pico
 ├── hardware/
 │   └── serial_worker.py  ← thread that reads Pico serial → event queue
 ├── web/                  ← React/TypeScript frontend (Vite)
@@ -53,15 +57,15 @@ project/
 
 ### Parts
 
-- Raspberry Pi Pico (or Pico W)
+- 2× Raspberry Pi Pico (or Pico W)
 - MFRC522 RFID reader module
 - NeoPixel LED strip
 - Momentary push button
-- USB cable (Pico → PC/Mac)
+- 2× USB cable (one per Pico → PC/Mac)
 
 ### Wiring
 
-**MFRC522 → Pico**
+**Pico #1 — RFID** (`microcontroller/rfid/main.py`)
 
 | MFRC522 | Pico pin |
 |---------|----------|
@@ -69,20 +73,19 @@ project/
 | SCK     | GP2      |
 | MOSI    | GP3      |
 | MISO    | GP4      |
-| RST     | GP0      |
+| RST     | GP18     |
 | 3.3V    | 3V3(OUT) |
 | GND     | GND      |
 
---
+**Pico #2 — LED + Button** (`microcontroller/led_button/main.py`)
 
-Default pixel count is 8. To change it, edit `n` at the top of `microcontroller/main.py`.
+| Component      | Pico pin |
+|----------------|----------|
+| NeoPixel data  | GP28     |
+| Button (leg 1) | GP15     |
+| Button (leg 2) | GND      |
 
-**Button → Pico**
-
-| Button  | Pico pin |
-|---------|----------|
-| One leg | GP15     |
-| Other   | GND      |
+Default NeoPixel count is 24. To change it, edit `n` at the top of `microcontroller/led_button/main.py`.
 
 The button uses the internal pull-up — no resistor needed.
 
@@ -101,7 +104,11 @@ Download `mfrc522.py` from [github.com/wendlers/micropython-mfrc522](https://git
 
 ### 3. Copy the firmware
 
-Copy `microcontroller/main.py` to the root of the Pico as `main.py`. It runs automatically on every boot.
+Flash each Pico separately:
+- Copy `microcontroller/rfid/main.py` to the **RFID Pico** root as `main.py`
+- Copy `microcontroller/led_button/main.py` to the **LED+Button Pico** root as `main.py`
+
+Each file runs automatically on boot.
 
 ### 4. Find your tag IDs
 
@@ -134,20 +141,36 @@ pip install -r requirements.txt
 ### Run the bridge
 
 ```bash
-# Auto-detect Pico port
+# Normal startup — reads ports.json for this machine's hostname, falls back to AUTO
 python bridge.py
 
-# Specify port manually (Mac/Linux)
-python bridge.py --serial-port /dev/cu.usbmodem14201
-
-# Specify port manually (Windows)
-python bridge.py --serial-port COM3
+# Override ports from the command line (overrides ports.json entirely)
+python bridge.py --rfid-port /dev/cu.usbmodem1101 --led-port /dev/cu.usbmodem101
 
 # Enable dev mode (enables in-browser hardware simulation)
 MYSTERY_DEV=1 python bridge.py
 ```
 
-If the Pico isn't connected, the bridge starts in dummy mode — all hardware events are silently dropped but the UI still loads.
+#### Per-machine port config (`ports.json`)
+
+Each computer that runs the bridge should have an entry in `ports.json` (project root), keyed by hostname:
+
+```json
+{
+  "Sachits-MacBook-Air.local": {
+    "rfid_port": "/dev/cu.usbmodem1101",
+    "led_port":  "/dev/cu.usbmodem101"
+  },
+  "exhibit-pc": {
+    "rfid_port": "/dev/tty.usbmodem1101",
+    "led_port":  "/dev/tty.usbmodem101"
+  }
+}
+```
+
+Find your hostname by running `hostname` in a terminal. On Linux/Windows exhibit machines use `tty` instead of `cu`. If the hostname isn't in the file, the bridge falls back to auto-detection.
+
+If a Pico isn't connected, that worker falls back to DUMMY mode — events from that Pico are silently dropped but the UI still loads.
 
 Bridge listens on `http://127.0.0.1:8000`.
 
@@ -233,13 +256,13 @@ Localized strings (EN/ES) live in `web/src/gameContent.ts`.
 ## Troubleshooting
 
 **Bridge says "Could not auto-detect Pico"**
-Pass the port manually with `--serial-port`. On Mac, run `ls /dev/cu.usbmodem*` to find it. On Windows, check Device Manager under Ports (COM & LPT).
+Pass ports manually with `--rfid-port` and `--led-port`. On Mac, run `ls /dev/cu.usbmodem*` to list both. On Windows, check Device Manager under Ports (COM & LPT). If both Picos show the same VID, unplug one at a time to identify which port is which.
 
 **Tag scans do nothing**
 Open a serial monitor and scan the card. Check that the number printed matches a `tag_ids` value in `characters.json` exactly (plain decimal string).
 
 **LEDs don't light up**
-Confirm the data wire is on GP28. Check that `n` in `microcontroller/main.py` matches your actual pixel count. LED power must come from VBUS (5V), not 3V3.
+Confirm the data wire is on GP28. Check that `n` in `microcontroller/led_button/main.py` matches your actual pixel count. LED power must come from VBUS (5V), not 3V3. Also confirm `--led-port` points to the LED+Button Pico, not the RFID one.
 
 **UI won't connect to bridge**
 Make sure `python bridge.py` is running before opening the browser. Check the terminal for port errors. The status line in the dev panel shows connection state.

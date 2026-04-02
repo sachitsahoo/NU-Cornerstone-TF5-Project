@@ -15,14 +15,24 @@ SERIAL_BAUD = 115200
 
 
 def auto_detect_pico_port() -> str | None:
+    ports = auto_detect_pico_ports()
+    return ports[0] if ports else None
+
+
+def auto_detect_pico_ports() -> list[str]:
+    """Return all detected Pico serial ports (by VID or description)."""
+    found = []
     for p in serial.tools.list_ports.comports():
         desc = (p.description or "").lower()
         mfr = (p.manufacturer or "").lower()
-        if "pico" in desc or "raspberry" in mfr or "MicroPython" in (p.product or ""):
-            return p.device
-        if p.vid == 0x2E8A:
-            return p.device
-    return None
+        if (
+            "pico" in desc
+            or "raspberry" in mfr
+            or "MicroPython" in (p.product or "")
+            or p.vid == 0x2E8A
+        ):
+            found.append(p.device)
+    return found
 
 
 class SerialWorker(threading.Thread):
