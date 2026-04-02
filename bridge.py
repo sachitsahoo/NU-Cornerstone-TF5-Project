@@ -2,8 +2,9 @@
 WebSocket bridge: Pico serial -> JSON events -> browser UI.
 Serves built React app (web/dist), /api/characters, static /assets, dev inject when DEV_MODE.
 
-Run: python bridge.py [--serial-port AUTO] [--host 127.0.0.1] [--http-port 8000]
-Or: uvicorn bridge:app (set MYSTERY_SERIAL_PORT=AUTO or device path)
+Run: python bridge.py                          # uses ports.json for this hostname, then AUTO
+     python bridge.py --rfid-port /dev/cu.usbmodem1101 --led-port /dev/cu.usbmodem101
+Or:  uvicorn bridge:app  (ports resolved from ports.json / AUTO)
 """
 
 from __future__ import annotations
@@ -14,6 +15,7 @@ import json
 import logging
 import os
 import queue
+import socket
 import sys
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -29,7 +31,7 @@ from bridge_protocol import (
     enrich_ws_payload,
     parse_dev_event_body,
 )
-from hardware.serial_worker import SerialWorker, auto_detect_pico_port
+from hardware.serial_worker import SerialWorker, auto_detect_pico_port, auto_detect_pico_ports
 
 logger = logging.getLogger("pollution_mystery.bridge")
 logging.basicConfig(
@@ -39,6 +41,7 @@ logging.basicConfig(
 
 ROOT = Path(__file__).resolve().parent
 CHARACTERS_FILE = ROOT / "characters.json"
+PORTS_FILE = ROOT / "ports.json"
 WEB_DIST = ROOT / "web" / "dist"
 ASSETS_DIR = ROOT / "assets"
 
@@ -48,14 +51,43 @@ DEV_MODE = os.environ.get("MYSTERY_DEV", "1") not in ("0", "false", "False")
 
 event_queue: queue.Queue = queue.Queue()
 clients: Set[WebSocket] = set()
-serial_worker: SerialWorker | None = None
+rfid_worker: SerialWorker | None = None
+led_button_worker: SerialWorker | None = None
 last_status: dict | None = None
-resolved_serial_port: str | None = None
+resolved_rfid_port: str | None = None
+resolved_led_port: str | None = None
 
 
 def load_characters() -> dict:
     with open(CHARACTERS_FILE, "r") as f:
         return json.load(f)
+
+
+def load_ports_config() -> tuple[str, str]:
+    """
+    Read ports.json and return (rfid_port, led_port) for this machine.
+    Falls back to ("AUTO", "AUTO") if the file is missing or this hostname has no entry.
+    """
+    hostname = socket.gethostname()
+    try:
+        with open(PORTS_FILE, "r") as f:
+            config = json.load(f)
+        entry = config.get(hostname)
+        if entry:
+            rfid = entry.get("rfid_port", "AUTO")
+            led = entry.get("led_port", "AUTO")
+            logger.info("ports.json: hostname=%s → rfid=%s led=%s", hostname, rfid, led)
+            return rfid, led
+        logger.warning(
+            "ports.json: no entry for hostname %r — falling back to AUTO. "
+            "Add an entry to ports.json to fix this.",
+            hostname,
+        )
+    except FileNotFoundError:
+        logger.warning("ports.json not found — falling back to AUTO serial detection.")
+    except Exception as e:
+        logger.warning("ports.json read error: %s — falling back to AUTO.", e)
+    return "AUTO", "AUTO"
 
 
 def build_tag_map(characters: list) -> dict[str, str]:
@@ -68,10 +100,11 @@ def build_tag_map(characters: list) -> dict[str, str]:
 
 async def broadcast(msg: dict) -> None:
     global last_status
+    port_label = f"rfid={resolved_rfid_port} led={resolved_led_port}"
     out = enrich_ws_payload(
         msg,
         dev_mode=DEV_MODE,
-        port_label=resolved_serial_port,
+        port_label=port_label,
     )
     if out.get("type") == "status":
         last_status = out
@@ -102,34 +135,73 @@ async def pump_serial_queue():
             await asyncio.sleep(0.01)
 
 
-def resolve_serial_port(app: FastAPI) -> str:
-    port = getattr(app.state, "serial_port", None)
-    if port is None:
-        port = os.environ.get("MYSTERY_SERIAL_PORT", "AUTO")
-    if port == "AUTO":
-        port = auto_detect_pico_port()
-        if port is None:
-            print("Could not auto-detect Pico — DUMMY serial mode.", file=sys.stderr)
-            port = "DUMMY"
-    return port
+def resolve_two_ports(rfid_arg: str, led_arg: str) -> tuple[str, str]:
+    """Resolve rfid and led+button serial ports, auto-detecting Picos if needed."""
+    if rfid_arg != "AUTO" and led_arg != "AUTO":
+        return rfid_arg, led_arg
+
+    detected = auto_detect_pico_ports()
+
+    def _pick(arg: str, exclude: str | None) -> str:
+        if arg != "AUTO":
+            return arg
+        available = [p for p in detected if p != exclude]
+        if available:
+            return available[0]
+        print(f"Could not auto-detect a Pico (exclude={exclude}) — DUMMY mode.", file=sys.stderr)
+        return "DUMMY"
+
+    if rfid_arg == "AUTO" and led_arg == "AUTO":
+        if len(detected) >= 2:
+            return detected[0], detected[1]
+        elif len(detected) == 1:
+            print(
+                f"Only one Pico found ({detected[0]}) — assigning to RFID, LED+Button in DUMMY mode.",
+                file=sys.stderr,
+            )
+            return detected[0], "DUMMY"
+        else:
+            print("No Picos found — both in DUMMY mode.", file=sys.stderr)
+            return "DUMMY", "DUMMY"
+
+    # One is fixed, auto-detect the other excluding the fixed one
+    rfid = _pick(rfid_arg, led_arg if led_arg != "AUTO" else None)
+    led = _pick(led_arg, rfid if rfid != "AUTO" else None)
+    return rfid, led
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    global resolved_serial_port
+    global resolved_rfid_port, resolved_led_port, rfid_worker, led_button_worker
     data = load_characters()
     tag_map = build_tag_map(data["characters"])
-    port = resolve_serial_port(app)
-    resolved_serial_port = port
+
+    cli_rfid = getattr(app.state, "rfid_port", "AUTO")
+    cli_led = getattr(app.state, "led_port", "AUTO")
+
+    # Priority: CLI args → ports.json for this hostname → AUTO detection
+    if cli_rfid == "AUTO" and cli_led == "AUTO":
+        cfg_rfid, cfg_led = load_ports_config()
+    else:
+        cfg_rfid, cfg_led = cli_rfid, cli_led  # CLI fully overrides
+
+    rfid_port, led_port = resolve_two_ports(cfg_rfid, cfg_led)
+    resolved_rfid_port = rfid_port
+    resolved_led_port = led_port
+
     logger.info(
-        "Bridge starting: serial_port=%s dev_mode=%s ws_schema=v%s",
-        port,
+        "Bridge starting: rfid_port=%s led_port=%s dev_mode=%s ws_schema=v%s",
+        rfid_port,
+        led_port,
         DEV_MODE,
         BRIDGE_EVENT_SCHEMA_VERSION,
     )
-    global serial_worker
-    serial_worker = SerialWorker(port, tag_map, event_queue)
-    serial_worker.start()
+
+    rfid_worker = SerialWorker(rfid_port, tag_map, event_queue)
+    led_button_worker = SerialWorker(led_port, {}, event_queue)  # no tag_map needed
+    rfid_worker.start()
+    led_button_worker.start()
+
     pump = asyncio.create_task(pump_serial_queue())
     yield
     pump.cancel()
@@ -137,9 +209,10 @@ async def lifespan(app: FastAPI):
         await pump
     except asyncio.CancelledError:
         pass
-    if serial_worker:
-        serial_worker.stop()
-        serial_worker.join(timeout=2.0)
+    for worker in (rfid_worker, led_button_worker):
+        if worker:
+            worker.stop()
+            worker.join(timeout=2.0)
 
 
 app = FastAPI(title="Pollution Mystery Bridge", lifespan=lifespan)
@@ -162,8 +235,8 @@ async def api_led(body: dict):
     r = body.get("r", 0)
     g = body.get("g", 0)
     b = body.get("b", 0)
-    if serial_worker is not None:
-        serial_worker.send_output(f"{r},{g},{b}")
+    if led_button_worker is not None:
+        led_button_worker.send_output(f"{r},{g},{b}")
     return {"ok": True}
 
 
@@ -220,12 +293,20 @@ else:
 
 def main():
     parser = argparse.ArgumentParser(description="Pollution Mystery — WebSocket bridge")
-    parser.add_argument("--serial-port", default="AUTO", help="Pico serial (AUTO or path)")
+    parser.add_argument(
+        "--rfid-port", default="AUTO",
+        help="Serial port for RFID Pico (AUTO or path, e.g. /dev/cu.usbmodem101)",
+    )
+    parser.add_argument(
+        "--led-port", default="AUTO",
+        help="Serial port for LED+Button Pico (AUTO or path, e.g. /dev/cu.usbmodem102)",
+    )
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--http-port", type=int, default=8000)
     args = parser.parse_args()
 
-    app.state.serial_port = args.serial_port
+    app.state.rfid_port = args.rfid_port
+    app.state.led_port = args.led_port
 
     import uvicorn
 

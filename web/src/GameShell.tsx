@@ -55,6 +55,8 @@ export default function GameShell() {
   const holdStartRef = useRef<number | null>(null);
   const holdRafRef = useRef<number | null>(null);
   const holdConfirmTimerRef = useRef<number | null>(null);
+  // Delay before the fill bar appears — button must be held this long to enter hold mode
+  const holdDelayTimerRef = useRef<number | null>(null);
   // True when the picker was opened by the current button press (ignore its release)
   const pickerOpenedThisPressRef = useRef(false);
   // True after returning from reveal — ignore button_down until button is released
@@ -128,6 +130,10 @@ export default function GameShell() {
   );
 
   const cancelHold = useCallback(() => {
+    if (holdDelayTimerRef.current != null) {
+      window.clearTimeout(holdDelayTimerRef.current);
+      holdDelayTimerRef.current = null;
+    }
     if (holdRafRef.current != null) {
       cancelAnimationFrame(holdRafRef.current);
       holdRafRef.current = null;
@@ -175,6 +181,7 @@ export default function GameShell() {
   }, [cancelHold]);
 
   const HOLD_MS = 3000;
+  const HOLD_DELAY_MS = 300; // button must be held this long before fill starts
 
   const startHold = useCallback(() => {
     cancelHold();
@@ -250,11 +257,15 @@ export default function GameShell() {
               setLangPickerOpen(true);
               langPickerOpenRef.current = true;
             }
-          } else if (holdStartRef.current === null) {
+          } else if (holdDelayTimerRef.current === null && holdStartRef.current === null) {
             // Picker already open, new press, hold not yet started.
             // Also clears pickerOpenedThisPressRef as a fallback in case BUTTON_UP was dropped.
             pickerOpenedThisPressRef.current = false;
-            startHold();
+            // Wait HOLD_DELAY_MS before starting the fill — short taps stay as language cycles.
+            holdDelayTimerRef.current = window.setTimeout(() => {
+              holdDelayTimerRef.current = null;
+              startHold();
+            }, HOLD_DELAY_MS);
           }
           return;
         }
@@ -274,8 +285,8 @@ export default function GameShell() {
           if (pickerOpenedThisPressRef.current) {
             // This release paired with the press that opened the picker — ignore
             pickerOpenedThisPressRef.current = false;
-          } else if (holdStartRef.current != null) {
-            // Short press: cycle language
+          } else if (holdDelayTimerRef.current != null || holdStartRef.current != null) {
+            // Short press (released before or during hold): cycle language
             const next: Lang = pickerLangRef.current === "en" ? "es" : "en";
             setPickerLang(next);
             pickerLangRef.current = next;
