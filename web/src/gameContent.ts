@@ -103,10 +103,12 @@ export const UI = {
     langEnglish: "English",
     langSpanish: "Español",
     sceneEyebrow: "Case file",
+    sceneDescriptor: "Tonight’s mystery starts at the river.",
     sceneTitle: "The riverside scene",
     sceneContext:
       "Someone polluted the river last night and hurt the animals! Use the clues to figure out who did it.",
     sceneHint: "Put a suspect card on the reader to learn more.",
+    investigationActive: "Investigation Active",
     cluesTitle: "Clues",
     confirmTitle: "Is this your suspect?",
     confirmBody: "Press the big button to make your choice!",
@@ -136,10 +138,12 @@ export const UI = {
     langEnglish: "English",
     langSpanish: "Español",
     sceneEyebrow: "Expediente",
+    sceneDescriptor: "El misterio de esta noche empieza en el río.",
     sceneTitle: "La escena junto al río",
     sceneContext:
       "¡Alguien contaminó el río anoche y lastimó a los animales! Usa las pistas para descubrir quién fue.",
     sceneHint: "Pon la tarjeta de un sospechoso en el lector para saber más.",
+    investigationActive: "Investigación en curso",
     cluesTitle: "Pistas",
     confirmTitle: "¿Es este tu sospechoso?",
     confirmBody: "¡Presiona el botón grande para hacer tu elección!",
@@ -183,7 +187,19 @@ export function charByUid(
   return characters.find((c) => c.uid === uid);
 }
 
+/**
+ * Character art lives under repo `assets/images/` (served by bridge at `/assets/...`).
+ * In Vite dev, `/assets` is proxied to the bridge; when the bridge is off, map to
+ * copies in `web/public/game-assets/images/` so cards still load.
+ */
 export function imageSrc(imagePath: string): string {
   if (imagePath.startsWith("/")) return imagePath;
+  if (
+    import.meta.env.DEV &&
+    imagePath.startsWith("assets/images/")
+  ) {
+    const file = imagePath.slice("assets/images/".length);
+    return `/game-assets/images/${file}`;
+  }
   return `/${imagePath}`;
 }

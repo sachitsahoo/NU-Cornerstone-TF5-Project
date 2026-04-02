@@ -1,4 +1,4 @@
-import { ASSETS } from "./assetUrls";
+import { imageSrc } from "./gameContent";
 import { COPY } from "./strings";
 
 type Variant = "scroll" | "playing";
@@ -14,7 +14,7 @@ export function CharacterLogoStrip({ variant }: { variant: Variant }) {
       <figure className="logo-strip__item">
         <img
           className="logo-strip__img"
-          src={ASSETS.bhLogo}
+          src={imageSrc("assets/images/bh_logo.png")}
           alt=""
           width={200}
           height={200}
@@ -25,7 +25,7 @@ export function CharacterLogoStrip({ variant }: { variant: Variant }) {
       <figure className="logo-strip__item">
         <img
           className="logo-strip__img"
-          src={ASSETS.bcLogo}
+          src={imageSrc("assets/images/bc_logo.png")}
           alt=""
           width={200}
           height={200}
@@ -36,7 +36,7 @@ export function CharacterLogoStrip({ variant }: { variant: Variant }) {
       <figure className="logo-strip__item">
         <img
           className="logo-strip__img"
-          src={ASSETS.sahurLogo}
+          src={imageSrc("assets/images/sahur_logo.png")}
           alt=""
           width={200}
           height={200}

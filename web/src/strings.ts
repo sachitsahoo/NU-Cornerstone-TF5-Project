@@ -10,7 +10,7 @@ export const COPY = {
   belowP1:
     "Scroll to explore more of the experience. The next build will layer in gameplay, hardware cues, and story beats that match your final product spec.",
   belowP2:
-    "Use the bridge status and dev tools while wiring RFID, buttons, and display hardware.",
+    "Hardware events drive the mystery: RFID tags, the physical button, and on-screen feedback work together.",
   logoStripAria: "Story characters",
   logoStripScrollIntro: "Meet the suspects",
   logoBh: "Bacon Hair — factory maintenance",
@@ -19,10 +19,7 @@ export const COPY = {
   playingEyebrow: "Case file",
   playingTitle: "On the trail",
   playingLede:
-    "RFID tags and the physical button now drive the mystery. Watch the live line below as hardware events arrive.",
-  playingHudLabel: "Last event",
-  keyboardFooterHint:
-    "Shortcuts: P = Play on landing, D = toggle Dev, Esc closes Dev",
+    "RFID tags and the physical button drive the mystery in the case screen.",
   devToggleTitle: "Developer controls (shortcut D)",
   playShortcutTitle: "Start (shortcut P)",
 } as const;

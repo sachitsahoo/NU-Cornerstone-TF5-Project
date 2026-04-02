@@ -1,4 +1,4 @@
-import { type CSSProperties } from "react";
+import { useState, type CSSProperties } from "react";
 import type { CharacterJson } from "../gameTypes";
 import type { Lang } from "../gameContent";
 import {
@@ -9,7 +9,8 @@ import {
   t,
 } from "../gameContent";
 import { COPY } from "../strings";
-import { RiverAnimation } from "./RiverAnimation";
+import { ClueGlyph, SuspectSilhouette } from "./PlayingGlyphs";
+import { SceneRiverBanner } from "./SceneRiverBanner";
 
 type RevealState = {
   correct: boolean;
@@ -25,11 +26,11 @@ type PlayingViewProps = {
   confirmOpen: boolean;
   scannedUid: string | null;
   reveal: RevealState | null;
-  lastEventLine: string;
-  showHud: boolean;
   onContinueReveal: () => void;
   onSuspectSelect: (uid: string) => void;
 };
+
+const CLUE_ICONS: Array<"water" | "fish" | "car"> = ["water", "fish", "car"];
 
 function ledStyle(led: readonly number[]): CSSProperties {
   const r = led[0] ?? 124;
@@ -41,6 +42,24 @@ function ledStyle(led: readonly number[]): CSSProperties {
   };
 }
 
+function SuspectPortrait({ src }: { src: string }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) {
+    return <SuspectSilhouette tint="#7c3aed" />;
+  }
+  return (
+    <img
+      className="scene-suspects__img"
+      src={src}
+      alt=""
+      width={160}
+      height={160}
+      decoding="async"
+      onError={() => setFailed(true)}
+    />
+  );
+}
+
 export function PlayingView({
   visible,
   lang,
@@ -49,8 +68,6 @@ export function PlayingView({
   confirmOpen,
   scannedUid,
   reveal,
-  lastEventLine,
-  showHud,
   onContinueReveal: _onContinueReveal,
   onSuspectSelect,
 }: PlayingViewProps) {
@@ -71,59 +88,50 @@ export function PlayingView({
     >
       <div className="scene">
         <div className="scene__backdrop" aria-hidden />
-        <div className="scene__shell">
-          <div className="scene__main">
-            <div className="scene__masthead">
-              <img
-                className="scene__masthead-bg"
-                src="/assets/ui/polluter-masthead.svg"
-                alt=""
-                width={960}
-                height={140}
-                decoding="async"
-              />
-              <div className="scene__masthead-lineup" aria-hidden>
-                {characters.map((c) => (
-                  <img
-                    key={c.uid}
-                    className="scene__masthead-face"
-                    src={imageSrc(c.image)}
-                    alt=""
-                    width={88}
-                    height={88}
-                    decoding="async"
-                  />
-                ))}
-              </div>
+        <div className="scene__shell scene__shell--wide">
+          <header className="scene__topbar">
+            <div className="scene__topbar-left">
+              <h1 className="scene__topbar-title">{t(lang, "sceneTitle")}</h1>
+            </div>
+            <div className="scene__topbar-status" role="status">
+              <span className="scene__topbar-dot" aria-hidden />
+              <span className="scene__topbar-status-text">
+                {t(lang, "investigationActive")}
+              </span>
+            </div>
+          </header>
+
+          <div className="scene__split">
+            <div className="scene__river-wrap">
+              <SceneRiverBanner />
             </div>
 
-            <header className="scene__header">
-              <p className="scene__eyebrow">{t(lang, "sceneEyebrow")}</p>
-              <h1 className="scene__title">{t(lang, "sceneTitle")}</h1>
-              <p className="scene__lede">
-                <span className="scene__lede-line">{t(lang, "sceneContext")}</span>
-                <span className="scene__lede-line scene__lede-line--hint">
-                  {t(lang, "sceneHint")}
-                </span>
-              </p>
-            </header>
-
-            <div className="scene-clues-grid" aria-label={t(lang, "cluesTitle")}>
-              {clues.map((line, i) => (
-                <div key={i} className="scene-clue-card">
-                  <span className="scene-clue-card__idx" aria-hidden>
-                    {i + 1}
-                  </span>
-                  <p className="scene-clue-card__text">{line}</p>
+            <aside
+              className="scene__col scene__col--clues"
+              aria-label={t(lang, "cluesTitle")}
+            >
+              <div className="scene-clues-panel">
+                <div className="scene-clues__intro">
+                  <p className="scene-clues__lede">{t(lang, "sceneContext")}</p>
+                  <p className="scene-clues__hint">{t(lang, "sceneHint")}</p>
                 </div>
-              ))}
-            </div>
+                <ol className="scene-clues-list">
+                  {clues.map((line, i) => (
+                    <li key={i} className="scene-clues-list__item">
+                      <div className="scene-clues-list__lead">
+                        <span className="scene-clues-list__idx" aria-hidden>
+                          {i + 1}
+                        </span>
+                        <ClueGlyph kind={CLUE_ICONS[i] ?? "water"} />
+                      </div>
+                      <p className="scene-clues-list__text">{line}</p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </aside>
 
-            <div className="scene__panel-scene">
-              <RiverAnimation />
-            </div>
-
-            <div className="scene__glass scene__glass--suspects">
+            <div className="scene__suspects-row">
               <div className="scene-suspects" aria-label={COPY.logoStripAria}>
                 {characters.map((c) => {
                   const active = highlightUid === c.uid;
@@ -133,7 +141,6 @@ export function PlayingView({
                       role="button"
                       tabIndex={0}
                       className={`scene-suspects__card scene-suspects__card--pick${active ? " scene-suspects__card--active" : ""}`}
-                      style={ledStyle(c.led_color)}
                       onClick={() => onSuspectSelect(c.uid)}
                       onKeyDown={(e) => {
                         if (e.key === "Enter" || e.key === " ") {
@@ -142,16 +149,8 @@ export function PlayingView({
                         }
                       }}
                     >
-                      <div className="scene-suspects__led-bar" aria-hidden />
                       <div className="scene-suspects__portrait">
-                        <img
-                          className="scene-suspects__img"
-                          src={imageSrc(c.image)}
-                          alt=""
-                          width={160}
-                          height={160}
-                          decoding="async"
-                        />
+                        <SuspectPortrait src={imageSrc(c.image)} />
                       </div>
                       <figcaption className="scene-suspects__name">
                         {c.name}
@@ -332,15 +331,6 @@ export function PlayingView({
             </p>
           </div>
         </div>
-      )}
-
-      {showHud && (
-        <section className="playing__hud" aria-label="Live hardware events">
-          <span className="playing__hud-label">{COPY.playingHudLabel}</span>
-          <output className="playing__hud-value" title={lastEventLine}>
-            {lastEventLine}
-          </output>
-        </section>
       )}
     </div>
   );

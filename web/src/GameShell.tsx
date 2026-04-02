@@ -34,6 +34,7 @@ export default function GameShell() {
     debugFromQuery || window.sessionStorage.getItem("polluter_debug") === "1"
   );
   const debugMode = debugEnabled;
+  const showDevChrome = import.meta.env.DEV && debugMode;
   const scrollY = useScrollParallax();
   const [view, setView] = useState<GameView>("landing");
   const viewRef = useRef<GameView>("landing");
@@ -334,8 +335,7 @@ export default function GameShell() {
     ]
   );
 
-  const { bridgeLine, bridgeFooterMeta, lastEvent, setLastEvent } =
-    useBridgeWebSocket(onBridgeMessage);
+  useBridgeWebSocket(onBridgeMessage);
 
   const handlePlayClick = useCallback(() => {
     if (playActive) return;
@@ -415,7 +415,6 @@ export default function GameShell() {
               ? { type: "button", schema }
               : { type: "tag_removed", schema };
         onBridgeMessage(msg);
-        setLastEvent(`dev local: ${JSON.stringify(msg)}`);
       };
       setDevBusy(true);
       try {
@@ -428,16 +427,14 @@ export default function GameShell() {
           runLocalSimulation();
           return;
         }
-        const t = await r.text();
-        setLastEvent(`dev bridge: ${r.status} ${t}`);
-      } catch (e) {
+        await r.text();
+      } catch {
         runLocalSimulation();
-        setLastEvent(`dev local (bridge unavailable): ${String(e)}`);
       } finally {
         setDevBusy(false);
       }
     },
-    [onBridgeMessage, setLastEvent]
+    [onBridgeMessage]
   );
 
   const landingVisible = view === "landing";
@@ -464,8 +461,6 @@ export default function GameShell() {
           confirmOpen={confirmOpen}
           scannedUid={scannedUid}
           reveal={reveal}
-          lastEventLine={lastEvent}
-          showHud={debugMode}
           onContinueReveal={onContinueReveal}
           onSuspectSelect={selectSuspectByUid}
         />
@@ -480,7 +475,7 @@ export default function GameShell() {
         />
       )}
 
-      {!debugMode && (
+      {import.meta.env.DEV && !debugMode && (
         <button
           type="button"
           className="game-shell__debug-entry"
@@ -491,33 +486,7 @@ export default function GameShell() {
         </button>
       )}
 
-      {debugMode && (
-        <footer className="landing__footer" title={COPY.keyboardFooterHint}>
-          <span className="landing__bridge" title="Latest serial / bridge status">
-            {bridgeLine}
-          </span>
-          <span
-            className="landing__bridge-meta"
-            title="Bridge protocol version and connection hints"
-          >
-            {bridgeFooterMeta}
-          </span>
-          <span className="landing__last" title="Last hardware / dev event">
-            {lastEvent}
-          </span>
-          <button
-            type="button"
-            className="landing__dev-toggle"
-            aria-expanded={devOpen}
-            aria-controls={devOpen ? "dev-controls-panel" : undefined}
-            title={COPY.devToggleTitle}
-            onClick={() => setDevOpen((v) => !v)}
-          >
-            Dev
-          </button>
-        </footer>
-      )}
-      {debugMode && (
+      {showDevChrome && (
         <button
           type="button"
           className="game-shell__dev-fab"
@@ -530,7 +499,7 @@ export default function GameShell() {
         </button>
       )}
 
-      {debugMode && devOpen && (
+      {showDevChrome && devOpen && (
         <div
           className="dev-strip"
           id="dev-controls-panel"
@@ -539,7 +508,7 @@ export default function GameShell() {
         >
           <div className="dev-strip__row">
             <span className="dev-strip__hint">
-              Works with bridge when available; auto-falls back to local simulation when unavailable.
+              Simulate hardware events for local testing.
             </span>
             <button
               ref={devFirstBtnRef}
