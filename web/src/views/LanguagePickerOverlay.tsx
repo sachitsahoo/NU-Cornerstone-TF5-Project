@@ -6,7 +6,6 @@ type LanguagePickerOverlayProps = {
   pickerLang: Lang;
   holdProgress: number;
   onPick: (lang: Lang) => void;
-  onClose: () => void;
 };
 
 export function LanguagePickerOverlay({
@@ -14,7 +13,6 @@ export function LanguagePickerOverlay({
   pickerLang,
   holdProgress,
   onPick,
-  onClose,
 }: LanguagePickerOverlayProps) {
   return (
     <div
@@ -23,12 +21,7 @@ export function LanguagePickerOverlay({
       aria-modal="true"
       aria-labelledby="lang-overlay-title"
     >
-      <button
-        type="button"
-        className="lang-overlay__scrim"
-        aria-label="Close"
-        onClick={onClose}
-      />
+      <div className="lang-overlay__scrim" aria-hidden />
       <div className="lang-overlay__panel">
         <h2 id="lang-overlay-title" className="lang-overlay__title">
           {t(lang, "chooseLanguage")}
