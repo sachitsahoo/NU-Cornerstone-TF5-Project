@@ -123,6 +123,13 @@ export const UI = {
     solutionsLabel: "How can we fix it?",
     continue: "Play again",
     needTagFirst: "Scan a suspect card first.",
+    navBack: "Back",
+    navHome: "Home",
+    navCase: "Case",
+    navSkip: "Skip",
+    navNext: "Next",
+    navDone: "Let’s solve it!",
+    reviewCase: "Review the case file",
   },
   es: {
     chooseLanguage: "Elige tu idioma",
@@ -149,6 +156,13 @@ export const UI = {
     solutionsLabel: "¿Cómo podemos arreglarlo?",
     continue: "Jugar de nuevo",
     needTagFirst: "Primero escanea una tarjeta de sospechoso.",
+    navBack: "Atrás",
+    navHome: "Inicio",
+    navCase: "Caso",
+    navSkip: "Saltar",
+    navNext: "Siguiente",
+    navDone: "¡A resolverlo!",
+    reviewCase: "Ver el expediente",
   },
 } as const;
 

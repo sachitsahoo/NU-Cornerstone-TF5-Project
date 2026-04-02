@@ -104,6 +104,28 @@ export default function GameShell() {
     }
   }, []);
 
+  const selectSuspectByUid = useCallback(
+    (uid: string) => {
+      if (revealRef.current) return;
+      if (viewRef.current !== "playing") return;
+      const char = charactersRef.current.find((c) => c.uid === uid);
+      if (!char) return;
+      const [r, g, b] = char.led_color;
+      sendLed(r, g, b);
+      clearConfirmTimer();
+      setScannedUid(uid);
+      scannedUidRef.current = uid;
+      setHighlightUid(uid);
+      confirmOpenRef.current = false;
+      setConfirmOpen(false);
+      confirmTimerRef.current = window.setTimeout(() => {
+        confirmOpenRef.current = true;
+        setConfirmOpen(true);
+      }, 1000);
+    },
+    [clearConfirmTimer, sendLed]
+  );
+
   const cancelHold = useCallback(() => {
     if (holdRafRef.current != null) {
       cancelAnimationFrame(holdRafRef.current);
@@ -147,6 +169,7 @@ export default function GameShell() {
     langPickerOpenRef.current = false;
     setPlayActive(true);
     setView("playing");
+    viewRef.current = "playing";
     window.dispatchEvent(new CustomEvent("polluter:play"));
   }, [cancelHold]);
 
@@ -285,23 +308,7 @@ export default function GameShell() {
       }
 
       if (msg.type === "tag") {
-        if (revealRef.current) return;
-        if (viewRef.current !== "playing") return;
-        const uid = msg.uid;
-        const char = charactersRef.current.find((c) => c.uid === uid);
-        if (!char) return;
-        const [r, g, b] = char.led_color;
-        sendLed(r, g, b);
-        clearConfirmTimer();
-        setScannedUid(uid);
-        scannedUidRef.current = uid;
-        setHighlightUid(uid);
-        confirmOpenRef.current = false;
-        setConfirmOpen(false);
-        confirmTimerRef.current = window.setTimeout(() => {
-          confirmOpenRef.current = true;
-          setConfirmOpen(true);
-        }, 1000);
+        selectSuspectByUid(msg.uid);
         return;
       }
 
@@ -316,7 +323,15 @@ export default function GameShell() {
         sendLed(255, 180, 100);
       }
     },
-    [clearConfirmTimer, submitReveal, sendLed, startHold, cancelHold, onContinueReveal]
+    [
+      clearConfirmTimer,
+      submitReveal,
+      sendLed,
+      startHold,
+      cancelHold,
+      onContinueReveal,
+      selectSuspectByUid,
+    ]
   );
 
   const { bridgeLine, bridgeFooterMeta, lastEvent, setLastEvent } =
@@ -337,12 +352,6 @@ export default function GameShell() {
       cancelHold();
     }
   }, [langPickerOpen, cancelHold]);
-
-  const onLanguageOverlayClose = useCallback(() => {
-    cancelHold();
-    setLangPickerOpen(false);
-  }, [cancelHold]);
-
 
   const enableDebugMode = useCallback(() => {
     window.sessionStorage.setItem("polluter_debug", "1");
@@ -365,7 +374,9 @@ export default function GameShell() {
       }
       if (e.key === "Escape" && langPickerOpenRef.current) {
         e.preventDefault();
+        cancelHold();
         setLangPickerOpen(false);
+        langPickerOpenRef.current = false;
         return;
       }
       if (e.key === "p" || e.key === "P") {
@@ -382,7 +393,7 @@ export default function GameShell() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [devOpen, playActive, handlePlayClick]);
+  }, [cancelHold, debugMode, devOpen, playActive, handlePlayClick]);
 
   useEffect(() => {
     if (!devOpen) return;
@@ -456,6 +467,7 @@ export default function GameShell() {
           lastEventLine={lastEvent}
           showHud={debugMode}
           onContinueReveal={onContinueReveal}
+          onSuspectSelect={selectSuspectByUid}
         />
       </div>
 
@@ -465,7 +477,6 @@ export default function GameShell() {
           pickerLang={pickerLang}
           holdProgress={holdProgress}
           onPick={onLanguagePick}
-          onClose={onLanguageOverlayClose}
         />
       )}
 
