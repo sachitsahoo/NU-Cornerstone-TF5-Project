@@ -17,7 +17,7 @@ export const FALLBACK_CHARACTERS: CharacterJson[] = [
       "The drums held old motor oil he was hauling to the certified recycling drop-off. His receipt checks out.",
     culprit_explanation:
       "Bacon Hair skipped the recycling fee and dumped chemical waste straight into the storm drain. Lab samples matched oil from the factory's machines.",
-    image: "assets/images/bh_logo.png",
+    image: "assets/images/Bacon_Hair_Shoulder_Up-removebg-preview.png",
     led_color: [20, 120, 255],
   },
   {
@@ -33,7 +33,7 @@ export const FALLBACK_CHARACTERS: CharacterJson[] = [
       "She threw out the empties during a big spring clean and forgot to sort them for recycling. No traces of her cleaners matched the river samples.",
     culprit_explanation:
       "Ballerina Cappuccina poured leftover cleaning chemicals behind her café for months. Runoff carried them straight into the river after every rain.",
-    image: "assets/images/bc_logo.png",
+    image: "assets/images/Ballerina_cappuccina_shoulder_up-removebg-preview.png",
     led_color: [255, 80, 180],
   },
   {
@@ -49,7 +49,7 @@ export const FALLBACK_CHARACTERS: CharacterJson[] = [
       "Security cameras showed Tung was fixing broken machines. He just drove past the drain on his way back.",
     culprit_explanation:
       "Tung faked his night reports and poured chemicals into the river during storms to save money.",
-    image: "assets/images/sahur_logo.png",
+    image: "assets/images/TTTSahur_Shoulder_Up-removebg-preview.png",
     led_color: [255, 80, 20],
   },
 ];
@@ -104,7 +104,7 @@ export const UI = {
     langSpanish: "Español",
     sceneEyebrow: "Case file",
     sceneDescriptor: "Tonight’s mystery starts at the river.",
-    sceneTitle: "The riverside scene",
+    sceneTitle: "The Riverside Case",
     sceneContext:
       "Someone polluted the river last night and hurt the animals! Use the clues to figure out who did it.",
     sceneHint: "Put a suspect card on the reader to learn more.",
@@ -139,7 +139,7 @@ export const UI = {
     langSpanish: "Español",
     sceneEyebrow: "Expediente",
     sceneDescriptor: "El misterio de esta noche empieza en el río.",
-    sceneTitle: "La escena junto al río",
+    sceneTitle: "El caso del río",
     sceneContext:
       "¡Alguien contaminó el río anoche y lastimó a los animales! Usa las pistas para descubrir quién fue.",
     sceneHint: "Pon la tarjeta de un sospechoso en el lector para saber más.",
@@ -194,12 +194,20 @@ export function charByUid(
  */
 export function imageSrc(imagePath: string): string {
   if (imagePath.startsWith("/")) return imagePath;
+  const encodedPath = imagePath
+    .split("/")
+    .map((seg) => encodeURIComponent(seg))
+    .join("/");
   if (
     import.meta.env.DEV &&
     imagePath.startsWith("assets/images/")
   ) {
     const file = imagePath.slice("assets/images/".length);
-    return `/game-assets/images/${file}`;
+    const encodedFile = file
+      .split("/")
+      .map((seg) => encodeURIComponent(seg))
+      .join("/");
+    return `/game-assets/images/${encodedFile}`;
   }
-  return `/${imagePath}`;
+  return `/${encodedPath}`;
 }

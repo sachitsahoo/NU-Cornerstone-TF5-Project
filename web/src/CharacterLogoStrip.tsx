@@ -14,7 +14,9 @@ export function CharacterLogoStrip({ variant }: { variant: Variant }) {
       <figure className="logo-strip__item">
         <img
           className="logo-strip__img"
-          src={imageSrc("assets/images/bh_logo.png")}
+          src={imageSrc(
+            "assets/images/Bacon_Hair_Shoulder_Up-removebg-preview.png"
+          )}
           alt=""
           width={200}
           height={200}
@@ -25,7 +27,9 @@ export function CharacterLogoStrip({ variant }: { variant: Variant }) {
       <figure className="logo-strip__item">
         <img
           className="logo-strip__img"
-          src={imageSrc("assets/images/bc_logo.png")}
+          src={imageSrc(
+            "assets/images/Ballerina_cappuccina_shoulder_up-removebg-preview.png"
+          )}
           alt=""
           width={200}
           height={200}
@@ -36,7 +40,9 @@ export function CharacterLogoStrip({ variant }: { variant: Variant }) {
       <figure className="logo-strip__item">
         <img
           className="logo-strip__img"
-          src={imageSrc("assets/images/sahur_logo.png")}
+          src={imageSrc(
+            "assets/images/TTTSahur_Shoulder_Up-removebg-preview.png"
+          )}
           alt=""
           width={200}
           height={200}

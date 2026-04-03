@@ -10,7 +10,7 @@
       "suspicious_detail": "He was seen carrying heavy drums near the river drain late at night, just before the pollution was discovered.",
       "innocent_explanation": "The drums held old motor oil he was hauling to the certified recycling drop-off. His receipt checks out.",
       "culprit_explanation": "Bacon Hair skipped the recycling fee and dumped chemical waste straight into the storm drain. Lab samples matched oil from the factory's machines.",
-      "image": "assets/images/bh_logo.png",
+      "image": "assets/images/Bacon_Hair_Shoulder_Up-removebg-preview.png",
       "sound_theme": "assets/sounds/bh_theme.wav",
       "led_color": [20, 120, 255]
     },
@@ -23,7 +23,7 @@
       "suspicious_detail": "Empty bottles of industrial cleaner were found hidden in the bushes near the river — the same brand she orders by the case.",
       "innocent_explanation": "She threw out the empties during a big spring clean and forgot to sort them for recycling. No traces of her cleaners matched the river samples.",
       "culprit_explanation": "Ballerina Cappuccina poured leftover cleaning chemicals behind her café for months. Runoff carried them straight into the river after every rain.",
-      "image": "assets/images/bc_logo.png",
+      "image": "assets/images/Ballerina_cappuccina_shoulder_up-removebg-preview.png",
       "sound_theme": "assets/sounds/bc_theme.wav",
       "led_color": [255, 80, 180]
     },
@@ -36,7 +36,7 @@
       "suspicious_detail": "Workers saw his van near the river drain at 3am — several times!",
       "innocent_explanation": "Security cameras showed Tung was fixing broken machines. He just drove past the drain on his way back.",
       "culprit_explanation": "Tung faked his night reports and poured chemicals into the river during storms to save money.",
-      "image": "assets/images/sahur_logo.png",
+      "image": "assets/images/TTTSahur_Shoulder_Up-removebg-preview.png",
       "sound_theme": "assets/sounds/sahur_theme.wav",
       "led_color": [255, 80, 20]
     }
