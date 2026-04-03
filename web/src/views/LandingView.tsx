@@ -1,8 +1,9 @@
 import { CharacterLogoStrip } from "../CharacterLogoStrip";
 import { LandingBackdrop } from "../LandingBackdrop";
-import { COPY } from "../strings";
+import { t, type Lang } from "../gameContent";
 
 type LandingViewProps = {
+  lang: Lang;
   scrollY: number;
   playActive: boolean;
   /** True while language picker is open (blocks repeat Play). */
@@ -13,6 +14,7 @@ type LandingViewProps = {
 };
 
 export function LandingView({
+  lang,
   scrollY,
   playActive,
   playBusy = false,
@@ -26,27 +28,32 @@ export function LandingView({
     >
       <LandingBackdrop scrollY={scrollY} />
       <main className="landing__main">
-        <section className="landing__hero-section" aria-label="Hero">
+        <section
+          className="landing__hero-section"
+          aria-label={t(lang, "landingHeroAria")}
+        >
           <div className="landing__overlay landing__overlay--center">
             <div className="landing__hero">
               <h1 className="landing__title">
-                <span className="landing__title-line">{COPY.titleLine1}</span>
+                <span className="landing__title-line">
+                  {t(lang, "landingTitleLine1")}
+                </span>
                 <span className="landing__title-line landing__title-line--accent">
-                  {COPY.titleLine2}
+                  {t(lang, "landingTitleLine2")}
                 </span>
               </h1>
               <button
                 type="button"
                 className="landing__play"
                 disabled={playActive || playBusy}
-                title={COPY.playShortcutTitle}
+                title={t(lang, "playShortcutTitle")}
                 onClick={onPlay}
               >
                 {playActive
-                  ? COPY.playStarting
+                  ? t(lang, "landingPlayStarting")
                   : playBusy
-                    ? COPY.playChooseLanguage
-                    : COPY.playLabel}
+                    ? t(lang, "landingPlayChooseLanguage")
+                    : t(lang, "landingPlayLabel")}
               </button>
             </div>
           </div>
@@ -56,12 +63,14 @@ export function LandingView({
           aria-labelledby="landing-below-heading"
         >
           <h2 id="landing-below-heading" className="landing__section-title">
-            {COPY.belowTitle}
+            {t(lang, "landingBelowTitle")}
           </h2>
-          <p className="landing__logo-strip-intro">{COPY.logoStripScrollIntro}</p>
-          <CharacterLogoStrip variant="scroll" />
-          <p>{COPY.belowP1}</p>
-          <p>{COPY.belowP2}</p>
+          <p className="landing__logo-strip-intro">
+            {t(lang, "logoStripScrollIntro")}
+          </p>
+          <CharacterLogoStrip variant="scroll" lang={lang} />
+          <p>{t(lang, "landingBelowP1")}</p>
+          <p>{t(lang, "landingBelowP2")}</p>
         </section>
       </main>
     </div>

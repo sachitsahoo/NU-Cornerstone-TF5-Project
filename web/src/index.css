@@ -1220,6 +1220,8 @@ button {
   padding: 0.65rem;
   box-sizing: border-box;
   background: rgba(2, 2, 10, 0.48);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .game-modal__panel {
@@ -1467,6 +1469,8 @@ button {
   border-radius: 18px;
   background: rgba(10, 6, 22, 0.96);
   border: 1px solid rgba(167, 139, 250, 0.35);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   box-shadow:
     0 24px 64px rgba(0, 0, 0, 0.55),
     0 0 48px rgba(124, 58, 237, 0.12);
@@ -1510,7 +1514,7 @@ button {
   line-height: 1;
   font-weight: 800;
   color: #fecaca;
-  text-shadow: 0 0 14px rgba(248, 113, 113, 0.85);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
   border: 2px solid rgba(248, 113, 113, 0.75);
   border-radius: 50%;
   background: rgba(127, 29, 29, 0.45);
@@ -1518,17 +1522,12 @@ button {
 
 .game-modal--reveal .game-modal__title--result.is-correct {
   color: #fff;
-  text-shadow:
-    0 0 28px rgba(192, 132, 252, 0.85),
-    0 0 56px rgba(124, 58, 237, 0.5),
-    0 2px 16px rgba(0, 0, 0, 0.45);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .game-modal--reveal .game-modal__title--result.is-incorrect {
   color: #fff5f5;
-  text-shadow:
-    0 0 18px rgba(248, 113, 113, 0.35),
-    0 2px 12px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .game-modal__char-header {
@@ -1745,6 +1744,21 @@ button {
   border: 1px solid rgba(124, 92, 173, 0.45);
   background: rgba(124, 92, 173, 0.12);
   flex-shrink: 0;
+}
+
+button.game-modal__hardware-hint {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-family: inherit;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+button.game-modal__hardware-hint:focus-visible {
+  outline: 2px solid var(--accent-mint, #5eead4);
+  outline-offset: 3px;
 }
 
 .game-modal--reveal .game-modal__hardware-hint {
@@ -2036,6 +2050,117 @@ button {
   line-height: 1.5;
 }
 
+/* --- Post-case exit interstitial (Riverside fun facts) --- */
+.scene-exit-loading {
+  position: fixed;
+  inset: 0;
+  z-index: 98;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  box-sizing: border-box;
+  background: radial-gradient(
+      ellipse 120% 80% at 50% 20%,
+      rgba(124, 58, 237, 0.22),
+      transparent 55%
+    ),
+    rgba(6, 4, 16, 0.94);
+}
+
+.scene-exit-loading__panel {
+  width: 100%;
+  max-width: min(36rem, calc(100vw - 2rem));
+  padding: clamp(1.25rem, 4vw, 2rem);
+  border-radius: 20px;
+  border: 1px solid rgba(167, 139, 250, 0.4);
+  background: linear-gradient(
+    165deg,
+    rgba(22, 16, 44, 0.98) 0%,
+    rgba(10, 6, 22, 0.99) 100%
+  );
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(124, 58, 237, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  text-align: center;
+}
+
+.scene-exit-loading__eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(192, 132, 252, 0.85);
+}
+
+.scene-exit-loading__title {
+  margin: 0 0 1rem;
+  font-family: "Nunito", "IBM Plex Sans", system-ui, sans-serif;
+  font-size: clamp(1.35rem, 4vw, 1.85rem);
+  font-weight: 800;
+  line-height: 1.15;
+  color: #fff;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.4);
+}
+
+.scene-exit-loading__fact {
+  margin: 0 0 1.35rem;
+  min-height: 4.5em;
+  font-size: clamp(1.05rem, 2.8vw, 1.25rem);
+  line-height: 1.5;
+  font-weight: 600;
+  color: var(--play-subtitle, #e2d9f3);
+  text-align: left;
+  animation: scene-exit-fact-in 0.4s ease-out;
+}
+
+.scene-exit-loading__bar {
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(124, 92, 173, 0.35);
+}
+
+.scene-exit-loading__bar-fill {
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    rgba(124, 58, 237, 0.95),
+    rgba(192, 132, 252, 0.95)
+  );
+  box-shadow: 0 0 12px rgba(124, 58, 237, 0.45);
+  animation-name: scene-exit-bar-fill;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes scene-exit-bar-fill {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes scene-exit-fact-in {
+  from {
+    opacity: 0.25;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .view-panel {
     transition: none;
@@ -2072,5 +2197,14 @@ button {
 
   .view-panel--playing .scene-suspects__card--pick:hover {
     transform: none;
+  }
+
+  .scene-exit-loading__bar-fill {
+    animation: none;
+    width: 100%;
+  }
+
+  .scene-exit-loading__fact {
+    animation: none;
   }
 }

@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import type { CharacterJson } from "../gameTypes";
 import type { Lang } from "../gameContent";
-import { cluesFor, imageSrc, t } from "../gameContent";
-import { COPY } from "../strings";
+import {
+  cluesFor,
+  imageSrc,
+  localizeCharacter,
+  t,
+} from "../gameContent";
 import { ClueGlyph, SuspectSilhouette } from "./PlayingGlyphs";
 import { SceneRiverBanner } from "./SceneRiverBanner";
 
@@ -61,16 +65,27 @@ export function PlayingView({
   confirmOpen,
   scannedUid,
   reveal,
-  onContinueReveal: _onContinueReveal,
+  onContinueReveal,
   onSuspectSelect,
 }: PlayingViewProps) {
-  void _onContinueReveal;
   const clues = cluesFor(lang);
 
+  const cast = useMemo(
+    () => characters.map((c) => localizeCharacter(c, lang)),
+    [characters, lang],
+  );
+
   const picked =
-    scannedUid != null
-      ? characters.find((c) => c.uid === scannedUid)
-      : undefined;
+    scannedUid != null ? cast.find((c) => c.uid === scannedUid) : undefined;
+
+  const revealDisplay = useMemo(() => {
+    if (!reveal) return null;
+    return {
+      correct: reveal.correct,
+      picked: localizeCharacter(reveal.picked, lang),
+      culprit: localizeCharacter(reveal.culprit, lang),
+    };
+  }, [reveal, lang]);
 
   return (
     <div
@@ -191,8 +206,8 @@ export function PlayingView({
             </aside>
 
             <div className="scene__suspects-row">
-              <div className="scene-suspects" aria-label={COPY.logoStripAria}>
-                {characters.map((c) => {
+              <div className="scene-suspects" aria-label={t(lang, "logoStripAria")}>
+                {cast.map((c) => {
                   const active = highlightUid === c.uid;
                   return (
                     <figure
@@ -224,7 +239,7 @@ export function PlayingView({
         </div>
       </div>
 
-      {reveal &&
+      {revealDisplay &&
         createPortal(
           <div
             className="game-modal game-modal--reveal"
@@ -235,9 +250,9 @@ export function PlayingView({
             <div className="game-modal__panel game-modal__panel--reveal-stage">
               <h2
                 id="reveal-title"
-                className={`game-modal__title game-modal__title--result${reveal.correct ? " is-correct" : " is-incorrect"}`}
+                className={`game-modal__title game-modal__title--result${revealDisplay.correct ? " is-correct" : " is-incorrect"}`}
               >
-                {!reveal.correct && (
+                {!revealDisplay.correct && (
                   <span
                     className="game-modal__title-mark game-modal__title-mark--wrong"
                     aria-hidden="true"
@@ -246,25 +261,27 @@ export function PlayingView({
                   </span>
                 )}
                 <span className="game-modal__title-text">
-                  {reveal.correct
+                  {revealDisplay.correct
                     ? t(lang, "resultCorrect")
                     : t(lang, "resultIncorrect")}
                 </span>
               </h2>
 
-              {reveal.correct ? (
+              {revealDisplay.correct ? (
                 <div className="reveal-spotlight reveal-spotlight--correct">
                   <img
                     className="reveal-spotlight__img"
-                    src={imageSrc(reveal.picked.image)}
+                    src={imageSrc(revealDisplay.picked.image)}
                     alt=""
                     width={88}
                     height={88}
                     decoding="async"
                   />
-                  <p className="reveal-spotlight__name">{reveal.picked.name}</p>
+                  <p className="reveal-spotlight__name">
+                    {revealDisplay.picked.name}
+                  </p>
                   <p className="reveal-spotlight__explain">
-                    {firstSentences(reveal.picked.culprit_explanation, 1)}
+                    {firstSentences(revealDisplay.picked.culprit_explanation, 1)}
                   </p>
                 </div>
               ) : (
@@ -281,16 +298,21 @@ export function PlayingView({
                     </span>
                     <img
                       className="reveal-pick__img"
-                      src={imageSrc(reveal.picked.image)}
+                      src={imageSrc(revealDisplay.picked.image)}
                       alt=""
                       width={72}
                       height={72}
                       decoding="async"
                     />
                     <p className="reveal-pick__label">{t(lang, "yourPick")}</p>
-                    <p className="reveal-pick__name">{reveal.picked.name}</p>
+                    <p className="reveal-pick__name">
+                      {revealDisplay.picked.name}
+                    </p>
                     <p className="reveal-pick__explain">
-                      {firstSentences(reveal.picked.innocent_explanation, 1)}
+                      {firstSentences(
+                        revealDisplay.picked.innocent_explanation,
+                        1,
+                      )}
                     </p>
                   </section>
                   <section
@@ -310,23 +332,32 @@ export function PlayingView({
                     </div>
                     <img
                       className="reveal-spotlight__img reveal-spotlight__img--culprit"
-                      src={imageSrc(reveal.culprit.image)}
+                      src={imageSrc(revealDisplay.culprit.image)}
                       alt=""
                       width={80}
                       height={80}
                       decoding="async"
                     />
-                    <p className="reveal-spotlight__name">{reveal.culprit.name}</p>
+                    <p className="reveal-spotlight__name">
+                      {revealDisplay.culprit.name}
+                    </p>
                     <p className="reveal-spotlight__explain reveal-spotlight__explain--hero">
-                      {firstSentences(reveal.culprit.culprit_explanation, 1)}
+                      {firstSentences(
+                        revealDisplay.culprit.culprit_explanation,
+                        1,
+                      )}
                     </p>
                   </section>
                 </div>
               )}
 
-              <p className="game-modal__hardware-hint" role="status">
+              <button
+                type="button"
+                className="game-modal__hardware-hint"
+                onClick={onContinueReveal}
+              >
                 {t(lang, "revealPlayAgain")}
-              </p>
+              </button>
             </div>
           </div>,
           document.body,

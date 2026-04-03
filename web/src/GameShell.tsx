@@ -4,10 +4,10 @@ import {
   charByUid,
   culpritUid,
   FALLBACK_CHARACTERS,
+  riverExitFactsFor,
   type Lang,
 } from "./gameContent";
 import type { CharacterJson, CharactersApiResponse } from "./gameTypes";
-import { COPY } from "./strings";
 import { useScrollParallax } from "./useScrollParallax";
 import {
   BRIDGE_EVENT_SCHEMA_NAME,
@@ -20,6 +20,30 @@ import type { GameView } from "./viewState";
 import { LandingView } from "./views/LandingView";
 import { LanguagePickerOverlay } from "./views/LanguagePickerOverlay";
 import { PlayingView } from "./views/PlayingView";
+import { SceneExitLoadingOverlay } from "./views/SceneExitLoadingOverlay";
+
+/** Time each river fact stays on screen before rotating. */
+const EXIT_FACT_READ_MS = 4500;
+/** Full interstitial length = one beat per fact (EN/ES arrays stay same length). */
+const EXIT_SCENE_LOAD_MS =
+  riverExitFactsFor("en").length * EXIT_FACT_READ_MS;
+
+/** Dev chrome is English-only (not localized with exhibit language). */
+const DEV_UI = {
+  enableLabel: "Enable Dev",
+  enableTooltip: "Enable developer tools",
+  fabLabel: "Dev",
+  toggleTitle: "Developer controls (shortcut D)",
+  regionAria: "Developer controls",
+  stripHint: "Simulate hardware events for local testing.",
+  simButtonLegacy: "Simulate button (legacy)",
+  simButtonDown: "Simulate button down",
+  simButtonUp: "Simulate button up",
+  simTagBacon: "Simulate tag (Bacon Hair)",
+  simTagBallerina: "Simulate tag (Ballerina Cappuccina)",
+  simTagTung: "Simulate tag (Tung)",
+  simTagRemoved: "Simulate tag removed",
+} as const;
 
 type RevealState = {
   correct: boolean;
@@ -95,6 +119,12 @@ export default function GameShell() {
   const revealRef = useRef<RevealState | null>(null);
   revealRef.current = reveal;
 
+  const [sceneExitLoading, setSceneExitLoading] = useState(false);
+  const sceneExitLoadingRef = useRef(false);
+  sceneExitLoadingRef.current = sceneExitLoading;
+
+  const [exitFactIndex, setExitFactIndex] = useState(0);
+
   const confirmTimerRef = useRef<number | null>(null);
 
   const sendLed = useCallback((r: number, g: number, b: number) => {
@@ -114,6 +144,7 @@ export default function GameShell() {
 
   const selectSuspectByUid = useCallback(
     (uid: string) => {
+      if (sceneExitLoadingRef.current) return;
       if (revealRef.current) return;
       if (viewRef.current !== "playing") return;
       const char = charactersRef.current.find((c) => c.uid === uid);
@@ -228,6 +259,15 @@ export default function GameShell() {
     }
   }, [clearConfirmTimer, sendLed]);
 
+  const completeRevealExitToLanding = useCallback(() => {
+    setSceneExitLoading(false);
+    sceneExitLoadingRef.current = false;
+    setView("landing");
+    viewRef.current = "landing";
+    setPlayActive(false);
+    awaitingButtonUpRef.current = true;
+  }, []);
+
   const onContinueReveal = useCallback(() => {
     setReveal(null);
     revealRef.current = null;
@@ -238,15 +278,32 @@ export default function GameShell() {
     confirmOpenRef.current = false;
     setConfirmOpen(false);
     sendLed(255, 180, 100);
-    setView("landing");
-    viewRef.current = "landing";
     setPlayActive(false);
-    awaitingButtonUpRef.current = true;
+    setExitFactIndex(0);
+    setSceneExitLoading(true);
+    sceneExitLoadingRef.current = true;
   }, [clearConfirmTimer, sendLed]);
+
+  useEffect(() => {
+    if (!sceneExitLoading) return undefined;
+    const n = riverExitFactsFor(lang).length;
+    const tick = window.setInterval(() => {
+      setExitFactIndex((i) => (n > 0 ? (i + 1) % n : 0));
+    }, EXIT_FACT_READ_MS);
+    const done = window.setTimeout(() => {
+      window.clearInterval(tick);
+      completeRevealExitToLanding();
+    }, EXIT_SCENE_LOAD_MS);
+    return () => {
+      window.clearInterval(tick);
+      window.clearTimeout(done);
+    };
+  }, [sceneExitLoading, lang, completeRevealExitToLanding]);
 
   const onBridgeMessage = useCallback(
     (msg: BridgeMessage) => {
       if (msg.type === "status") return;
+      if (sceneExitLoadingRef.current) return;
 
       if (msg.type === "button_down") {
         if (awaitingButtonUpRef.current) return;
@@ -463,6 +520,7 @@ export default function GameShell() {
     >
       <div className="view-stack">
         <LandingView
+          lang={lang}
           scrollY={scrollY}
           playActive={playActive}
           onPlay={handlePlayClick}
@@ -482,6 +540,13 @@ export default function GameShell() {
         />
       </div>
 
+      <SceneExitLoadingOverlay
+        lang={lang}
+        active={sceneExitLoading}
+        factIndex={exitFactIndex}
+        durationMs={EXIT_SCENE_LOAD_MS}
+      />
+
       {langPickerOpen && landingVisible && (
         <LanguagePickerOverlay
           lang={lang}
@@ -496,9 +561,9 @@ export default function GameShell() {
           type="button"
           className="game-shell__debug-entry"
           onClick={enableDebugMode}
-          title="Enable developer tools"
+          title={DEV_UI.enableTooltip}
         >
-          Enable Dev
+          {DEV_UI.enableLabel}
         </button>
       )}
 
@@ -508,10 +573,10 @@ export default function GameShell() {
           className="game-shell__dev-fab"
           aria-expanded={devOpen}
           aria-controls={devOpen ? "dev-controls-panel" : undefined}
-          title={COPY.devToggleTitle}
+          title={DEV_UI.toggleTitle}
           onClick={() => setDevOpen((v) => !v)}
         >
-          Dev
+          {DEV_UI.fabLabel}
         </button>
       )}
 
@@ -520,11 +585,11 @@ export default function GameShell() {
           className="dev-strip"
           id="dev-controls-panel"
           role="region"
-          aria-label="Developer controls"
+          aria-label={DEV_UI.regionAria}
         >
           <div className="dev-strip__row">
             <span className="dev-strip__hint">
-              Simulate hardware events for local testing.
+              {DEV_UI.stripHint}
             </span>
             <button
               ref={devFirstBtnRef}
@@ -535,7 +600,7 @@ export default function GameShell() {
                 void sendDev(devEventRequest("button"));
               }}
             >
-              Simulate button (legacy)
+              {DEV_UI.simButtonLegacy}
             </button>
             <button
               type="button"
@@ -545,7 +610,7 @@ export default function GameShell() {
                 void sendDev(devEventRequest("button_down"));
               }}
             >
-              Simulate button down
+              {DEV_UI.simButtonDown}
             </button>
             <button
               type="button"
@@ -555,7 +620,7 @@ export default function GameShell() {
                 void sendDev(devEventRequest("button_up"));
               }}
             >
-              Simulate button up
+              {DEV_UI.simButtonUp}
             </button>
             <button
               type="button"
@@ -565,7 +630,7 @@ export default function GameShell() {
                 void sendDev(devEventRequest("tag", "bacon_hair"));
               }}
             >
-              Simulate tag (Bacon Hair)
+              {DEV_UI.simTagBacon}
             </button>
             <button
               type="button"
@@ -575,7 +640,7 @@ export default function GameShell() {
                 void sendDev(devEventRequest("tag", "ballerina_cappuccina"));
               }}
             >
-              Simulate tag (Ballerina Cappuccina)
+              {DEV_UI.simTagBallerina}
             </button>
             <button
               type="button"
@@ -585,7 +650,7 @@ export default function GameShell() {
                 void sendDev(devEventRequest("tag", "tung"));
               }}
             >
-              Simulate tag (Tung)
+              {DEV_UI.simTagTung}
             </button>
             <button
               type="button"
@@ -595,7 +660,7 @@ export default function GameShell() {
                 void sendDev(devEventRequest("tag_removed"));
               }}
             >
-              Simulate tag removed
+              {DEV_UI.simTagRemoved}
             </button>
           </div>
         </div>

@@ -1,16 +1,21 @@
-import { imageSrc } from "./gameContent";
-import { COPY } from "./strings";
+import { imageSrc, t, type Lang } from "./gameContent";
 
 type Variant = "scroll" | "playing";
 
-export function CharacterLogoStrip({ variant }: { variant: Variant }) {
+export function CharacterLogoStrip({
+  variant,
+  lang,
+}: {
+  variant: Variant;
+  lang: Lang;
+}) {
   const rootClass =
     variant === "scroll"
       ? "logo-strip logo-strip--scroll"
       : "logo-strip logo-strip--playing";
 
   return (
-    <div className={rootClass} aria-label={COPY.logoStripAria}>
+    <div className={rootClass} aria-label={t(lang, "logoStripAria")}>
       <figure className="logo-strip__item">
         <img
           className="logo-strip__img"
@@ -22,7 +27,9 @@ export function CharacterLogoStrip({ variant }: { variant: Variant }) {
           height={200}
           decoding="async"
         />
-        <figcaption className="logo-strip__caption">{COPY.logoBh}</figcaption>
+        <figcaption className="logo-strip__caption">
+          {t(lang, "logoBhCaption")}
+        </figcaption>
       </figure>
       <figure className="logo-strip__item">
         <img
@@ -35,7 +42,9 @@ export function CharacterLogoStrip({ variant }: { variant: Variant }) {
           height={200}
           decoding="async"
         />
-        <figcaption className="logo-strip__caption">{COPY.logoBc}</figcaption>
+        <figcaption className="logo-strip__caption">
+          {t(lang, "logoBcCaption")}
+        </figcaption>
       </figure>
       <figure className="logo-strip__item">
         <img
@@ -48,7 +57,9 @@ export function CharacterLogoStrip({ variant }: { variant: Variant }) {
           height={200}
           decoding="async"
         />
-        <figcaption className="logo-strip__caption">{COPY.logoSahur}</figcaption>
+        <figcaption className="logo-strip__caption">
+          {t(lang, "logoSahurCaption")}
+        </figcaption>
       </figure>
     </div>
   );
