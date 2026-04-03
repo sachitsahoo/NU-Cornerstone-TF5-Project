@@ -42,7 +42,7 @@ export const FALLBACK_CHARACTERS: CharacterJson[] = [
     name: "Tung Tung Tung Sahur",
     role: "Night Shift Supervisor",
     description:
-      "He manages the night shift and safety paperwork and wasn't near the drums",
+      "He manages the night shift and safety paperwork and wasn't near the drums.",
     suspicious_detail:
       "At 12:40 a.m. he was on camera inside the building fixing a sensor. He had on a bright orange vest.",
     innocent_explanation:
@@ -145,12 +145,10 @@ const SOLUTIONS: Record<Lang, string[]> = {
 
 const RIVER_EXIT_FACTS: Record<Lang, string[]> = {
   en: [
-    "Street drains lead straight to rivers — never pour paint or motor oil down them!",
-    "Plants along the riverbank filter dirty runoff before it reaches the water.",
+    "The Charles River went from one of the dirtiest rivers in the US to one of the cleanest today!",
   ],
   es: [
-    "Las alcantarillas van al río — no viertas pintura ni aceite de motor.",
-    "La vegetación en la orilla filtra el agua sucia antes del río.",
+    "¡El río Charles pasó de ser uno de los más contaminados de EE. UU. a uno de los más limpios hoy!",
   ],
 };
 

@@ -25,8 +25,8 @@ import { PlayingView } from "./views/PlayingView";
 import { ExitQuizOverlay } from "./views/ExitQuizOverlay";
 import { SceneExitLoadingOverlay } from "./views/SceneExitLoadingOverlay";
 
-/** Time each river fact stays on screen before rotating. */
-const EXIT_FACT_READ_MS = 4500;
+/** Time the single fun-fact screen is shown before the exit quiz. */
+const EXIT_FACT_READ_MS = 6000;
 /** Full interstitial length = one beat per fact (EN/ES arrays stay same length). */
 const EXIT_SCENE_LOAD_MS =
   riverExitFactsFor("en").length * EXIT_FACT_READ_MS;
