@@ -148,7 +148,7 @@ export function PlayingView({
                                   {t(lang, "dossierAboutLabel")}
                                 </h3>
                                 <p className="game-modal__confirm-fact-text">
-                                  {firstSentences(picked.description, 2)}
+                                  {picked.description}
                                 </p>
                               </div>
                             ) : null}
@@ -158,7 +158,7 @@ export function PlayingView({
                                   {t(lang, "dossierSuspiciousHeading")}
                                 </h3>
                                 <p className="game-modal__confirm-fact-text">
-                                  {firstSentences(picked.suspicious_detail, 2)}
+                                  {picked.suspicious_detail}
                                 </p>
                               </div>
                             ) : null}

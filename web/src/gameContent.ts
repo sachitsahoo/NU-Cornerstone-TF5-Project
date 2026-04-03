@@ -10,13 +10,13 @@ export const FALLBACK_CHARACTERS: CharacterJson[] = [
     name: "Bacon Hair",
     role: "Factory Maintenance Worker",
     description:
-      "Bacon Hair keeps the factory machines running. He has access to every corner of the building — even the waste storage room.",
+      "His everyday job is moving oils and chemicals between the factory floor and the waste dock. He is on the only team allowed to roll the big chemical drums.",
     suspicious_detail:
-      "He was seen carrying heavy drums near the river drain late at night, just before the pollution was discovered.",
+      "12:40 a.m. security clip: someone in a maintenance uniform rolls two chemical drums along the path toward the storm drain that leads to the river. That night, no pickup truck was scheduled and those drum serial numbers never checked back into storage.",
     innocent_explanation:
-      "The drums held old motor oil he was hauling to the certified recycling drop-off. His receipt checks out.",
+      "If he were innocent, those drums would be on a truck receipt or back on the shelf — but they are not.",
     culprit_explanation:
-      "Bacon Hair skipped the recycling fee and dumped chemical waste straight into the storm drain. Lab samples matched oil from the factory's machines.",
+      "He dumped the drums into the storm drain to skip the disposal fee. Lab tests matched the river oil to the exact lubricant used on the factory machines he services.",
     image: "assets/images/Bacon_Hair_Shoulder_Up-removebg-preview.png",
     led_color: [20, 120, 255],
   },
@@ -26,11 +26,11 @@ export const FALLBACK_CHARACTERS: CharacterJson[] = [
     name: "Ballerina Cappuccina",
     role: "Riverside Café Owner",
     description:
-      "Ballerina Cappuccina runs the popular café right on the riverbank. She uses lots of cleaning supplies to keep the place sparkling.",
+      "She runs the café on the river path. The shop closes at 9 p.m. She uses small spray bottles and dish soap — the café does not keep giant factory chemical drums.",
     suspicious_detail:
-      "Empty bottles of industrial cleaner were found hidden in the bushes near the river — the same brand she orders by the case.",
+      "Neighborhood camera: her car left the café parking lot at 9:18 p.m. Overnight trash was only coffee grounds, cups, and cardboard — no drums. She was asleep at home by 10 p.m. when the factory cameras show the drums moving.",
     innocent_explanation:
-      "She threw out the empties during a big spring clean and forgot to sort them for recycling. No traces of her cleaners matched the river samples.",
+      "The lab says the river pollution is heavy machine oil, not her café cleaners. Her timeline and trash do not match the midnight drum video.",
     culprit_explanation:
       "Ballerina Cappuccina poured leftover cleaning chemicals behind her café for months. Runoff carried them straight into the river after every rain.",
     image: "assets/images/Ballerina_cappuccina_shoulder_up-removebg-preview.png",
@@ -42,11 +42,11 @@ export const FALLBACK_CHARACTERS: CharacterJson[] = [
     name: "Tung Tung Tung Sahur",
     role: "Night-shift Supervisor",
     description:
-      "Tung works at the factory at night. He can go almost anywhere on site.",
+      "He handles night schedules and safety paperwork. Supervisors do not sign out waste drums — only maintenance does.",
     suspicious_detail:
-      "Workers saw his van near the river drain at 3am — several times!",
+      "At 3:12 a.m. his van stopped near the drain while he dropped off a toolbox for a sensor repair. Gate logs show his cargo area empty both ways — no drums. Inside the plant, time-stamped cameras place him on the repair floor during the 12:40 a.m. drum video, and supervisors wear yellow vests while the figure in the video wears maintenance orange.",
     innocent_explanation:
-      "Security cameras showed Tung was fixing broken machines. He just drove past the drain on his way back.",
+      "The person moving drums is in maintenance gear during a time he is on camera elsewhere in the building. His van never carried barrels that night.",
     culprit_explanation:
       "Tung faked his night reports and poured chemicals into the river during storms to save money.",
     image: "assets/images/TTTSahur_Shoulder_Up-removebg-preview.png",
@@ -71,23 +71,23 @@ const CHARACTER_ES: Record<
     name: "Bacon Hair",
     role: "Trabajador de mantenimiento de fábrica",
     description:
-      "Bacon Hair mantiene en marcha las máquinas de la fábrica. Tiene acceso a cada rincón del edificio, incluso al almacén de residuos.",
+      "Su trabajo diario es mover aceites y químicos entre la planta y el muelle de residuos. Es del único equipo autorizado a mover los bidones químicos grandes.",
     suspicious_detail:
-      "Lo vieron cargando bidones pesados cerca del desagüe del río a altas horas de la noche, justo antes de descubrirse la contaminación.",
+      "Video de seguridad 12:40 a.m.: alguien con uniforme de mantenimiento rueda dos bidones químicos por el camino hacia el sumidero que va al río. Esa noche no había camión programado y esos números de bidón nunca volvieron al almacén.",
     innocent_explanation:
-      "Los bidones tenían aceite de motor viejo que llevaba al punto de reciclaje certificado. Su recibo cuadra.",
+      "Si fuera inocente, los bidones estarían en un albarán de camión o de vuelta en el estante — pero no lo están.",
     culprit_explanation:
-      "Bacon Hair se saltó la tarifa de reciclaje y vertió residuos químicos directamente en el sumidero de tormentas. Las muestras de laboratorio coincidieron con el aceite de las máquinas de la fábrica.",
+      "Vertió los bidones en el sumidero para no pagar la tarifa de eliminación. El laboratorio igualó el aceite del río con el lubricante exacto de las máquinas que él atiende.",
   },
   ballerina_cappuccina: {
     name: "Ballerina Cappuccina",
     role: "Dueña del café junto al río",
     description:
-      "Ballerina Cappuccina regenta el popular café a orillas del río. Usa muchos productos de limpieza para que todo brille.",
+      "Regenta el café junto al río. Cierra a las 9 p.m. Usa pulverizadores pequeños y jabón para platos — el café no guarda bidones gigantes de fábrica.",
     suspicious_detail:
-      "Encontraron botellas vacías de limpiador industrial escondidas entre los arbustos junto al río, la misma marca que pide por cajas.",
+      "Cámara del vecindario: su coche salió del parking del café a las 9:18 p.m. La basura de la noche solo tenía posos de café, vasos y cartón — sin bidones. Ya dormía en casa antes de las 10 p.m. cuando las cámaras de la fábrica mueven los bidones.",
     innocent_explanation:
-      "Tiró los envases vacíos durante una gran limpieza de primavera y olvidó separarlos para reciclar. Ningún rastro de sus limpiadores coincidió con las muestras del río.",
+      "El laboratorio dice que la contaminación es aceite de máquina pesado, no sus limpiadores del café. Su horario y su basura no coinciden con el video de medianoche.",
     culprit_explanation:
       "Ballerina Cappuccina vertía restos de productos de limpieza detrás del café durante meses. La escorrentía los llevaba al río tras cada lluvia.",
   },
@@ -95,11 +95,11 @@ const CHARACTER_ES: Record<
     name: "Tung Tung Tung Sahur",
     role: "Supervisor del turno de noche",
     description:
-      "Tung trabaja de noche en la fábrica. Casi puede ir a cualquier parte de las instalaciones.",
+      "Gestiona turnos de noche y papeleo de seguridad. Los supervisores no firman bidones de residuos — solo mantenimiento.",
     suspicious_detail:
-      "Los trabajadores vieron su furgoneta cerca del desagüe del río a las 3 de la mañana — ¡varias veces!",
+      "A las 3:12 a.m. su furgoneta paró cerca del desagüe mientras dejaba una caja de herramientas para arreglar un sensor. Los registros de la puerta muestran la carga vacía en ambos sentidos — sin bidones. Dentro de la planta, cámaras con hora lo sitúan en el taller de reparaciones durante el video de los bidones a las 12:40 a.m., y los supervisores llevan chaleco amarillo mientras la figura del video lleva naranja de mantenimiento.",
     innocent_explanation:
-      "Las cámaras de seguridad mostraron que Tung arreglaba máquinas rotas. Solo pasó junto al desagüe de vuelta.",
+      "Quien mueve los bidones va de mantenimiento en un momento en que él aparece en otra parte del edificio en cámara. Su furgoneta nunca llevó barriles esa noche.",
     culprit_explanation:
       "Tung falsificó sus informes nocturnos y vertió químicos en el río durante las tormentas para ahorrar dinero.",
   },
@@ -114,14 +114,14 @@ export function localizeCharacter(c: CharacterJson, lang: Lang): CharacterJson {
 
 const CLUES: Record<Lang, string[]> = {
   en: [
-    "There's soap in the river after rain.",
-    "Longer factory shifts, fewer fish.",
-    "Broken fence: cars reach the bank.",
+    "Lab result: the pollution is thick factory machine oil — not café soap or food waste.",
+    "12:40 a.m. security video: a person in a maintenance uniform rolls big chemical drums toward the storm drain that feeds the river.",
+    "Only the maintenance team has the key and training to move those drums out of the factory.",
   ],
   es: [
-    "Jabón en el río tras la lluvia.",
-    "Más turnos en la fábrica, menos peces.",
-    "Valla rota: coches hasta la orilla.",
+    "Resultado de laboratorio: la contaminación es aceite espeso de máquinas de fábrica — no jabón del café ni restos de comida.",
+    "Video de seguridad 12:40 a.m.: una persona con uniforme de mantenimiento rueda bidones químicos grandes hacia el sumidero que va al río.",
+    "Solo el equipo de mantenimiento tiene la llave y la formación para sacar esos bidones de la fábrica.",
   ],
 };
 
@@ -143,23 +143,15 @@ const SOLUTIONS: Record<Lang, string[]> = {
   ],
 };
 
-/** Short tips after The Riverside Case — shown on the exit “loading” interstitial. */
+/** Short tips after The Riverside Case — shown on the exit “loading” interstitial (two beats only). */
 const RIVER_EXIT_FACTS: Record<Lang, string[]> = {
   en: [
     "Many street drains lead straight to rivers — never pour paint, motor oil, or soapy wash water down them!",
     "Trees and plants along the bank slow dirty runoff so soil and roots can filter water before it reaches the river.",
-    "Picking up litter near water keeps plastic and wrappers away from fish, ducks, and turtles.",
-    "Rain washes oil drips from roads into streams — fixing car leaks helps protect the whole watershed.",
-    "Weird colors, foam, or a strong smell in the water? Tell a trusted adult so they can report it early.",
-    "Using less lawn fertilizer means fewer chemicals washing into creeks and rivers every time it rains.",
   ],
   es: [
     "¡Muchas alcantarillas de la calle van directo al río — no tires pintura, aceite de motor ni agua muy jabonosa!",
     "Árboles y plantas en la orilla frenan el agua sucia para que la tierra y las raíces la filtren antes del río.",
-    "Recoger basura cerca del agua aleja plástico y envoltorios de peces, patos y tortugas.",
-    "La lluvia arrastra manchas de aceite de la calle a los arroyos — arreglar fugas del auto ayuda a todo el vecindario.",
-    "¿Colores raros, espuma u olor fuerte en el agua? Cuéntaselo a un adulto de confianza para que puedan avisar.",
-    "Usar menos fertilizante en el césped reduce los químicos que entran a arroyos y ríos con cada lluvia.",
   ],
 };
 
@@ -188,16 +180,17 @@ export const UI = {
     sceneDescriptor: "Tonight’s mystery starts at the river.",
     sceneTitle: "The Riverside Case",
     sceneContext:
-      "Someone polluted the river last night and hurt the animals! Use the clues to figure out who did it.",
-    sceneHint: "Put a suspect card on the reader to learn more.",
+      "Someone dumped waste into the river last night. The three clues tell you what kind of pollution it was and who could have put it there. Open each suspect’s file and find who matches every clue.",
+    sceneHint:
+      "Scan a suspect’s card on the reader. You’ll see what they do for work and what we know about their night — then compare to the clue list.",
     investigationActive: "Investigation Active",
-    cluesTitle: "Clues",
+    cluesTitle: "Case clues",
     confirmTitle: "IS THIS YOUR SUSPECT?",
     confirmButton: "Confirm",
     cancelHint: "Remove card to choose again",
-    dossierAboutLabel: "Who they are",
-    dossierSuspiciousHeading: "Why they're suspicious",
-    suspiciousDetailLabel: "Why they’re suspicious",
+    dossierAboutLabel: "What they do",
+    dossierSuspiciousHeading: "What we know",
+    suspiciousDetailLabel: "What we know",
     resultCorrect: "YOU GOT IT!",
     resultIncorrect: "Wrong suspect!",
     yourPick: "Your pick",
@@ -243,16 +236,17 @@ export const UI = {
     sceneDescriptor: "El misterio de esta noche empieza en el río.",
     sceneTitle: "El caso del río",
     sceneContext:
-      "¡Alguien contaminó el río anoche y lastimó a los animales! Usa las pistas para descubrir quién fue.",
-    sceneHint: "Pon la tarjeta de un sospechoso en el lector para saber más.",
+      "Anoche alguien vertió residuos en el río. Las tres pistas te dicen qué tipo de contaminación es y quién pudo hacerlo. Abre el expediente de cada sospechoso y busca a quien encaje con todas las pistas.",
+    sceneHint:
+      "Escanea la tarjeta de un sospechoso en el lector. Verás qué hace en el trabajo y lo que sabemos de su noche — luego compáralo con la lista de pistas.",
     investigationActive: "Investigación en curso",
-    cluesTitle: "Pistas",
+    cluesTitle: "Pistas del caso",
     confirmTitle: "¿Es este tu sospechoso?",
     confirmButton: "Confirmar",
     cancelHint: "Quita la tarjeta para elegir de nuevo",
-    dossierAboutLabel: "Quién es",
-    dossierSuspiciousHeading: "Por qué es sospechoso",
-    suspiciousDetailLabel: "Por qué son sospechosos",
+    dossierAboutLabel: "Qué hace",
+    dossierSuspiciousHeading: "Lo que sabemos",
+    suspiciousDetailLabel: "Lo que sabemos",
     resultCorrect: "¡Lo lograste!",
     resultIncorrect: "¡Ese no es el culpable!",
     yourPick: "Tu elección",
