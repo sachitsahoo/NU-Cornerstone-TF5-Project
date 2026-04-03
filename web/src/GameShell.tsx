@@ -152,9 +152,13 @@ export default function GameShell() {
       const [r, g, b] = char.led_color;
       sendLed(r, g, b);
       clearConfirmTimer();
+      const dossierWasOpen = confirmOpenRef.current;
       setScannedUid(uid);
       scannedUidRef.current = uid;
       setHighlightUid(uid);
+      if (dossierWasOpen) {
+        return;
+      }
       confirmOpenRef.current = false;
       setConfirmOpen(false);
       confirmTimerRef.current = window.setTimeout(() => {

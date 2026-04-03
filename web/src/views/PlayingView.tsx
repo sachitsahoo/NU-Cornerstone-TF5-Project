@@ -120,6 +120,10 @@ export function PlayingView({
                   <div className="game-modal__panel game-modal__panel--confirm">
                     <div className="game-modal__confirm-sheet">
                       <div className="game-modal__confirm-inner">
+                        <div
+                          key={picked.uid}
+                          className="game-modal__confirm-dossier-swap"
+                        >
                         <div className="game-modal__confirm-columns">
                           <div className="game-modal__confirm-col game-modal__confirm-col--left">
                             <div
@@ -173,6 +177,7 @@ export function PlayingView({
                         <p className="game-modal__confirm-muted">
                           {t(lang, "cancelHint")}
                         </p>
+                        </div>
                       </div>
                     </div>
                   </div>
