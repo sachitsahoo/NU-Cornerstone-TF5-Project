@@ -469,6 +469,25 @@ button {
   font-size: 0.62rem;
 }
 
+/* Portaled to document.body so dev tools stay above game modals (reveal ~90, exit quiz 110). */
+.game-shell__dev-portal-root {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  pointer-events: none;
+}
+
+.game-shell__dev-portal-root .game-shell__debug-entry,
+.game-shell__dev-portal-root .game-shell__dev-fab,
+.game-shell__dev-portal-root .dev-strip {
+  pointer-events: auto;
+}
+
+/* Keep FAB above the dock when the strip is open (both fixed to bottom). */
+.game-shell__dev-portal-root:has(#dev-controls-panel) .game-shell__dev-fab {
+  bottom: 3.35rem;
+}
+
 .game-shell__dev-fab {
   position: fixed;
   right: 12px;
@@ -522,6 +541,14 @@ button {
   font-size: 10px;
   position: relative;
   z-index: 2;
+}
+
+.dev-strip--portal {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
 }
 
 .dev-strip__row {
@@ -604,6 +631,27 @@ button {
   transition:
     opacity 0.52s ease 0.07s,
     visibility 0s linear 0s;
+}
+
+/* Landing eases in after exit quiz (see GameShell `landingEnterSettle`). */
+.game-shell--landing-settle .view-panel--landing.view-panel--active .landing__hero {
+  animation: landing-hero-settle 0.55s cubic-bezier(0.2, 0.82, 0.28, 1) both;
+}
+
+@keyframes landing-hero-settle {
+  from {
+    transform: translateY(12px);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-shell--landing-settle .view-panel--landing.view-panel--active .landing__hero {
+    animation: none;
+  }
 }
 
 .view-panel--playing {
@@ -2167,8 +2215,11 @@ button.game-modal__hardware-hint:focus-visible {
 
 .scene-exit-loading__bar-fill {
   height: 100%;
-  width: 0;
+  width: 100%;
   border-radius: inherit;
+  transform-origin: left center;
+  transform: scaleX(0);
+  will-change: transform;
   background: linear-gradient(
     90deg,
     rgba(124, 58, 237, 0.95),
@@ -2182,11 +2233,11 @@ button.game-modal__hardware-hint:focus-visible {
 
 @keyframes scene-exit-bar-fill {
   from {
-    width: 0%;
+    transform: scaleX(0);
   }
 
   to {
-    width: 100%;
+    transform: scaleX(1);
   }
 }
 
@@ -2199,6 +2250,372 @@ button.game-modal__hardware-hint:focus-visible {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* --- Post–fun-facts exit quiz (below dev portal z-index 120) --- */
+.exit-quiz {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1.5rem, 5vw, 3rem);
+  box-sizing: border-box;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition:
+    opacity 0.48s cubic-bezier(0.33, 0, 0.2, 1),
+    transform 0.48s cubic-bezier(0.33, 0, 0.2, 1);
+  background:
+    radial-gradient(
+      ellipse 85% 55% at 50% 0%,
+      rgba(76, 29, 149, 0.35),
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse 70% 50% at 80% 100%,
+      rgba(30, 58, 138, 0.25),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 60% 45% at 15% 85%,
+      rgba(124, 58, 237, 0.12),
+      transparent 45%
+    ),
+    linear-gradient(180deg, #0a0e1a 0%, #0d1020 40%, #080a14 100%);
+}
+
+.exit-quiz.exit-quiz--leaving {
+  opacity: 0;
+  transform: translateY(14px) scale(0.985);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exit-quiz {
+    transition-duration: 0.01ms;
+  }
+}
+
+.exit-quiz__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: rgba(8, 12, 28, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.exit-quiz__backdrop-bloom {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 45%,
+    rgba(124, 58, 237, 0.08) 0%,
+    transparent 55%
+  );
+}
+
+.exit-quiz__panel {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: min(56rem, calc(100vw - 1.5rem));
+  padding: clamp(1rem, 2.2vw, 1.65rem) clamp(1.5rem, 4vw, 3rem);
+  border-radius: 22px;
+  border: 1px solid rgba(167, 139, 250, 0.45);
+  background: linear-gradient(
+    165deg,
+    rgba(22, 16, 44, 0.98) 0%,
+    rgba(10, 6, 22, 0.99) 100%
+  );
+  box-shadow:
+    0 28px 72px rgba(0, 0, 0, 0.52),
+    0 0 48px rgba(124, 58, 237, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  text-align: center;
+  transform: scale(1.06);
+  transform-origin: center center;
+}
+
+.exit-quiz__eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(192, 132, 252, 0.85);
+}
+
+.exit-quiz__title {
+  margin: 0 auto 1rem;
+  max-width: 48rem;
+  font-family: "Nunito", "IBM Plex Sans", system-ui, sans-serif;
+  font-size: clamp(1.05rem, 2.6vw, 1.4rem);
+  font-weight: 800;
+  line-height: 1.3;
+  color: #fff;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.4);
+}
+
+/* 2×2 grid; same hold bar + glow as .lang-overlay__btn */
+.exit-quiz__choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  justify-items: stretch;
+  text-align: left;
+}
+
+.exit-quiz__choices .lang-overlay__btn {
+  min-width: 0;
+  width: 100%;
+  min-height: 3.5rem;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0.04em;
+  font-size: clamp(0.82rem, 1.75vw, 0.95rem);
+  font-weight: 700;
+  line-height: 1.35;
+  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.exit-quiz__choices .lang-overlay__btn:hover {
+  transform: none;
+  box-shadow: 0 0 24px rgba(245, 180, 255, 0.35);
+}
+
+/* Feedback: narrow card, celebration accents, centered hierarchy */
+.exit-quiz__panel--feedback {
+  transform: none;
+  max-width: min(26.5rem, calc(100vw - 2.75rem));
+  padding: clamp(1.5rem, 4vw, 2rem) clamp(1.35rem, 4vw, 2rem);
+  overflow: hidden;
+}
+
+.exit-quiz__panel--feedback-correct {
+  border-color: rgba(74, 222, 128, 0.35);
+  box-shadow:
+    0 0 0 1px rgba(34, 197, 94, 0.12),
+    0 0 52px rgba(34, 197, 94, 0.14),
+    0 24px 56px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.exit-quiz__panel--feedback-correct::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 5px;
+  background: linear-gradient(
+    90deg,
+    rgba(21, 128, 61, 0.9),
+    #4ade80,
+    rgba(34, 197, 94, 0.95),
+    #4ade80,
+    rgba(21, 128, 61, 0.9)
+  );
+  box-shadow: 0 0 24px rgba(74, 222, 128, 0.45);
+}
+
+.exit-quiz__panel--feedback-incorrect::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    rgba(185, 28, 28, 0.5),
+    rgba(248, 113, 113, 0.85),
+    rgba(185, 28, 28, 0.5)
+  );
+  opacity: 0.9;
+}
+
+.exit-quiz__feedback {
+  margin: 0 auto;
+  padding: 0.35rem 0 0;
+  max-width: 22rem;
+  text-align: center;
+}
+
+.exit-quiz__feedback-icon-wrap {
+  margin: 0 auto 0.65rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.exit-quiz__icon {
+  width: clamp(3.25rem, 10vw, 4rem);
+  height: clamp(3.25rem, 10vw, 4rem);
+  color: rgba(187, 247, 208, 0.98);
+  filter: drop-shadow(0 0 14px rgba(34, 197, 94, 0.45));
+}
+
+.exit-quiz__icon--wrong {
+  color: rgba(252, 165, 165, 0.95);
+  filter: drop-shadow(0 0 10px rgba(248, 113, 113, 0.25));
+}
+
+.exit-quiz__feedback--celebrate .exit-quiz__icon--correct {
+  animation: exit-quiz-check-pop 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes exit-quiz-check-pop {
+  0% {
+    transform: scale(0.65);
+    opacity: 0.5;
+  }
+
+  70% {
+    transform: scale(1.06);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.exit-quiz__feedback-title {
+  margin: 0 0 0.65rem;
+  font-family: "Nunito", "IBM Plex Sans", system-ui, sans-serif;
+  font-size: clamp(1.65rem, 4.2vw, 2rem);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+}
+
+.exit-quiz__feedback-title--correct {
+  color: rgba(209, 250, 229, 0.98);
+  text-shadow:
+    0 0 28px rgba(34, 197, 94, 0.35),
+    0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+.exit-quiz__feedback-title--incorrect {
+  color: rgba(254, 202, 202, 0.96);
+  text-shadow: 0 0 18px rgba(248, 113, 113, 0.2);
+}
+
+.exit-quiz__feedback-blurb {
+  margin: 0 auto 1.5rem;
+  max-width: 22rem;
+  padding: 0.35rem 0.5rem 0;
+  font-size: clamp(1.05rem, 3vw, 1.22rem);
+  font-weight: 700;
+  line-height: 1.45;
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+
+.exit-quiz__feedback-blurb--correct {
+  color: #ecfdf5;
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.45),
+    0 0 20px rgba(34, 197, 94, 0.25);
+}
+
+.exit-quiz__feedback-blurb--incorrect {
+  color: #fff1f2;
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.5),
+    0 0 18px rgba(248, 113, 113, 0.22);
+}
+
+.exit-quiz__next {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0 auto;
+  min-width: 11rem;
+  padding: 0.78rem 1.35rem 0.78rem 1.5rem;
+  font-family: inherit;
+  font-size: clamp(0.88rem, 2vw, 0.98rem);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fffafd;
+  border-radius: 999px;
+  border: 1px solid rgba(192, 132, 252, 0.45);
+  background: linear-gradient(
+    180deg,
+    rgba(124, 58, 237, 0.98) 0%,
+    rgba(91, 33, 182, 0.98) 100%
+  );
+  box-shadow:
+    0 4px 0 rgba(0, 0, 0, 0.22),
+    0 8px 24px rgba(124, 58, 237, 0.35);
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    filter 0.18s ease;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.exit-quiz__next:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 0 rgba(0, 0, 0, 0.18),
+    0 14px 32px rgba(124, 58, 237, 0.45);
+  filter: brightness(1.06);
+}
+
+.exit-quiz__next:active {
+  transform: translateY(1px);
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.25),
+    0 4px 16px rgba(124, 58, 237, 0.3);
+}
+
+.exit-quiz__next-label {
+  flex: 0 1 auto;
+}
+
+.exit-quiz__next-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex-shrink: 0;
+  opacity: 0.95;
+}
+
+.exit-quiz__next:focus-visible {
+  outline: 2px solid rgba(94, 234, 212, 0.9);
+  outline-offset: 3px;
+}
+
+.exit-quiz__next:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+  filter: none;
+}
+
+@media (max-width: 520px) {
+  .exit-quiz__choices {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .exit-quiz__panel {
+    transform: scale(1);
+    max-width: calc(100vw - 1.25rem);
   }
 }
 
@@ -2242,10 +2659,23 @@ button.game-modal__hardware-hint:focus-visible {
 
   .scene-exit-loading__bar-fill {
     animation: none;
-    width: 100%;
+    transform: scaleX(1);
   }
 
   .scene-exit-loading__fact {
     animation: none;
+  }
+
+  .exit-quiz__panel {
+    transform: none;
+  }
+
+  .exit-quiz__feedback--celebrate .exit-quiz__icon--correct {
+    animation: none;
+  }
+
+  .exit-quiz__next:hover,
+  .exit-quiz__next:active {
+    transform: none;
   }
 }

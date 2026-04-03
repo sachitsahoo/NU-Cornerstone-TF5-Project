@@ -5,6 +5,8 @@ type LanguagePickerOverlayProps = {
   lang: Lang;
   pickerLang: Lang;
   holdProgress: number;
+  /** True while the hold delay or 3s confirmation is armed — shows the fill track immediately. */
+  holdTrackVisible?: boolean;
   onPick: (lang: Lang) => void;
 };
 
@@ -12,6 +14,7 @@ export function LanguagePickerOverlay({
   lang,
   pickerLang,
   holdProgress,
+  holdTrackVisible = false,
   onPick,
 }: LanguagePickerOverlayProps) {
   return (
@@ -30,6 +33,10 @@ export function LanguagePickerOverlay({
           {(["en", "es"] as Lang[]).map((l) => {
             const isActive = pickerLang === l;
             const progress = isActive ? holdProgress : 0;
+            const showHoldFill =
+              isActive && (holdTrackVisible || progress > 0);
+            const fillScale =
+              progress > 0 ? progress : holdTrackVisible ? 0.03 : 0;
             return (
               <button
                 key={l}
@@ -37,10 +44,10 @@ export function LanguagePickerOverlay({
                 className={`lang-overlay__btn${isActive ? " lang-overlay__btn--active" : ""}`}
                 onClick={() => onPick(l)}
               >
-                {progress > 0 && (
+                {showHoldFill && (
                   <span
                     className="lang-overlay__btn-fill"
-                    style={{ transform: `scaleX(${progress})` }}
+                    style={{ transform: `scaleX(${fillScale})` }}
                   />
                 )}
                 <span className="lang-overlay__btn-label">

@@ -16,7 +16,7 @@ export const FALLBACK_CHARACTERS: CharacterJson[] = [
     innocent_explanation:
       "If he were innocent, the drums would be on a truck receipt or back on the shelf — but they're not.",
     culprit_explanation:
-      "He dumped the drums into the storm drain to skip the disposal fee. The oil in the river matches exactly what he uses at work.",
+      "He dumped the drums into the storm drain to skip the fee. The oil in the river matches exactly what he uses at work.",
     image: "assets/images/Bacon_Hair_Shoulder_Up-removebg-preview.png",
     led_color: [20, 120, 255],
   },
@@ -69,39 +69,39 @@ const CHARACTER_ES: Record<
 > = {
   bacon_hair: {
     name: "Bacon Hair",
-    role: "Obrero de fábrica",
+    role: "Obrero de mantenimiento",
     description:
-      "Mueve bidones de químicos por la fábrica. Es el único autorizado para sacarlos.",
+      "Mueve aceites y químicos en la fábrica. Solo su equipo puede sacar los bidones grandes.",
     suspicious_detail:
-      "La cámara de seguridad grabó a alguien con su uniforme rodando dos bidones hacia el desagüe del río a las 12:40 a.m. — y esos bidones nunca regresaron.",
+      "12:40 a.m.: en cámara, alguien con uniforme de mantenimiento lleva dos bidones al desagüe del río. Esos bidones no volvieron al almacén.",
     innocent_explanation:
-      "Si fuera inocente, los bidones estarían en un albarán o de vuelta en el estante — pero no están.",
+      "Si fuera inocente, los bidones estarían en un albarán o en el estante — pero no están.",
     culprit_explanation:
-      "Tiró los bidones al desagüe para no pagar la eliminación. El aceite del río coincide exactamente con el que usa en el trabajo.",
+      "Los vertió al desagüe para no pagar el tratamiento. El aceite del río coincide con el lubricante que usa en las máquinas.",
   },
   ballerina_cappuccina: {
     name: "Ballerina Cappuccina",
     role: "Dueña del café",
     description:
-      "Dirige el café junto al río. Solo usa botellas pequeñas de jabón — no tiene bidones grandes.",
+      "Tiene el café junto al río. Usa sprays y jabón en botella — no bidones de fábrica.",
     suspicious_detail:
-      "Salió del café a las 9:18 p.m. y ya estaba en casa a las 10 p.m. — dos horas antes de que movieran los bidones. Su basura esa noche: solo vasos y cartón.",
+      "Salió del café a las 9:18 p.m. y estaba en casa a las 10 p.m., antes del vídeo de los bidones a medianoche.",
     innocent_explanation:
-      "La contaminación del río es aceite de máquina pesado — no jabón de café. Su horario y su basura la descartan.",
+      "El laboratorio dice que el río tiene aceite de máquina, no limpiadores de café. Su horario no encaja con el vídeo.",
     culprit_explanation:
-      "Durante meses vertió restos de limpiadores detrás del café. La lluvia los arrastraba directo al río.",
+      "Vertió restos de limpieza detrás del café durante meses; la lluvia los llevó al río.",
   },
   tung: {
     name: "Tung Tung Tung Sahur",
     role: "Supervisor de noche",
     description:
-      "Gestiona el turno de noche y el papeleo de seguridad. Los supervisores no tocan los bidones — eso es trabajo del obrero.",
+      "Turnos y papeleo de seguridad. Los supervisores no firman bidones de residuos — eso es mantenimiento.",
     suspicious_detail:
-      "A las 12:40 a.m. estaba en cámara dentro del edificio arreglando un sensor. Los supervisores llevan chaleco amarillo — la persona del video lleva naranja de mantenimiento.",
+      "A las 12:40 a.m. las cámaras lo muestran dentro arreglando un sensor. En el vídeo de los bidones, la figura lleva naranja de mantenimiento, no amarillo de supervisor.",
     innocent_explanation:
-      "Estaba en cámara en otra parte del edificio justo cuando movieron los bidones, y lleva el uniforme equivocado.",
+      "En cámara está en otra zona del edificio cuando se mueven los bidones; además el uniforme no coincide.",
     culprit_explanation:
-      "Tung falsificó sus informes nocturnos y vertió químicos al río durante tormentas para ahorrar dinero.",
+      "Falsificó informes y vertió químicos al río en tormentas para ahorrar.",
   },
 };
 
@@ -115,19 +115,19 @@ export function localizeCharacter(c: CharacterJson, lang: Lang): CharacterJson {
 const CLUES: Record<Lang, string[]> = {
   en: [
     "The pollution is machine oil.",
-    "A maintenece worker moved chemical drums to the river drain.",
+    "A maintenance worker moved chemical drums to the river drain.",
     "Only factory workers have the key and training to move drums.",
   ],
   es: [
-    "La contaminación es aceite espeso de máquinas de fábrica — no jabón ni restos de comida.",
-    "A las 12:40 a.m., alguien con uniforme de mantenimiento llevó bidones al desagüe del río.",
-    "Solo los obreros de fábrica tienen la llave y el permiso para sacar esos bidones.",
+    "La contaminación es aceite de máquina.",
+    "Un obrero de mantenimiento llevó bidones al desagüe del río.",
+    "Solo los obreros tienen llave y permiso para mover esos bidones.",
   ],
 };
 
 const FUN_FACT: Record<Lang, string> = {
   en: "Even a small amount of factory oil can poison the fish, frogs, and insects that live in a river!",
-  es: "¡Hasta una pequeña cantidad de aceite de fábrica puede envenenar los peces, ranas e insectos del río!",
+  es: "¡Poco aceite de fábrica basta para envenenar peces y vida del río!",
 };
 
 const SOLUTIONS: Record<Lang, string[]> = {
@@ -137,9 +137,9 @@ const SOLUTIONS: Record<Lang, string[]> = {
     "Let workers report rule-breaking safely, without getting in trouble.",
   ],
   es: [
-    "Revisar las tuberías automáticamente y publicar los resultados.",
-    "Plantar arbustos y hierbas junto al río — filtran el agua sucia antes de que entre.",
-    "Permitir que los trabajadores reporten problemas sin miedo a consecuencias.",
+    "Revisar tuberías con sensores y publicar los datos.",
+    "Plantar vegetación en la orilla — filtra el agua antes de entrar al río.",
+    "Que los trabajadores puedan reportar sin represalias.",
   ],
 };
 
@@ -149,13 +149,61 @@ const RIVER_EXIT_FACTS: Record<Lang, string[]> = {
     "Plants along the riverbank filter dirty runoff before it reaches the water.",
   ],
   es: [
-    "¡Las alcantarillas van directo al río — no tires pintura ni aceite de motor!",
-    "Las plantas en la orilla filtran el agua sucia antes de que llegue al río.",
+    "Las alcantarillas van al río — no viertas pintura ni aceite de motor.",
+    "La vegetación en la orilla filtra el agua sucia antes del río.",
   ],
 };
 
 export function riverExitFactsFor(lang: Lang): string[] {
   return RIVER_EXIT_FACTS[lang];
+}
+
+/** One post–fun-facts MCQ (easy–medium), aligned with river exit facts. */
+export type ExitQuizContent = {
+  question: string;
+  choices: [string, string, string, string];
+  correctIndex: 0 | 1 | 2 | 3;
+  /** Short explanation shown after a correct answer (same language as question). */
+  feedbackCorrectBlurb: string;
+  /** Short explanation shown after a wrong answer (same language as question). */
+  feedbackIncorrectBlurb: string;
+};
+
+const EXIT_QUIZ: Record<Lang, ExitQuizContent> = {
+  en: {
+    question:
+      "Street storm drains often connect straight to rivers. What should you never pour down them?",
+    choices: [
+      "Only clean water",
+      "Paint, motor oil, or leftover chemicals",
+      "Cold coffee or tea",
+      "Rain from your boots",
+    ],
+    correctIndex: 1,
+    feedbackCorrectBlurb:
+      "Right! That stuff goes to the river and can pollute the water we drink and swim in.",
+    feedbackIncorrectBlurb:
+      "Those drains don't clean water. Paint, oil, and chemicals go straight to the river—use the trash or a drop-off.",
+  },
+  es: {
+    question:
+      "Muchas alcantarillas van al río. ¿Qué no debes verter?",
+    choices: [
+      "Solo agua limpia",
+      "Pintura, aceite o químicos",
+      "Café o té frío",
+      "Agua de lluvia",
+    ],
+    correctIndex: 1,
+    feedbackCorrectBlurb:
+      "¡Bien! Eso llega al río y ensucia el agua.",
+    feedbackIncorrectBlurb:
+      "Ahí no se filtra el agua. Eso va al río: llévalo a reciclaje o basura segura.",
+  },
+};
+
+export function exitQuizFor(lang: Lang): ExitQuizContent {
+  return EXIT_QUIZ[lang];
 }
 
 export function cluesFor(lang: Lang): string[] {
@@ -226,62 +274,67 @@ export const UI = {
     logoStripScrollIntro: "Meet the suspects",
     playShortcutTitle: "Start (shortcut P)",
     sceneExitTitle: "Helping rivers stay healthy",
+    exitQuizEyebrow: "Quick check",
+    exitQuizCorrect: "Correct",
+    exitQuizIncorrect: "Incorrect",
+    exitQuizNextHome: "Next",
   },
   es: {
-    chooseLanguage: "Elige tu idioma",
+    chooseLanguage: "Elige idioma",
     langEnglish: "English",
     langSpanish: "Español",
     sceneEyebrow: "Expediente",
-    sceneDescriptor: "El misterio de esta noche empieza en el río.",
+    sceneDescriptor: "Esta noche el misterio empieza en el río.",
     sceneTitle: "El caso del río",
     sceneContext:
-      "Alguien vertió residuos en el río anoche. Usa las tres pistas para descubrir quién lo hizo.",
-    sceneHint:
-      "Escanea una tarjeta para ver el trabajo y la coartada del sospechoso — y compáralo con las pistas.",
-    investigationActive: "Investigación en curso",
-    cluesTitle: "Pistas del caso",
+      "Usa las tres pistas para averiguar quién vertió residuos en el río anoche.",
+    sceneHint: "Escanea una tarjeta para ver más.",
+    investigationActive: "Investigación activa",
+    cluesTitle: "Pistas",
     confirmTitle: "¿ES ESTE TU SOSPECHOSO?",
     confirmButton: "Confirmar",
-    cancelHint: "Quita la tarjeta para elegir de nuevo",
+    cancelHint: "Quita la tarjeta para cambiar",
     dossierAboutLabel: "Su trabajo",
-    dossierSuspiciousHeading: "Lo que sabemos",
-    suspiciousDetailLabel: "Lo que sabemos",
+    dossierSuspiciousHeading: "Datos",
+    suspiciousDetailLabel: "Datos",
     resultCorrect: "¡Lo lograste!",
-    resultIncorrect: "¡Ese no es el culpable!",
+    resultIncorrect: "¡No es el culpable!",
     yourPick: "Tu elección",
     whyWrong: "Por qué no encaja",
-    whyRight: "Por qué apunta la evidencia aquí",
-    theRealAnswer: "¿Quién lo hizo?",
+    whyRight: "Por qué encaja",
+    theRealAnswer: "¿Quién fue?",
     funFactLabel: "¿Sabías que...?",
-    solutionsLabel: "¿Cómo podemos arreglarlo?",
+    solutionsLabel: "¿Qué podemos hacer?",
     continue: "SIGUIENTE",
-    needTagFirst: "Primero escanea una tarjeta de sospechoso.",
+    needTagFirst: "Primero escanea una tarjeta.",
     navBack: "Atrás",
     navHome: "Inicio",
     navCase: "Caso",
     navSkip: "Saltar",
-    navNext: "Próximo",
+    navNext: "Siguiente",
     navDone: "¡A resolverlo!",
-    reviewCase: "Ver el expediente",
-    landingBelowP1:
-      "Desplázate para ver más de la experiencia.",
-    landingBelowP2:
-      "Las tarjetas RFID, el botón físico y la pantalla trabajan juntos para impulsar el misterio.",
-    landingBelowTitle: "El misterio continúa",
+    reviewCase: "Ver expediente",
+    landingBelowP1: "Desplázate para ver más.",
+    landingBelowP2: "Tarjetas RFID, botón y pantalla: juntos en el misterio.",
+    landingBelowTitle: "Sigue el misterio",
     landingHeroAria: "Introducción",
-    landingPlayChooseLanguage: "Elige el idioma…",
+    landingPlayChooseLanguage: "Idioma…",
     landingPlayLabel: "Jugar",
     landingPlayStarting: "Iniciando…",
     landingTitleLine1: "Contaminación",
     landingTitleLine2: "Misterio",
-    logoBcCaption: "Ballerina Cappuccina — dueña del café",
-    logoBhCaption: "Bacon Hair — obrero de fábrica",
-    logoSahurCaption: "Tung — supervisor de noche",
-    logoStripAria: "Personajes de la historia",
-    logoStripScrollIntro: "Conoce a los sospechosos",
-    playShortcutTitle: "Empezar (atajo P)",
+    logoBcCaption: "Ballerina Cappuccina — café",
+    logoBhCaption: "Bacon Hair — fábrica",
+    logoSahurCaption: "Tung — supervisor",
+    logoStripAria: "Sospechosos",
+    logoStripScrollIntro: "Los sospechosos",
+    playShortcutTitle: "Empezar (P)",
     revealPlayAgain: "Siguiente",
-    sceneExitTitle: "Cómo cuidar los ríos",
+    sceneExitTitle: "Ríos sanos",
+    exitQuizEyebrow: "Pregunta",
+    exitQuizCorrect: "Correcto",
+    exitQuizIncorrect: "Incorrecto",
+    exitQuizNextHome: "Siguiente",
   },
 } as const;
 

@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useBridgeWebSocket } from "./hooks/useBridgeWebSocket";
 import {
   charByUid,
   culpritUid,
+  exitQuizFor,
   FALLBACK_CHARACTERS,
   riverExitFactsFor,
   type Lang,
@@ -20,6 +22,7 @@ import type { GameView } from "./viewState";
 import { LandingView } from "./views/LandingView";
 import { LanguagePickerOverlay } from "./views/LanguagePickerOverlay";
 import { PlayingView } from "./views/PlayingView";
+import { ExitQuizOverlay } from "./views/ExitQuizOverlay";
 import { SceneExitLoadingOverlay } from "./views/SceneExitLoadingOverlay";
 
 /** Time each river fact stays on screen before rotating. */
@@ -27,6 +30,8 @@ const EXIT_FACT_READ_MS = 4500;
 /** Full interstitial length = one beat per fact (EN/ES arrays stay same length). */
 const EXIT_SCENE_LOAD_MS =
   riverExitFactsFor("en").length * EXIT_FACT_READ_MS;
+/** Exit quiz overlay fade-out; keep in sync with `.exit-quiz` CSS transition. */
+const EXIT_TO_HOME_ANIM_MS = 480;
 
 /** Dev chrome is English-only (not localized with exhibit language). */
 const DEV_UI = {
@@ -81,6 +86,8 @@ export default function GameShell() {
 
   // Hold-to-confirm: fill progress [0..1]
   const [holdProgress, setHoldProgress] = useState(0);
+  /** True from first button_down through hold delay + 3s confirm — drives immediate fill track. */
+  const [holdCharging, setHoldCharging] = useState(false);
   const holdStartRef = useRef<number | null>(null);
   const holdRafRef = useRef<number | null>(null);
   const holdConfirmTimerRef = useRef<number | null>(null);
@@ -125,6 +132,32 @@ export default function GameShell() {
 
   const [exitFactIndex, setExitFactIndex] = useState(0);
 
+  const [exitQuizPhase, setExitQuizPhase] = useState<"pick" | "feedback" | null>(
+    null
+  );
+  const exitQuizPhaseRef = useRef<"pick" | "feedback" | null>(null);
+  exitQuizPhaseRef.current = exitQuizPhase;
+
+  const [quizHighlightIndex, setQuizHighlightIndex] = useState(0);
+  const quizHighlightIndexRef = useRef(0);
+  quizHighlightIndexRef.current = quizHighlightIndex;
+
+  const [quizHoldProgress, setQuizHoldProgress] = useState(0);
+  const [quizHoldCharging, setQuizHoldCharging] = useState(false);
+  const [quizFeedbackCorrect, setQuizFeedbackCorrect] = useState(false);
+  const [exitQuizLeaving, setExitQuizLeaving] = useState(false);
+  /** One-shot after returning from exit quiz so landing can ease in. */
+  const [landingEnterSettle, setLandingEnterSettle] = useState(false);
+
+  const quizHoldDelayTimerRef = useRef<number | null>(null);
+  const quizHoldRafRef = useRef<number | null>(null);
+  const quizHoldConfirmTimerRef = useRef<number | null>(null);
+  const quizHoldStartRef = useRef<number | null>(null);
+  const quizPickerOpenedThisPressRef = useRef(false);
+
+  const exitToLandingAnimTimerRef = useRef<number | null>(null);
+  const exitToLandingAnimLockRef = useRef(false);
+
   const confirmTimerRef = useRef<number | null>(null);
 
   const sendLed = useCallback((r: number, g: number, b: number) => {
@@ -142,9 +175,28 @@ export default function GameShell() {
     }
   }, []);
 
+  const cancelQuizHold = useCallback(() => {
+    if (quizHoldDelayTimerRef.current != null) {
+      window.clearTimeout(quizHoldDelayTimerRef.current);
+      quizHoldDelayTimerRef.current = null;
+    }
+    if (quizHoldRafRef.current != null) {
+      cancelAnimationFrame(quizHoldRafRef.current);
+      quizHoldRafRef.current = null;
+    }
+    if (quizHoldConfirmTimerRef.current != null) {
+      window.clearTimeout(quizHoldConfirmTimerRef.current);
+      quizHoldConfirmTimerRef.current = null;
+    }
+    quizHoldStartRef.current = null;
+    setQuizHoldProgress(0);
+    setQuizHoldCharging(false);
+  }, []);
+
   const selectSuspectByUid = useCallback(
     (uid: string) => {
       if (sceneExitLoadingRef.current) return;
+      if (exitQuizPhaseRef.current) return;
       if (revealRef.current) return;
       if (viewRef.current !== "playing") return;
       const char = charactersRef.current.find((c) => c.uid === uid);
@@ -184,6 +236,7 @@ export default function GameShell() {
     }
     holdStartRef.current = null;
     setHoldProgress(0);
+    setHoldCharging(false);
   }, []);
 
   useEffect(() => {
@@ -221,10 +274,15 @@ export default function GameShell() {
   }, [cancelHold]);
 
   const HOLD_MS = 3000;
-  const HOLD_DELAY_MS = 300; // button must be held this long before fill starts
+  const HOLD_DELAY_MS = 100; // short taps cycle language; hold shows track right away
+
+  /** Exit-quiz MCQ: fill duration for hold-to-confirm (tap = cycle, hold = confirm). */
+  const QUIZ_HOLD_MS = 3800;
+  const QUIZ_HOLD_DELAY_MS = 120;
 
   const startHold = useCallback(() => {
     cancelHold();
+    setHoldCharging(true);
     const start = Date.now();
     holdStartRef.current = start;
 
@@ -245,6 +303,39 @@ export default function GameShell() {
     }, HOLD_MS);
   }, [cancelHold, onLanguagePick]);
 
+  const startQuizHold = useCallback(() => {
+    cancelQuizHold();
+    setQuizHoldCharging(true);
+    const start = Date.now();
+    quizHoldStartRef.current = start;
+
+    const tick = () => {
+      const elapsed = Date.now() - start;
+      const progress = Math.min(elapsed / QUIZ_HOLD_MS, 1);
+      setQuizHoldProgress(progress);
+      if (progress < 1) {
+        quizHoldRafRef.current = requestAnimationFrame(tick);
+      }
+    };
+    quizHoldRafRef.current = requestAnimationFrame(tick);
+
+    quizHoldConfirmTimerRef.current = window.setTimeout(() => {
+      quizHoldRafRef.current = null;
+      setQuizHoldProgress(1);
+      const q = exitQuizFor(lang);
+      const correct = quizHighlightIndexRef.current === q.correctIndex;
+      setExitQuizPhase("feedback");
+      exitQuizPhaseRef.current = "feedback";
+      cancelQuizHold();
+      setQuizFeedbackCorrect(correct);
+      if (correct) {
+        sendLed(0, 255, 0);
+      } else {
+        sendLed(255, 0, 0);
+      }
+    }, QUIZ_HOLD_MS);
+  }, [cancelQuizHold, sendLed, lang]);
+
   const submitReveal = useCallback(() => {
     const uid = scannedUidRef.current;
     if (!uid || !confirmOpenRef.current) return;
@@ -263,14 +354,65 @@ export default function GameShell() {
     }
   }, [clearConfirmTimer, sendLed]);
 
-  const completeRevealExitToLanding = useCallback(() => {
+  const openExitQuizAfterFunFacts = useCallback(() => {
     setSceneExitLoading(false);
     sceneExitLoadingRef.current = false;
+    setExitQuizPhase("pick");
+    exitQuizPhaseRef.current = "pick";
+    setQuizHighlightIndex(0);
+    quizHighlightIndexRef.current = 0;
+    setQuizHoldProgress(0);
+    setQuizFeedbackCorrect(false);
+    // Quiz opens on a timer (not from a button press)—don't eat the first down/up.
+    quizPickerOpenedThisPressRef.current = false;
+    exitToLandingAnimLockRef.current = false;
+    setExitQuizLeaving(false);
+    if (exitToLandingAnimTimerRef.current != null) {
+      window.clearTimeout(exitToLandingAnimTimerRef.current);
+      exitToLandingAnimTimerRef.current = null;
+    }
+    sendLed(255, 180, 100);
+  }, [sendLed]);
+
+  const applyRevealExitToLanding = useCallback(() => {
+    setSceneExitLoading(false);
+    sceneExitLoadingRef.current = false;
+    setExitQuizPhase(null);
+    exitQuizPhaseRef.current = null;
+    cancelQuizHold();
+    sendLed(255, 180, 100);
     setView("landing");
     viewRef.current = "landing";
     setPlayActive(false);
-    awaitingButtonUpRef.current = true;
-  }, []);
+    // Clear await: if we set true here, a release during the prior exit animation
+    // leaves no button_up, so button_down stays blocked on landing/playing.
+    awaitingButtonUpRef.current = false;
+    setLandingEnterSettle(true);
+    window.setTimeout(() => setLandingEnterSettle(false), 620);
+  }, [cancelQuizHold, sendLed]);
+
+  const beginExitToLandingWithAnimation = useCallback(() => {
+    if (exitToLandingAnimLockRef.current) return;
+    if (exitQuizPhaseRef.current !== "feedback") return;
+    const reduceMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) {
+      applyRevealExitToLanding();
+      return;
+    }
+    exitToLandingAnimLockRef.current = true;
+    setExitQuizLeaving(true);
+    if (exitToLandingAnimTimerRef.current != null) {
+      window.clearTimeout(exitToLandingAnimTimerRef.current);
+    }
+    exitToLandingAnimTimerRef.current = window.setTimeout(() => {
+      exitToLandingAnimTimerRef.current = null;
+      setExitQuizLeaving(false);
+      exitToLandingAnimLockRef.current = false;
+      applyRevealExitToLanding();
+    }, EXIT_TO_HOME_ANIM_MS);
+  }, [applyRevealExitToLanding]);
 
   const onContinueReveal = useCallback(() => {
     setReveal(null);
@@ -296,25 +438,89 @@ export default function GameShell() {
     }, EXIT_FACT_READ_MS);
     const done = window.setTimeout(() => {
       window.clearInterval(tick);
-      completeRevealExitToLanding();
+      openExitQuizAfterFunFacts();
     }, EXIT_SCENE_LOAD_MS);
     return () => {
       window.clearInterval(tick);
       window.clearTimeout(done);
     };
-  }, [sceneExitLoading, lang, completeRevealExitToLanding]);
+  }, [sceneExitLoading, lang, openExitQuizAfterFunFacts]);
 
   const onBridgeMessage = useCallback(
     (msg: BridgeMessage) => {
       if (msg.type === "status") return;
-      if (sceneExitLoadingRef.current) return;
+
+      if (exitQuizPhaseRef.current) {
+        const phase = exitQuizPhaseRef.current;
+        if (msg.type === "tag" || msg.type === "tag_removed") {
+          return;
+        }
+        if (phase === "feedback") {
+          if (msg.type === "button_down") {
+            beginExitToLandingWithAnimation();
+            awaitingButtonUpRef.current = true;
+            return;
+          }
+          if (msg.type === "button") {
+            beginExitToLandingWithAnimation();
+            return;
+          }
+          if (msg.type === "button_up") {
+            awaitingButtonUpRef.current = false;
+            return;
+          }
+          return;
+        }
+        if (phase === "pick") {
+          if (msg.type === "button_down") {
+            if (awaitingButtonUpRef.current) return;
+            if (quizPickerOpenedThisPressRef.current) {
+              quizPickerOpenedThisPressRef.current = false;
+              return;
+            }
+            if (
+              quizHoldDelayTimerRef.current === null &&
+              quizHoldStartRef.current === null
+            ) {
+              setQuizHoldCharging(true);
+              quizHoldDelayTimerRef.current = window.setTimeout(() => {
+                quizHoldDelayTimerRef.current = null;
+                startQuizHold();
+              }, QUIZ_HOLD_DELAY_MS);
+            }
+            return;
+          }
+          if (msg.type === "button_up") {
+            awaitingButtonUpRef.current = false;
+            if (quizPickerOpenedThisPressRef.current) {
+              quizPickerOpenedThisPressRef.current = false;
+            } else if (
+              quizHoldDelayTimerRef.current != null ||
+              quizHoldStartRef.current != null
+            ) {
+              const next = (quizHighlightIndexRef.current + 1) % 4;
+              setQuizHighlightIndex(next);
+              quizHighlightIndexRef.current = next;
+              cancelQuizHold();
+            }
+            return;
+          }
+          if (msg.type === "button") {
+            const next = (quizHighlightIndexRef.current + 1) % 4;
+            setQuizHighlightIndex(next);
+            quizHighlightIndexRef.current = next;
+            return;
+          }
+          return;
+        }
+      }
 
       if (msg.type === "button_down") {
-        if (awaitingButtonUpRef.current) return;
         if (revealRef.current) {
           onContinueReveal();
           return;
         }
+        if (awaitingButtonUpRef.current) return;
         if (viewRef.current === "landing") {
           if (!langPickerOpenRef.current) {
             // Opening picker — only on the first down of this press
@@ -327,6 +533,7 @@ export default function GameShell() {
             // Picker already open, new press, hold not yet started.
             // Also clears pickerOpenedThisPressRef as a fallback in case BUTTON_UP was dropped.
             pickerOpenedThisPressRef.current = false;
+            setHoldCharging(true);
             // Wait HOLD_DELAY_MS before starting the fill — short taps stay as language cycles.
             holdDelayTimerRef.current = window.setTimeout(() => {
               holdDelayTimerRef.current = null;
@@ -371,7 +578,10 @@ export default function GameShell() {
           pickerLangRef.current = next;
           return;
         }
-        if (revealRef.current) return;
+        if (revealRef.current) {
+          onContinueReveal();
+          return;
+        }
         if (viewRef.current === "landing") {
           setLangPickerOpen(true);
           langPickerOpenRef.current = true;
@@ -407,12 +617,23 @@ export default function GameShell() {
       sendLed,
       startHold,
       cancelHold,
+      cancelQuizHold,
+      startQuizHold,
+      beginExitToLandingWithAnimation,
       onContinueReveal,
       selectSuspectByUid,
     ]
   );
 
   useBridgeWebSocket(onBridgeMessage);
+
+  useEffect(() => {
+    return () => {
+      if (exitToLandingAnimTimerRef.current != null) {
+        window.clearTimeout(exitToLandingAnimTimerRef.current);
+      }
+    };
+  }, []);
 
   const handlePlayClick = useCallback(() => {
     if (playActive) return;
@@ -425,6 +646,7 @@ export default function GameShell() {
       setPickerLang("en");
       pickerLangRef.current = "en";
       setHoldProgress(0);
+      setHoldCharging(false);
     } else {
       cancelHold();
     }
@@ -485,12 +707,18 @@ export default function GameShell() {
           name: BRIDGE_EVENT_SCHEMA_NAME,
           version: BRIDGE_EVENT_SCHEMA_VERSION,
         } as const;
-        const msg: BridgeMessage =
-          body.type === "tag"
-            ? { type: "tag", uid: body.uid, schema }
-            : body.type === "button"
-              ? { type: "button", schema }
-              : { type: "tag_removed", schema };
+        let msg: BridgeMessage;
+        if (body.type === "tag") {
+          msg = { type: "tag", uid: body.uid, schema };
+        } else if (body.type === "button") {
+          msg = { type: "button", schema };
+        } else if (body.type === "button_down") {
+          msg = { type: "button_down", schema };
+        } else if (body.type === "button_up") {
+          msg = { type: "button_up", schema };
+        } else {
+          msg = { type: "tag_removed", schema };
+        }
         onBridgeMessage(msg);
       };
       setDevBusy(true);
@@ -504,7 +732,8 @@ export default function GameShell() {
           runLocalSimulation();
           return;
         }
-        await r.text();
+        // Don't await body — WS delivers the event; draining the body would only add latency.
+        void r.text();
       } catch {
         runLocalSimulation();
       } finally {
@@ -517,9 +746,133 @@ export default function GameShell() {
   const landingVisible = view === "landing";
   const playingVisible = view === "playing";
 
+  const devPortalRoot =
+    typeof document !== "undefined" ? document.body : null;
+
+  const devChromePortal =
+    devPortalRoot &&
+    createPortal(
+      <div className="game-shell__dev-portal-root">
+        {import.meta.env.DEV && !hideDevUi && !debugMode && (
+          <button
+            type="button"
+            className="game-shell__debug-entry"
+            onClick={enableDebugMode}
+            title={DEV_UI.enableTooltip}
+          >
+            {DEV_UI.enableLabel}
+          </button>
+        )}
+
+        {showDevChrome && (
+          <button
+            type="button"
+            className="game-shell__dev-fab"
+            aria-expanded={devOpen}
+            aria-controls={devOpen ? "dev-controls-panel" : undefined}
+            title={DEV_UI.toggleTitle}
+            onClick={() => setDevOpen((v) => !v)}
+          >
+            {DEV_UI.fabLabel}
+          </button>
+        )}
+
+        {showDevChrome && devOpen && (
+          <div
+            className="dev-strip dev-strip--portal"
+            id="dev-controls-panel"
+            role="region"
+            aria-label={DEV_UI.regionAria}
+          >
+            <div className="dev-strip__row">
+              <span className="dev-strip__hint">
+                {DEV_UI.stripHint}
+              </span>
+              <button
+                ref={devFirstBtnRef}
+                type="button"
+                className="dev-strip__btn"
+                disabled={devBusy}
+                onClick={() => {
+                  void sendDev(devEventRequest("button"));
+                }}
+              >
+                {DEV_UI.simButtonLegacy}
+              </button>
+              <button
+                type="button"
+                className="dev-strip__btn"
+                disabled={devBusy}
+                onClick={() => {
+                  void sendDev(devEventRequest("button_down"));
+                }}
+              >
+                {DEV_UI.simButtonDown}
+              </button>
+              <button
+                type="button"
+                className="dev-strip__btn"
+                disabled={devBusy}
+                onClick={() => {
+                  void sendDev(devEventRequest("button_up"));
+                }}
+              >
+                {DEV_UI.simButtonUp}
+              </button>
+              <button
+                type="button"
+                className="dev-strip__btn"
+                disabled={devBusy}
+                onClick={() => {
+                  void sendDev(devEventRequest("tag", "bacon_hair"));
+                }}
+              >
+                {DEV_UI.simTagBacon}
+              </button>
+              <button
+                type="button"
+                className="dev-strip__btn"
+                disabled={devBusy}
+                onClick={() => {
+                  void sendDev(devEventRequest("tag", "ballerina_cappuccina"));
+                }}
+              >
+                {DEV_UI.simTagBallerina}
+              </button>
+              <button
+                type="button"
+                className="dev-strip__btn"
+                disabled={devBusy}
+                onClick={() => {
+                  void sendDev(devEventRequest("tag", "tung"));
+                }}
+              >
+                {DEV_UI.simTagTung}
+              </button>
+              <button
+                type="button"
+                className="dev-strip__btn"
+                disabled={devBusy}
+                onClick={() => {
+                  void sendDev(devEventRequest("tag_removed"));
+                }}
+              >
+                {DEV_UI.simTagRemoved}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>,
+      devPortalRoot
+    );
+
   return (
     <div
-      className={`game-shell landing game-shell--${view}`}
+      className={`game-shell landing game-shell--${view}${
+        landingEnterSettle && view === "landing"
+          ? " game-shell--landing-settle"
+          : ""
+      }`}
       data-view={view}
     >
       <div className="view-stack">
@@ -551,124 +904,31 @@ export default function GameShell() {
         durationMs={EXIT_SCENE_LOAD_MS}
       />
 
+      {exitQuizPhase && (
+        <ExitQuizOverlay
+          lang={lang}
+          phase={exitQuizPhase}
+          quiz={exitQuizFor(lang)}
+          highlightIndex={quizHighlightIndex}
+          holdProgress={quizHoldProgress}
+          holdTrackVisible={quizHoldCharging}
+          feedbackCorrect={quizFeedbackCorrect}
+          leaving={exitQuizLeaving}
+          onNextHome={beginExitToLandingWithAnimation}
+        />
+      )}
+
       {langPickerOpen && landingVisible && (
         <LanguagePickerOverlay
           lang={lang}
           pickerLang={pickerLang}
           holdProgress={holdProgress}
+          holdTrackVisible={holdCharging}
           onPick={onLanguagePick}
         />
       )}
 
-      {import.meta.env.DEV && !hideDevUi && !debugMode && (
-        <button
-          type="button"
-          className="game-shell__debug-entry"
-          onClick={enableDebugMode}
-          title={DEV_UI.enableTooltip}
-        >
-          {DEV_UI.enableLabel}
-        </button>
-      )}
-
-      {showDevChrome && (
-        <button
-          type="button"
-          className="game-shell__dev-fab"
-          aria-expanded={devOpen}
-          aria-controls={devOpen ? "dev-controls-panel" : undefined}
-          title={DEV_UI.toggleTitle}
-          onClick={() => setDevOpen((v) => !v)}
-        >
-          {DEV_UI.fabLabel}
-        </button>
-      )}
-
-      {showDevChrome && devOpen && (
-        <div
-          className="dev-strip"
-          id="dev-controls-panel"
-          role="region"
-          aria-label={DEV_UI.regionAria}
-        >
-          <div className="dev-strip__row">
-            <span className="dev-strip__hint">
-              {DEV_UI.stripHint}
-            </span>
-            <button
-              ref={devFirstBtnRef}
-              type="button"
-              className="dev-strip__btn"
-              disabled={devBusy}
-              onClick={() => {
-                void sendDev(devEventRequest("button"));
-              }}
-            >
-              {DEV_UI.simButtonLegacy}
-            </button>
-            <button
-              type="button"
-              className="dev-strip__btn"
-              disabled={devBusy}
-              onClick={() => {
-                void sendDev(devEventRequest("button_down"));
-              }}
-            >
-              {DEV_UI.simButtonDown}
-            </button>
-            <button
-              type="button"
-              className="dev-strip__btn"
-              disabled={devBusy}
-              onClick={() => {
-                void sendDev(devEventRequest("button_up"));
-              }}
-            >
-              {DEV_UI.simButtonUp}
-            </button>
-            <button
-              type="button"
-              className="dev-strip__btn"
-              disabled={devBusy}
-              onClick={() => {
-                void sendDev(devEventRequest("tag", "bacon_hair"));
-              }}
-            >
-              {DEV_UI.simTagBacon}
-            </button>
-            <button
-              type="button"
-              className="dev-strip__btn"
-              disabled={devBusy}
-              onClick={() => {
-                void sendDev(devEventRequest("tag", "ballerina_cappuccina"));
-              }}
-            >
-              {DEV_UI.simTagBallerina}
-            </button>
-            <button
-              type="button"
-              className="dev-strip__btn"
-              disabled={devBusy}
-              onClick={() => {
-                void sendDev(devEventRequest("tag", "tung"));
-              }}
-            >
-              {DEV_UI.simTagTung}
-            </button>
-            <button
-              type="button"
-              className="dev-strip__btn"
-              disabled={devBusy}
-              onClick={() => {
-                void sendDev(devEventRequest("tag_removed"));
-              }}
-            >
-              {DEV_UI.simTagRemoved}
-            </button>
-          </div>
-        </div>
-      )}
+      {devChromePortal}
     </div>
   );
 }

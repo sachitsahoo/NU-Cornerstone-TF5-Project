@@ -9,7 +9,7 @@
       "description": "His everyday job is moving oils and chemicals between the factory floor and the waste dock. He is on the only team allowed to roll the big chemical drums.",
       "suspicious_detail": "12:40 a.m. security clip: someone in a maintenance uniform rolls two chemical drums along the path toward the storm drain that leads to the river. That night, no pickup truck was scheduled and those drum serial numbers never checked back into storage.",
       "innocent_explanation": "If he were innocent, those drums would be on a truck receipt or back on the shelf — but they are not.",
-      "culprit_explanation": "He dumped the drums into the storm drain to skip the disposal fee. Lab tests matched the river oil to the exact lubricant used on the factory machines he services.",
+      "culprit_explanation": "He dumped the drums into the storm drain to skip the fee. Lab tests matched the river oil to the exact lubricant used on the factory machines he services.",
       "image": "assets/images/Bacon_Hair_Shoulder_Up-removebg-preview.png",
       "sound_theme": "assets/sounds/bh_theme.wav",
       "led_color": [20, 120, 255]
