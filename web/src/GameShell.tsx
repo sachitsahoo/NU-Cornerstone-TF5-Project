@@ -33,6 +33,11 @@ const EXIT_SCENE_LOAD_MS =
 /** Exit quiz overlay fade-out; keep in sync with `.exit-quiz` CSS transition. */
 const EXIT_TO_HOME_ANIM_MS = 480;
 
+/** Physical NeoPixel “billboard”: always lit — warm white idle, green/red for feedback. */
+const LED_BILLBOARD_DEFAULT: [number, number, number] = [255, 180, 100];
+const LED_FEEDBACK_CORRECT: [number, number, number] = [0, 255, 0];
+const LED_FEEDBACK_WRONG: [number, number, number] = [255, 0, 0];
+
 /** Dev chrome is English-only (not localized with exhibit language). */
 const DEV_UI = {
   enableLabel: "Enable Dev",
@@ -168,6 +173,16 @@ export default function GameShell() {
     });
   }, []);
 
+  /** Exhibit strip stays on at default warmth whenever we are not showing per-suspect or feedback colors. */
+  const sendBillboardDefault = useCallback(() => {
+    const [r, g, b] = LED_BILLBOARD_DEFAULT;
+    sendLed(r, g, b);
+  }, [sendLed]);
+
+  useEffect(() => {
+    sendBillboardDefault();
+  }, [sendBillboardDefault]);
+
   const clearConfirmTimer = useCallback(() => {
     if (confirmTimerRef.current != null) {
       window.clearTimeout(confirmTimerRef.current);
@@ -270,8 +285,9 @@ export default function GameShell() {
     setPlayActive(true);
     setView("playing");
     viewRef.current = "playing";
+    sendBillboardDefault();
     window.dispatchEvent(new CustomEvent("polluter:play"));
-  }, [cancelHold]);
+  }, [cancelHold, sendBillboardDefault]);
 
   const HOLD_MS = 3000;
   const HOLD_DELAY_MS = 100; // short taps cycle language; hold shows track right away
@@ -329,9 +345,11 @@ export default function GameShell() {
       cancelQuizHold();
       setQuizFeedbackCorrect(correct);
       if (correct) {
-        sendLed(0, 255, 0);
+        const [r, g, b] = LED_FEEDBACK_CORRECT;
+        sendLed(r, g, b);
       } else {
-        sendLed(255, 0, 0);
+        const [r, g, b] = LED_FEEDBACK_WRONG;
+        sendLed(r, g, b);
       }
     }, QUIZ_HOLD_MS);
   }, [cancelQuizHold, sendLed, lang]);
@@ -348,9 +366,11 @@ export default function GameShell() {
     setConfirmOpen(false);
     clearConfirmTimer();
     if (correct) {
-      sendLed(0, 255, 0);
+      const [r, g, b] = LED_FEEDBACK_CORRECT;
+      sendLed(r, g, b);
     } else {
-      sendLed(255, 0, 0);
+      const [r, g, b] = LED_FEEDBACK_WRONG;
+      sendLed(r, g, b);
     }
   }, [clearConfirmTimer, sendLed]);
 
@@ -371,8 +391,8 @@ export default function GameShell() {
       window.clearTimeout(exitToLandingAnimTimerRef.current);
       exitToLandingAnimTimerRef.current = null;
     }
-    sendLed(255, 180, 100);
-  }, [sendLed]);
+    sendBillboardDefault();
+  }, [sendBillboardDefault]);
 
   const applyRevealExitToLanding = useCallback(() => {
     setSceneExitLoading(false);
@@ -380,7 +400,7 @@ export default function GameShell() {
     setExitQuizPhase(null);
     exitQuizPhaseRef.current = null;
     cancelQuizHold();
-    sendLed(255, 180, 100);
+    sendBillboardDefault();
     setView("landing");
     viewRef.current = "landing";
     setPlayActive(false);
@@ -389,7 +409,7 @@ export default function GameShell() {
     awaitingButtonUpRef.current = false;
     setLandingEnterSettle(true);
     window.setTimeout(() => setLandingEnterSettle(false), 620);
-  }, [cancelQuizHold, sendLed]);
+  }, [cancelQuizHold, sendBillboardDefault]);
 
   const beginExitToLandingWithAnimation = useCallback(() => {
     if (exitToLandingAnimLockRef.current) return;
@@ -423,12 +443,12 @@ export default function GameShell() {
     setHighlightUid(null);
     confirmOpenRef.current = false;
     setConfirmOpen(false);
-    sendLed(255, 180, 100);
+    sendBillboardDefault();
     setPlayActive(false);
     setExitFactIndex(0);
     setSceneExitLoading(true);
     sceneExitLoadingRef.current = true;
-  }, [clearConfirmTimer, sendLed]);
+  }, [clearConfirmTimer, sendBillboardDefault]);
 
   useEffect(() => {
     if (!sceneExitLoading) return undefined;
@@ -608,13 +628,14 @@ export default function GameShell() {
         setHighlightUid(null);
         confirmOpenRef.current = false;
         setConfirmOpen(false);
-        sendLed(255, 180, 100);
+        sendBillboardDefault();
       }
     },
     [
       clearConfirmTimer,
       submitReveal,
       sendLed,
+      sendBillboardDefault,
       startHold,
       cancelHold,
       cancelQuizHold,
