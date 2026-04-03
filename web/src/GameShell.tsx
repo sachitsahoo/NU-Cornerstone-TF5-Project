@@ -34,7 +34,12 @@ export default function GameShell() {
     debugFromQuery || window.sessionStorage.getItem("polluter_debug") === "1"
   );
   const debugMode = debugEnabled;
-  const showDevChrome = import.meta.env.DEV && debugMode;
+  const hideDevUi =
+    import.meta.env.PROD ||
+    import.meta.env.VITE_HIDE_DEV_UI === "true" ||
+    import.meta.env.VITE_HIDE_DEV_UI === "1";
+  const showDevChrome =
+    import.meta.env.DEV && !hideDevUi && debugMode;
   const scrollY = useScrollParallax();
   const [view, setView] = useState<GameView>("landing");
   const viewRef = useRef<GameView>("landing");
@@ -378,7 +383,7 @@ export default function GameShell() {
         if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
       }
       if (e.key === "Escape" && devOpen) {
-        if (!debugMode) return;
+        if (hideDevUi || !debugMode) return;
         e.preventDefault();
         setDevOpen(false);
         return;
@@ -397,14 +402,14 @@ export default function GameShell() {
         return;
       }
       if (e.key === "d" || e.key === "D") {
-        if (!debugMode) return;
+        if (hideDevUi || !debugMode) return;
         e.preventDefault();
         setDevOpen((v) => !v);
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [cancelHold, debugMode, devOpen, playActive, handlePlayClick]);
+  }, [cancelHold, debugMode, devOpen, hideDevUi, playActive, handlePlayClick]);
 
   useEffect(() => {
     if (!devOpen) return;
@@ -486,7 +491,7 @@ export default function GameShell() {
         />
       )}
 
-      {import.meta.env.DEV && !debugMode && (
+      {import.meta.env.DEV && !hideDevUi && !debugMode && (
         <button
           type="button"
           className="game-shell__debug-entry"

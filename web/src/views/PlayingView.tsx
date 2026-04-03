@@ -1,13 +1,8 @@
-import { useState, type CSSProperties } from "react";
+import { useState } from "react";
+import { createPortal } from "react-dom";
 import type { CharacterJson } from "../gameTypes";
 import type { Lang } from "../gameContent";
-import {
-  cluesFor,
-  funFactFor,
-  imageSrc,
-  solutionsFor,
-  t,
-} from "../gameContent";
+import { cluesFor, imageSrc, t } from "../gameContent";
 import { COPY } from "../strings";
 import { ClueGlyph, SuspectSilhouette } from "./PlayingGlyphs";
 import { SceneRiverBanner } from "./SceneRiverBanner";
@@ -32,14 +27,12 @@ type PlayingViewProps = {
 
 const CLUE_ICONS: Array<"water" | "fish" | "car"> = ["water", "fish", "car"];
 
-function ledStyle(led: readonly number[]): CSSProperties {
-  const r = led[0] ?? 124;
-  const g = led[1] ?? 92;
-  const b = led[2] ?? 173;
-  return {
-    ["--char-led" as string]: `rgb(${r},${g},${b})`,
-    ["--char-led-dim" as string]: `rgba(${r},${g},${b},0.22)`,
-  };
+function firstSentences(text: string, maxSentences = 2): string {
+  const t = text.trim();
+  if (!t) return "";
+  const parts = t.split(/(?<=[.!?])\s+/).filter((s) => s.length > 0);
+  if (parts.length <= maxSentences) return parts.join(" ");
+  return parts.slice(0, maxSentences).join(" ");
 }
 
 function SuspectPortrait({ src }: { src: string }) {
@@ -73,8 +66,6 @@ export function PlayingView({
 }: PlayingViewProps) {
   void _onContinueReveal;
   const clues = cluesFor(lang);
-  const funFact = funFactFor(lang);
-  const solutions = solutionsFor(lang);
 
   const picked =
     scannedUid != null
@@ -104,6 +95,74 @@ export function PlayingView({
           <div className="scene__split">
             <div className="scene__river-wrap">
               <SceneRiverBanner />
+              {confirmOpen && picked && (
+                <div
+                  className="scene-river-confirm"
+                  role="dialog"
+                  aria-modal="true"
+                  aria-labelledby="confirm-title"
+                >
+                  <div className="game-modal__panel game-modal__panel--confirm">
+                    <div className="game-modal__confirm-sheet">
+                      <div className="game-modal__confirm-inner">
+                        <div className="game-modal__confirm-columns">
+                          <div className="game-modal__confirm-col game-modal__confirm-col--left">
+                            <div
+                              className="game-modal__confirm-portrait-ring"
+                              aria-hidden
+                            >
+                              <div className="game-modal__confirm-portrait-crop">
+                                <img
+                                  className="game-modal__confirm-portrait-img"
+                                  src={imageSrc(picked.image)}
+                                  data-uid={picked.uid}
+                                  alt=""
+                                  width={176}
+                                  height={176}
+                                  decoding="async"
+                                />
+                              </div>
+                            </div>
+                            <p className="game-modal__confirm-name">{picked.name}</p>
+                            <p className="game-modal__confirm-role">{picked.role}</p>
+                          </div>
+                          <div className="game-modal__confirm-col game-modal__confirm-col--right">
+                            {picked.description ? (
+                              <div className="game-modal__confirm-fact">
+                                <h3 className="game-modal__confirm-fact-label">
+                                  {t(lang, "dossierAboutLabel")}
+                                </h3>
+                                <p className="game-modal__confirm-fact-text">
+                                  {firstSentences(picked.description, 2)}
+                                </p>
+                              </div>
+                            ) : null}
+                            {picked.suspicious_detail ? (
+                              <div className="game-modal__confirm-fact">
+                                <h3 className="game-modal__confirm-fact-label">
+                                  {t(lang, "dossierSuspiciousHeading")}
+                                </h3>
+                                <p className="game-modal__confirm-fact-text">
+                                  {firstSentences(picked.suspicious_detail, 2)}
+                                </p>
+                              </div>
+                            ) : null}
+                          </div>
+                        </div>
+                        <h2
+                          id="confirm-title"
+                          className="game-modal__confirm-action"
+                        >
+                          {t(lang, "confirmTitle")}
+                        </h2>
+                        <p className="game-modal__confirm-muted">
+                          {t(lang, "cancelHint")}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             <aside
@@ -165,173 +224,113 @@ export function PlayingView({
         </div>
       </div>
 
-      {confirmOpen && picked && (
-        <div
-          className="game-modal game-modal--confirm"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="confirm-title"
-        >
-          <div className="game-modal__panel game-modal__panel--confirm">
-            <div className="game-modal__accuse-hero">
-              <div
-                className="game-modal__accuse-portrait-wrap"
-                style={ledStyle(picked.led_color)}
+      {reveal &&
+        createPortal(
+          <div
+            className="game-modal game-modal--reveal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="reveal-title"
+          >
+            <div className="game-modal__panel game-modal__panel--reveal-stage">
+              <h2
+                id="reveal-title"
+                className={`game-modal__title game-modal__title--result${reveal.correct ? " is-correct" : " is-incorrect"}`}
               >
-                <span className="game-modal__accuse-pulse" aria-hidden />
-                <img
-                  className="game-modal__char-img game-modal__char-img--hero"
-                  src={imageSrc(picked.image)}
-                  data-uid={picked.uid}
-                  alt=""
-                  width={160}
-                  height={160}
-                  decoding="async"
-                />
-              </div>
-              <div className="game-modal__char-id game-modal__char-id--hero">
-                <p className="game-modal__accent">{picked.name}</p>
-                <p className="game-modal__role">{picked.role}</p>
-              </div>
-            </div>
-
-            <div className="game-modal__accuse-call">
-              <h2 id="confirm-title" className="game-modal__title game-modal__title--accuse">
-                {t(lang, "confirmTitle")}
-              </h2>
-              <p className="game-modal__body game-modal__body--accuse">
-                {t(lang, "confirmBody")}
-              </p>
-              <p className="game-modal__hint game-modal__hint--quiet">
-                {t(lang, "cancelHint")}
-              </p>
-            </div>
-
-            <section
-              className="game-modal__review-static"
-              aria-label={t(lang, "reviewCase")}
-            >
-              <ul className="game-modal__case-clues-list game-modal__case-clues-list--cards">
-                {clues.map((line, i) => (
-                  <li key={i} className="game-modal__case-clue-chip">
-                    <span className="game-modal__case-clue-idx">{i + 1}</span>
-                    {line}
-                  </li>
-                ))}
-              </ul>
-              {picked.description && (
-                <p className="game-modal__description">{picked.description}</p>
-              )}
-              {picked.suspicious_detail && (
-                <div className="game-modal__clue-block">
-                  <span className="game-modal__clue-label">
-                    {t(lang, "suspiciousDetailLabel")}
+                {!reveal.correct && (
+                  <span
+                    className="game-modal__title-mark game-modal__title-mark--wrong"
+                    aria-hidden="true"
+                  >
+                    ✗
                   </span>
-                  <p className="game-modal__clue-text">
-                    {picked.suspicious_detail}
-                  </p>
-                </div>
-              )}
-            </section>
-          </div>
-        </div>
-      )}
+                )}
+                <span className="game-modal__title-text">
+                  {reveal.correct
+                    ? t(lang, "resultCorrect")
+                    : t(lang, "resultIncorrect")}
+                </span>
+              </h2>
 
-      {reveal && (
-        <div
-          className="game-modal game-modal--reveal"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="reveal-title"
-        >
-          <div className="game-modal__panel game-modal__panel--reveal-stage">
-            <h2
-              id="reveal-title"
-              className={`game-modal__title game-modal__title--result${reveal.correct ? " is-correct" : " is-incorrect"}`}
-            >
-              {reveal.correct
-                ? t(lang, "resultCorrect")
-                : t(lang, "resultIncorrect")}
-            </h2>
-
-            {reveal.correct ? (
-              <div
-                className="reveal-spotlight reveal-spotlight--correct"
-                style={ledStyle(reveal.picked.led_color)}
-              >
-                <img
-                  className="reveal-spotlight__img"
-                  src={imageSrc(reveal.picked.image)}
-                  alt=""
-                  width={140}
-                  height={140}
-                  decoding="async"
-                />
-                <p className="reveal-spotlight__name">{reveal.picked.name}</p>
-                <p className="reveal-spotlight__explain">
-                  {reveal.picked.culprit_explanation}
-                </p>
-              </div>
-            ) : (
-              <div className="reveal-compare">
-                <section className="reveal-pick reveal-pick--muted" aria-label={t(lang, "yourPick")}>
+              {reveal.correct ? (
+                <div className="reveal-spotlight reveal-spotlight--correct">
                   <img
-                    className="reveal-pick__img"
+                    className="reveal-spotlight__img"
                     src={imageSrc(reveal.picked.image)}
                     alt=""
-                    width={72}
-                    height={72}
+                    width={88}
+                    height={88}
                     decoding="async"
                   />
-                  <p className="reveal-pick__label">{t(lang, "yourPick")}</p>
-                  <p className="reveal-pick__name">{reveal.picked.name}</p>
-                  <p className="reveal-pick__explain">
-                    {reveal.picked.innocent_explanation}
+                  <p className="reveal-spotlight__name">{reveal.picked.name}</p>
+                  <p className="reveal-spotlight__explain">
+                    {firstSentences(reveal.picked.culprit_explanation, 1)}
                   </p>
-                </section>
-                <div className="reveal-compare__divider" aria-hidden>
-                  <span className="reveal-compare__chev">▼</span>
                 </div>
-                <section
-                  className="reveal-spotlight reveal-spotlight--culprit"
-                  style={ledStyle(reveal.culprit.led_color)}
-                  aria-label={t(lang, "theRealAnswer")}
-                >
-                  <p className="reveal-spotlight__truth-label">
-                    {t(lang, "theRealAnswer")}
-                  </p>
-                  <img
-                    className="reveal-spotlight__img reveal-spotlight__img--large"
-                    src={imageSrc(reveal.culprit.image)}
-                    alt=""
-                    width={120}
-                    height={120}
-                    decoding="async"
-                  />
-                  <p className="reveal-spotlight__name">{reveal.culprit.name}</p>
-                  <p className="reveal-spotlight__explain reveal-spotlight__explain--hero">
-                    {reveal.culprit.culprit_explanation}
-                  </p>
-                </section>
-              </div>
-            )}
+              ) : (
+                <div className="reveal-compare">
+                  <section
+                    className="reveal-pick reveal-pick--wrong"
+                    aria-label={t(lang, "yourPick")}
+                  >
+                    <span
+                      className="reveal-card-mark reveal-card-mark--wrong"
+                      aria-hidden="true"
+                    >
+                      ✗
+                    </span>
+                    <img
+                      className="reveal-pick__img"
+                      src={imageSrc(reveal.picked.image)}
+                      alt=""
+                      width={72}
+                      height={72}
+                      decoding="async"
+                    />
+                    <p className="reveal-pick__label">{t(lang, "yourPick")}</p>
+                    <p className="reveal-pick__name">{reveal.picked.name}</p>
+                    <p className="reveal-pick__explain">
+                      {firstSentences(reveal.picked.innocent_explanation, 1)}
+                    </p>
+                  </section>
+                  <section
+                    className="reveal-spotlight reveal-spotlight--culprit"
+                    aria-label={t(lang, "theRealAnswer")}
+                  >
+                    <div className="reveal-spotlight__truth-head">
+                      <span
+                        className="reveal-card-mark reveal-card-mark--right"
+                        aria-hidden="true"
+                      >
+                        ✓
+                      </span>
+                      <p className="reveal-spotlight__truth-label">
+                        {t(lang, "theRealAnswer")}
+                      </p>
+                    </div>
+                    <img
+                      className="reveal-spotlight__img reveal-spotlight__img--culprit"
+                      src={imageSrc(reveal.culprit.image)}
+                      alt=""
+                      width={80}
+                      height={80}
+                      decoding="async"
+                    />
+                    <p className="reveal-spotlight__name">{reveal.culprit.name}</p>
+                    <p className="reveal-spotlight__explain reveal-spotlight__explain--hero">
+                      {firstSentences(reveal.culprit.culprit_explanation, 1)}
+                    </p>
+                  </section>
+                </div>
+              )}
 
-            <section className="reveal-extra" aria-label={t(lang, "funFactLabel")}>
-              <p className="reveal-extra__fun">{funFact}</p>
-              <p className="reveal-extra__solutions-head">{t(lang, "solutionsLabel")}</p>
-              <ul className="reveal-solutions">
-                {solutions.map((s, i) => (
-                  <li key={i}>{s}</li>
-                ))}
-              </ul>
-            </section>
-
-            <p className="game-modal__hardware-hint" role="status">
-              {t(lang, "continue")}
-            </p>
-          </div>
-        </div>
-      )}
+              <p className="game-modal__hardware-hint" role="status">
+                {t(lang, "revealPlayAgain")}
+              </p>
+            </div>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }
