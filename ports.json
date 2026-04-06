@@ -1,7 +1,7 @@
 {
   "_comment": "Serial port assignments keyed by hostname (from `hostname` or `python -c 'import socket; print(socket.gethostname())'`). Set rfid_port and led_port for each machine. Use AUTO to fall back to auto-detection.",
   "Sachits-MacBook-Air.local": {
-    "rfid_port": "/dev/cu.usbmodem1101",
+    "rfid_port": "/dev/cu.usbmodem11101",
     "led_port": "/dev/cu.usbmodem101"
   },
   "exhibit-pc": {
