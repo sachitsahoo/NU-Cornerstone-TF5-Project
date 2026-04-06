@@ -6,7 +6,9 @@ import {
   culpritUid,
   exitQuizFor,
   FALLBACK_CHARACTERS,
+  pickSceneSuspects,
   riverExitFactsFor,
+  SUSPECTS_PER_SCENE,
   type Lang,
 } from "./gameContent";
 import type { CharacterJson, CharactersApiResponse } from "./gameTypes";
@@ -112,6 +114,11 @@ export default function GameShell() {
   const charactersRef = useRef<CharacterJson[]>([]);
   charactersRef.current = characters;
 
+  /** Subset of `characters` shown for this round (always includes the culprit). */
+  const [sceneSuspects, setSceneSuspects] = useState<CharacterJson[]>([]);
+  const sceneSuspectsRef = useRef<CharacterJson[]>([]);
+  sceneSuspectsRef.current = sceneSuspects;
+
   const [roundCulprits, setRoundCulprits] = useState<string[]>([
     "bacon_hair",
     "tung",
@@ -214,6 +221,7 @@ export default function GameShell() {
       if (exitQuizPhaseRef.current) return;
       if (revealRef.current) return;
       if (viewRef.current !== "playing") return;
+      if (!sceneSuspectsRef.current.some((c) => c.uid === uid)) return;
       const char = charactersRef.current.find((c) => c.uid === uid);
       if (!char) return;
       const [r, g, b] = char.led_color;
@@ -277,17 +285,28 @@ export default function GameShell() {
     })();
   }, []);
 
-  const onLanguagePick = useCallback((next: Lang) => {
-    cancelHold();
-    setLang(next);
-    setLangPickerOpen(false);
-    langPickerOpenRef.current = false;
-    setPlayActive(true);
-    setView("playing");
-    viewRef.current = "playing";
-    sendBillboardDefault();
-    window.dispatchEvent(new CustomEvent("polluter:play"));
-  }, [cancelHold, sendBillboardDefault]);
+  const onLanguagePick = useCallback(
+    (next: Lang) => {
+      cancelHold();
+      setLang(next);
+      setLangPickerOpen(false);
+      langPickerOpenRef.current = false;
+      const roster =
+        characters.length > 0 ? characters : FALLBACK_CHARACTERS;
+      const picked = pickSceneSuspects(
+        roster,
+        culpritUid(roundCulprits)
+      ).slice(0, SUSPECTS_PER_SCENE);
+      sceneSuspectsRef.current = picked;
+      setSceneSuspects(picked);
+      setPlayActive(true);
+      setView("playing");
+      viewRef.current = "playing";
+      sendBillboardDefault();
+      window.dispatchEvent(new CustomEvent("polluter:play"));
+    },
+    [cancelHold, characters, sendBillboardDefault, roundCulprits]
+  );
 
   const HOLD_MS = 3000;
   const HOLD_DELAY_MS = 100; // short taps cycle language; hold shows track right away
@@ -908,7 +927,7 @@ export default function GameShell() {
         <PlayingView
           visible={playingVisible}
           lang={lang}
-          characters={characters}
+          characters={sceneSuspects}
           highlightUid={highlightUid}
           confirmOpen={confirmOpen}
           scannedUid={scannedUid}

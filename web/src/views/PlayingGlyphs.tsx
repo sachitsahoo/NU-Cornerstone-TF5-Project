@@ -47,10 +47,16 @@ export function ClueGlyph({ kind }: { kind: "water" | "fish" | "car" }) {
 }
 
 /** Fallback when suspect image fails to load. */
-export function SuspectSilhouette({ tint }: { tint: string }) {
+export function SuspectSilhouette({
+  tint,
+  className = "scene-suspects__silhouette",
+}: {
+  tint: string;
+  className?: string;
+}) {
   return (
     <svg
-      className="scene-suspects__silhouette"
+      className={className}
       viewBox="0 0 80 80"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden

@@ -39,6 +39,78 @@
       "image": "assets/images/TTTSahur_Shoulder_Up-removebg-preview.png",
       "sound_theme": "assets/sounds/sahur_theme.wav",
       "led_color": [255, 80, 20]
+    },
+    {
+      "uid": "roblox_noob",
+      "tag_ids": ["3594000001"],
+      "name": "Roblox Noob",
+      "role": "Riverside Museum Volunteer",
+      "description": "A cheerful volunteer who hands out visitor maps and runs the kids' scavenger hunt. He never goes near the factory dock or chemical drums.",
+      "suspicious_detail": "Riverside path camera, 8:45 p.m.: he was leading a family scavenger hunt with glow sticks and paper clues — no maintenance uniform, no drum keys, and no route toward the storm drain. His badge only scans at public areas.",
+      "innocent_explanation": "The river oil matches factory drums — not scavenger gear. He has no access to the maintenance corridor or the drums that moved at 12:40 a.m.",
+      "culprit_explanation": "He borrowed a maintenance badge after hours and rolled drums to the drain to avoid disposal fees — the oil still matches the factory stock he could only reach with that stolen access.",
+      "image": "",
+      "led_color": [255, 220, 60]
+    },
+    {
+      "uid": "roblox_guest",
+      "tag_ids": ["3594000002"],
+      "name": "Roblox Guest",
+      "role": "Guest Pass Visitor",
+      "description": "A day visitor on the classic guest-style pass. He photographs the skyline and leaves when the café closes — no factory clearance and no drum training.",
+      "suspicious_detail": "Lobby logs: his badge exits at 9:05 p.m. Phone records show a ride-share pickup downtown at 9:22 p.m. River cameras after midnight never show him near the storm drain or the factory fence.",
+      "innocent_explanation": "He was off-site hours before the drums moved. The midnight figure is in maintenance gear on the plant path — not a guest pass at the river walk.",
+      "culprit_explanation": "He slipped back in with a borrowed uniform and used a guest pass as cover — the drain video still matches his height and gait from older security stills.",
+      "image": "",
+      "led_color": [180, 180, 200]
+    },
+    {
+      "uid": "baconette_hair",
+      "tag_ids": ["3594000003"],
+      "name": "Baconette Hair",
+      "role": "River Walk Snack Cart Vendor",
+      "description": "She sells candy and cold drinks along the river walk. Her cart is tiny — no room for chemical drums — and she is not on the factory waste team.",
+      "suspicious_detail": "Riverside scene: closing receipts show she packed the cart at 8:30 p.m. Path cameras show her rolling toward the parking lot, away from the factory drain, well before the midnight drum run.",
+      "innocent_explanation": "Heavy machine oil from factory drums does not match snack-cart supplies. Her route and timeline point away from the drain.",
+      "culprit_explanation": "She hid small chemical jugs under the cart liner and poured them into the drain during late restocks — runoff carried them into the river after rain.",
+      "image": "",
+      "led_color": [255, 105, 180]
+    },
+    {
+      "uid": "peeley",
+      "tag_ids": ["3594000004"],
+      "name": "Peeley",
+      "role": "Costume Character (Banana Suit)",
+      "description": "A banana suit performer for family events. The suit lives in the costume closet — not the chemical room — and he does not handle factory waste.",
+      "suspicious_detail": "Riverside program: at 10:00 p.m. he was still in the museum atrium for costume tear-down. Security shows the full banana suit — no spare hands for rolling drums, and the exit to the storm drain stayed locked until staff left.",
+      "innocent_explanation": "The drain video shows a maintenance silhouette, not a bulky banana suit. His alibi is on camera inside the building during the drum movement window.",
+      "culprit_explanation": "He changed out of the suit in a loading bay and moved drums in maintenance coveralls stashed in his gear bag — the river samples still trace to the factory lubricants he accessed through a service door.",
+      "image": "",
+      "led_color": [255, 230, 80]
+    },
+    {
+      "uid": "agent_67",
+      "tag_ids": ["3594000005"],
+      "name": "67",
+      "role": "River Cleanup Documentarian",
+      "description": "Films 'before and after' shots for the volunteer cleanup crew. He carries a camera and tripod — not barrel keys or hazmat tags.",
+      "suspicious_detail": "Riverside bench camera, 11:45 p.m.: he was setting up a tripod facing upstream, away from the storm drain. Factory cameras still catch the drums rolling toward the drain at 12:40 a.m. while he stays on the public bench feed.",
+      "innocent_explanation": "He never crosses into the plant yard where the drums leave the building. The oil signature points to factory stock, not camera gear.",
+      "culprit_explanation": "He staged shots to hide trips to the drain between takes — traces on his tripod feet match mud at the grate matched to the same oil found in the water.",
+      "image": "",
+      "led_color": [100, 200, 255]
+    },
+    {
+      "uid": "roblox_builder",
+      "tag_ids": ["3594000006"],
+      "name": "Roblox Builder",
+      "role": "STEM Workshop Facilitator",
+      "description": "Runs the hands-on build table where kids snap together models and simple circuits. He carries plastic bins of parts and tools — not hazmat drums or factory keys.",
+      "suspicious_detail": "Riverside workshop log: he locked the tool cabinet at 9:50 p.m. and signed out through the lobby. Night security shows him in the workshop bay until 11:20 p.m. — nowhere near the factory storm drain when the drums roll at 12:40 a.m.",
+      "innocent_explanation": "His badge and cameras keep him on the education wing. The drain video shows maintenance gear on the plant path — not a workshop apron and part bins.",
+      "culprit_explanation": "He stashed spare lubricant from a donated demo kit and poured it down the drain after a late teardown — lab tests still tie the oil to the same factory stock the kit was meant to mimic.",
+      "image": "",
+      "led_color": [70, 180, 130]
     }
   ]
 }

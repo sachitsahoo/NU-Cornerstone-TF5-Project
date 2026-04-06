@@ -6,6 +6,7 @@ import {
   cluesFor,
   imageSrc,
   localizeCharacter,
+  SUSPECTS_PER_SCENE,
   t,
 } from "../gameContent";
 import { ClueGlyph, SuspectSilhouette } from "./PlayingGlyphs";
@@ -39,20 +40,49 @@ function firstSentences(text: string, maxSentences = 2): string {
   return parts.slice(0, maxSentences).join(" ");
 }
 
-function SuspectPortrait({ src }: { src: string }) {
+function PortraitOrSilhouette({
+  src,
+  className,
+  width,
+  height,
+  dataUid,
+}: {
+  src: string;
+  className: string;
+  width?: number;
+  height?: number;
+  dataUid?: string;
+}) {
   const [failed, setFailed] = useState(false);
-  if (failed) {
-    return <SuspectSilhouette tint="#7c3aed" />;
+  if (!src.trim() || failed) {
+    return (
+      <SuspectSilhouette
+        tint="#7c3aed"
+        className={`scene-suspects__silhouette ${className}`.trim()}
+      />
+    );
   }
   return (
     <img
-      className="scene-suspects__img"
-      src={src}
+      className={className}
+      src={imageSrc(src)}
+      data-uid={dataUid}
       alt=""
-      width={160}
-      height={160}
+      width={width}
+      height={height}
       decoding="async"
       onError={() => setFailed(true)}
+    />
+  );
+}
+
+function SuspectPortrait({ src }: { src: string }) {
+  return (
+    <PortraitOrSilhouette
+      src={src}
+      className="scene-suspects__img"
+      width={160}
+      height={160}
     />
   );
 }
@@ -70,10 +100,10 @@ export function PlayingView({
 }: PlayingViewProps) {
   const clues = cluesFor(lang);
 
-  const cast = useMemo(
-    () => characters.map((c) => localizeCharacter(c, lang)),
-    [characters, lang],
-  );
+  const cast = useMemo(() => {
+    const row = characters.slice(0, SUSPECTS_PER_SCENE);
+    return row.map((c) => localizeCharacter(c, lang));
+  }, [characters, lang]);
 
   const picked =
     scannedUid != null ? cast.find((c) => c.uid === scannedUid) : undefined;
@@ -131,14 +161,10 @@ export function PlayingView({
                               aria-hidden
                             >
                               <div className="game-modal__confirm-portrait-crop">
-                                <img
+                                <PortraitOrSilhouette
+                                  src={picked.image}
                                   className="game-modal__confirm-portrait-img"
-                                  src={imageSrc(picked.image)}
-                                  data-uid={picked.uid}
-                                  alt=""
-                                  width={176}
-                                  height={176}
-                                  decoding="async"
+                                  dataUid={picked.uid}
                                 />
                               </div>
                             </div>
@@ -229,7 +255,7 @@ export function PlayingView({
                       }}
                     >
                       <div className="scene-suspects__portrait">
-                        <SuspectPortrait src={imageSrc(c.image)} />
+                        <SuspectPortrait src={c.image} />
                       </div>
                       <figcaption className="scene-suspects__name">
                         {c.name}
@@ -274,13 +300,11 @@ export function PlayingView({
 
               {revealDisplay.correct ? (
                 <div className="reveal-spotlight reveal-spotlight--correct">
-                  <img
+                  <PortraitOrSilhouette
+                    src={revealDisplay.picked.image}
                     className="reveal-spotlight__img"
-                    src={imageSrc(revealDisplay.picked.image)}
-                    alt=""
                     width={88}
                     height={88}
-                    decoding="async"
                   />
                   <p className="reveal-spotlight__name">
                     {revealDisplay.picked.name}
@@ -301,13 +325,11 @@ export function PlayingView({
                     >
                       ✗
                     </span>
-                    <img
+                    <PortraitOrSilhouette
+                      src={revealDisplay.picked.image}
                       className="reveal-pick__img"
-                      src={imageSrc(revealDisplay.picked.image)}
-                      alt=""
                       width={72}
                       height={72}
-                      decoding="async"
                     />
                     <p className="reveal-pick__label">{t(lang, "yourPick")}</p>
                     <p className="reveal-pick__name">
@@ -335,13 +357,11 @@ export function PlayingView({
                         {t(lang, "theRealAnswer")}
                       </p>
                     </div>
-                    <img
+                    <PortraitOrSilhouette
+                      src={revealDisplay.culprit.image}
                       className="reveal-spotlight__img reveal-spotlight__img--culprit"
-                      src={imageSrc(revealDisplay.culprit.image)}
-                      alt=""
                       width={80}
                       height={80}
-                      decoding="async"
                     />
                     <p className="reveal-spotlight__name">
                       {revealDisplay.culprit.name}

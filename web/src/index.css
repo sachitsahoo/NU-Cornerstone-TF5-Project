@@ -1482,6 +1482,12 @@ button {
   transform: scale(1.02);
 }
 
+.game-modal__confirm-portrait-crop .scene-suspects__silhouette {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 .game-modal__confirm-name {
   margin: 0;
   width: 100%;
@@ -1921,10 +1927,20 @@ button.game-modal__hardware-hint:focus-visible {
   margin-bottom: 0.45rem;
 }
 
+.game-modal--reveal .reveal-spotlight--correct .reveal-spotlight__img.scene-suspects__silhouette {
+  padding: 0.35rem;
+  box-sizing: border-box;
+}
+
 .reveal-spotlight__img--culprit {
   width: 80px;
   height: 80px;
   margin-bottom: 0.4rem;
+}
+
+.reveal-spotlight__img--culprit.scene-suspects__silhouette {
+  padding: 0.3rem;
+  box-sizing: border-box;
 }
 
 .reveal-spotlight__truth-label {
@@ -2029,6 +2045,11 @@ button.game-modal__hardware-hint:focus-visible {
   margin: 0 0.65rem 0.35rem 0;
   border-radius: 12px;
   border: 2px solid rgba(124, 92, 173, 0.35);
+}
+
+.reveal-pick__img.scene-suspects__silhouette {
+  width: 72px;
+  height: 72px;
 }
 
 .reveal-pick__label {
