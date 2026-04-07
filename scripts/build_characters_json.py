@@ -21,7 +21,7 @@ CHARS = [
         "uid": "bacon_hair",
         "tag_ids": ["3594085623"],
         "name": "Bacon Hair",
-        "role": "Factory worker",
+        "role": "Plant Maintenance Worker",
         "description": C(
             "He moves oil and chemicals for the factory by the river.",
             "He is allowed to roll the big oil drums.",
@@ -70,7 +70,7 @@ CHARS = [
         "uid": "ballerina_cappuccina",
         "tag_ids": ["390485036"],
         "name": "Ballerina Cappuccina",
-        "role": "Café owner",
+        "role": "Riverside Café Owner",
         "description": C(
             "She runs a small café on the river walk.",
             "She uses soap and spray bottles for dishes and floors.",
@@ -117,7 +117,7 @@ CHARS = [
         "uid": "tung",
         "tag_ids": ["3593868791"],
         "name": "Tung Tung Tung Sahur",
-        "role": "Night boss",
+        "role": "Night Shift Supervisor",
         "description": C(
             "He runs the night shift at the factory by the river.",
             "He signs papers when oil trucks leave the plant.",
@@ -164,7 +164,7 @@ CHARS = [
         "uid": "roblox_noob",
         "tag_ids": ["3594000001"],
         "name": "Roblox Noob",
-        "role": "Museum helper",
+        "role": "Museum Floor Volunteer",
         "description": C(
             "He hands out maps at the museum on the river.",
             "He does not work inside the oil plant.",
@@ -208,7 +208,7 @@ CHARS = [
         "uid": "roblox_guest",
         "tag_ids": ["3594000002"],
         "name": "Roblox Guest",
-        "role": "Day visitor",
+        "role": "Day Pass Visitor",
         "description": C(
             "He visits on a paper guest pass for one day.",
             "He takes photos on the river path.",
@@ -250,7 +250,7 @@ CHARS = [
         "uid": "baconette_hair",
         "tag_ids": ["3594000003"],
         "name": "Baconette Hair",
-        "role": "Snack seller",
+        "role": "Riverwalk Food Vendor",
         "description": C(
             "She sells candy and drinks from a cart on the river path.",
             "Her cart is for food only.",
@@ -292,7 +292,7 @@ CHARS = [
         "uid": "peeley",
         "tag_ids": ["3594000004"],
         "name": "Peeley",
-        "role": "Banana suit actor",
+        "role": "Museum Family Entertainer",
         "description": C(
             "He wears a banana costume for kids at the museum.",
             "The suit is big and puffy.",
@@ -334,7 +334,7 @@ CHARS = [
         "uid": "agent_67",
         "tag_ids": ["3594000005"],
         "name": "67",
-        "role": "River video person",
+        "role": "City River Videographer",
         "description": C(
             "He shoots video of the river for the city cleanup team.",
             "He uses a camera on a tripod with oily grease on the legs.",
@@ -377,7 +377,7 @@ CHARS = [
         "uid": "roblox_builder",
         "tag_ids": ["3594000006"],
         "name": "Roblox Builder",
-        "role": "Kids’ build helper",
+        "role": "Museum Workshop Instructor",
         "description": C(
             "He helps kids build projects at the museum by the river.",
             "The table uses small tubes of machine oil for gear demos.",
@@ -419,7 +419,7 @@ CHARS = [
         "uid": "elsa",
         "tag_ids": ["3594000007"],
         "name": "Elsa",
-        "role": "Winter show actor",
+        "role": "Downtown Plaza Performer",
         "description": C(
             "She performs in the winter light show on the plaza.",
             "The show uses fog machines and lights.",
@@ -461,9 +461,9 @@ CHARS = [
         "uid": "steve",
         "tag_ids": ["3594000008"],
         "name": "Steve",
-        "role": "Game mascot",
+        "role": "Waterfront Event Greeter",
         "description": C(
-            "He wears a big block-head costume for a game event on the boardwalk.",
+            "He greets festival crowds in a block-head costume on the downtown waterfront.",
             "He is not allowed inside the oil plant.",
         ),
         "innocent_explanation": C(

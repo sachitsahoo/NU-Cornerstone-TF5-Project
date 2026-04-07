@@ -8,7 +8,7 @@ OUT = ROOT / "web" / "src" / "characterEs.json"
 
 OVERLAY = {
     "bacon_hair": {
-        "role": "Obrero de fábrica",
+        "role": "Técnico de Mantenimiento de Planta",
         "description": "Mueve aceite y químicos para la fábrica junto al río. Puede rodar los bidones de aceite grandes.",
         "innocent_explanation": "El aceite del río viene de bidones de fábrica. En el vídeo no es él quien rueda los bidones.",
         "culprit_explanation": "Vertió aceite de los bidones al desagüe pluvial. Es el mismo aceite de máquina que usa en el trabajo.",
@@ -24,7 +24,7 @@ OVERLAY = {
         ],
     },
     "ballerina_cappuccina": {
-        "role": "Dueña de café",
+        "role": "Propietaria de Café Ribereño",
         "description": "Tiene un café pequeño en el paseo del río. Usa jabón y sprays para platos y suelos.",
         "innocent_explanation": "El aceite del río es aceite grueso de fábrica. Su café solo usa jabón y limpiadores para comida.",
         "culprit_explanation": "Vertió desengrasante viejo detrás del café. La lluvia arrastró esa mezcla grasa al río.",
@@ -40,7 +40,7 @@ OVERLAY = {
         ],
     },
     "tung": {
-        "role": "Jefe de noche",
+        "role": "Supervisor de Turno Nocturno",
         "description": "Dirige el turno nocturno en la fábrica junto al río. Firma papeles cuando salen camiones de aceite.",
         "innocent_explanation": "La persona del vídeo lleva naranja de mantenimiento. Él lleva chaleco amarillo de supervisor en cámara esa noche.",
         "culprit_explanation": "Firmó formularios falsos de camiones para que el aceite saliera mal del sitio. Ese aceite fue al río en vez del reciclador.",
@@ -56,7 +56,7 @@ OVERLAY = {
         ],
     },
     "roblox_noob": {
-        "role": "Ayudante del museo",
+        "role": "Voluntario de Sala del Museo",
         "description": "Reparte mapas en el museo junto al río. No trabaja dentro de la planta de aceite.",
         "innocent_explanation": "El aceite del río viene de bidones de fábrica. Él no tiene llaves del área de bidones.",
         "culprit_explanation": "Tomó prestada una tarjeta de mantenimiento y rodó bidones al desagüe. Quiso evitar pagar la tasa de vertido.",
@@ -72,7 +72,7 @@ OVERLAY = {
         ],
     },
     "roblox_guest": {
-        "role": "Visitante de un día",
+        "role": "Visitante con Pase Diario",
         "description": "Entra con pase de invitado de un día. Saca fotos en el paseo del río.",
         "innocent_explanation": "El aceite vino de bidones de fábrica por la noche. Él ya había salido del centro en un coche de app.",
         "culprit_explanation": "Volvió con ropa de trabajo y movió bidones de aceite. Usó el pase de invitado como tapadera.",
@@ -88,7 +88,7 @@ OVERLAY = {
         ],
     },
     "baconette_hair": {
-        "role": "Vendedora de snacks",
+        "role": "Vendedora Ambulante del Paseo",
         "description": "Vende dulces y bebidas en un carrito en el camino del río. El carrito es solo para comida.",
         "innocent_explanation": "El río muestra aceite grueso de fábrica. Su carrito solo lleva snacks y bebidas.",
         "culprit_explanation": "Escondió botes de aceite bajo el forro del carrito. Los vertió al desagüe al repostar tarde.",
@@ -104,7 +104,7 @@ OVERLAY = {
         ],
     },
     "peeley": {
-        "role": "Actor del traje de plátano",
+        "role": "Animador de Programas Familiares del Museo",
         "description": "Usa un disfraz de plátano para niños en el museo. El traje es grande e hinchado.",
         "innocent_explanation": "El vídeo muestra a alguien delgado con ropa de trabajo. Un traje de plátano es demasiado grande para mover bidones.",
         "culprit_explanation": "Se quitó el traje y puso ropa de trabajo robada. Luego rodó bidones de aceite al desagüe.",
@@ -120,7 +120,7 @@ OVERLAY = {
         ],
     },
     "agent_67": {
-        "role": "Quien graba el río",
+        "role": "Videógrafo del Río para la Ciudad",
         "description": "Graba vídeo del río para el equipo de limpieza de la ciudad. Usa cámara en trípode con grasa aceitosa en las patas.",
         "innocent_explanation": "El aceite del río salió directo de bidones de fábrica. Él grababa río arriba cuando se movían esos bidones.",
         "culprit_explanation": "Vertió aceite extra de su lata de trípode al desagüe. Era el mismo tipo de aceite que usan en la fábrica.",
@@ -136,7 +136,7 @@ OVERLAY = {
         ],
     },
     "roblox_builder": {
-        "role": "Ayudante de taller para niños",
+        "role": "Instructor de Taller del Museo",
         "description": "Ayuda a los niños a armar proyectos en el museo junto al río. La mesa usa tubitos de aceite de máquina para demos de engranajes.",
         "innocent_explanation": "El derrame viene de bidones enormes de planta. Él se quedó en la sala de niños toda la noche en cámara.",
         "culprit_explanation": "Vertió aceite sobrante del demo al desagüe al cerrar. Ese aceite es el mismo que usa la fábrica.",
@@ -152,7 +152,7 @@ OVERLAY = {
         ],
     },
     "elsa": {
-        "role": "Actriz del show de invierno",
+        "role": "Artista de Plaza del Centro",
         "description": "Actúa en el show de luces de invierno en la plaza. El show usa máquinas de niebla y luces.",
         "innocent_explanation": "El derrame principal es aceite grueso de fábrica. Ella estaba en el escenario cuando rodaban bidones en la planta.",
         "culprit_explanation": "Vertió líquido sobrante de niebla al desagüe pluvial. Se mezcló con aceite que ya había en la tubería de la fábrica.",
@@ -168,8 +168,8 @@ OVERLAY = {
         ],
     },
     "steve": {
-        "role": "Mascota del juego",
-        "description": "Usa un disfraz de cabeza cuadrada para un evento de juegos en el paseo. No puede entrar a la planta de aceite.",
+        "role": "Anfitrión de Evento en el Paseo",
+        "description": "Saluda al público del festival con disfraz de cabeza cuadrada en el paseo ribereño del centro. No puede entrar a la planta de aceite.",
         "innocent_explanation": "El vídeo muestra a un obrero con mono. El traje de mascota es demasiado ancho para la sala de bidones.",
         "culprit_explanation": "Se quitó el traje y usó mono robado. Ayudó a rodar bidones de aceite para que nadie viera la mascota.",
         "alibis_innocent": [

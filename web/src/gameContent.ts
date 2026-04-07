@@ -57,139 +57,139 @@ const CLUES: Record<Lang, string[]> = {
 };
 
 /**
- * Three clues: (1) pollution = factory machine oil (2) how that oil ties to this scene/role (3) simple role.
+ * Three clues: (1) factory machine oil (2) evidence trail, slightly inferential (3) narrows to one card without naming them.
  */
 const CLUES_BY_CULPRIT: Record<string, Record<Lang, readonly [string, string, string]>> = {
   bacon_hair: {
     en: [
       "The pollution is machine oil from the factory.",
-      "He rolls big oil drums between the machines and the river.",
-      "He fixes machines and moves those drums at work.",
+      "Video shows drums rolling from the plant toward the river.",
+      "Only the crew that fixes machines is allowed to move those drums.",
     ],
     es: [
       "La contaminación es aceite de máquina de la fábrica.",
-      "Él rueda bidones de aceite entre las máquinas y el río.",
-      "Arregla máquinas y mueve esos bidones en el trabajo.",
+      "El vídeo muestra bidones que salen de la planta hacia el río.",
+      "Solo el equipo que arregla máquinas puede mover esos bidones.",
     ],
   },
   ballerina_cappuccina: {
     en: [
       "The pollution is machine oil from the factory.",
-      "Greasy soap and degreaser from her café washed toward the river.",
-      "She runs the café right next to the river.",
+      "Grease traced back to a café patio one step from the water.",
+      "One suspect’s shop opens straight onto the river path.",
     ],
     es: [
       "La contaminación es aceite de máquina de la fábrica.",
-      "Jabón graso y desengrasante de su café fue hacia el río.",
-      "Ella tiene el café pegado al río.",
+      "Grasa llevó la pista a la terraza de un café junto al agua.",
+      "El local de un sospechoso da directo al paseo del río.",
     ],
   },
   tung: {
     en: [
       "The pollution is machine oil from the factory.",
-      "The oil left the plant on trucks he signed off on his forms.",
-      "He is the night boss who signs factory papers.",
+      "The oil shows up on paperwork that does not match a real truck run.",
+      "One suspect signs the night forms when oil leaves the plant.",
     ],
     es: [
       "La contaminación es aceite de máquina de la fábrica.",
-      "El aceite salió de la planta en camiones que él firmó en papeles.",
-      "Él es el jefe de noche que firma papeles de la fábrica.",
+      "El aceite figura en papeles que no coinciden con un camión real.",
+      "Un sospechoso firma de noche los formularios cuando sale aceite de la planta.",
     ],
   },
   roblox_noob: {
     en: [
       "The pollution is machine oil from the factory.",
-      "That oil only comes from big drums like the ones at the plant.",
-      "He helps at the museum but does not work in the plant.",
+      "The spill pattern matches plant drums, not maps or scavenger gear.",
+      "One suspect greets visitors at the museum, not the oil line.",
     ],
     es: [
       "La contaminación es aceite de máquina de la fábrica.",
-      "Ese aceite solo sale de bidones grandes como los de la planta.",
-      "Él ayuda en el museo pero no trabaja en la planta.",
+      "La mancha coincide con bidones de planta, no con mapas ni juegos.",
+      "Un sospechoso recibe visitas en el museo, no en la línea de aceite.",
     ],
   },
   roblox_guest: {
     en: [
       "The pollution is machine oil from the factory.",
-      "Moving that much oil takes factory keys and training.",
-      "He is a day visitor, not a factory worker.",
+      "A spill this size usually moves through the plant gate, not the lobby.",
+      "One suspect’s pass only works until closing time.",
     ],
     es: [
       "La contaminación es aceite de máquina de la fábrica.",
-      "Mover tanto aceite pide llaves y práctica de la fábrica.",
-      "Él es visitante de un día, no obrero de fábrica.",
+      "Un derrame así suele salir por la planta, no por el vestíbulo.",
+      "El pase de un sospechoso solo vale hasta el cierre.",
     ],
   },
   baconette_hair: {
     en: [
       "The pollution is machine oil from the factory.",
-      "Small oil bottles were hidden under her snack cart.",
-      "She sells snacks on the path by the river.",
+      "Tests find the same oil tucked under a food cart liner.",
+      "One suspect wheels snacks along the walking path.",
     ],
     es: [
       "La contaminación es aceite de máquina de la fábrica.",
-      "Botes de aceite pequeños estaban escondidos bajo su carrito.",
-      "Ella vende snacks en el camino junto al río.",
+      "Pruebas hallan el mismo aceite bajo el forro de un carrito de comida.",
+      "Un sospechoso empuja snacks por el camino del paseo.",
     ],
   },
   peeley: {
     en: [
       "The pollution is machine oil from the factory.",
-      "Oil got on his work clothes after he took off the banana suit.",
-      "He wears the banana suit at the museum.",
+      "Work pants picked up oil right after a full costume change.",
+      "One suspect’s job is to wear a big suit for kids.",
     ],
     es: [
       "La contaminación es aceite de máquina de la fábrica.",
-      "Aceite manchó su ropa de trabajo al quitarse el traje de plátano.",
-      "Él usa el traje de plátano en el museo.",
+      "Un mono de trabajo cogió aceite justo tras cambiar de disfraz entero.",
+      "El trabajo de un sospechoso es usar un traje grande para niños.",
     ],
   },
   agent_67: {
     en: [
       "The pollution is machine oil from the factory.",
-      "Oil from his tripod and camera bag matches the river.",
-      "He shoots video by the river for the city.",
+      "The same oil type smears his tripod legs and the water sample.",
+      "One suspect films where the city cleans the riverbank.",
     ],
     es: [
       "La contaminación es aceite de máquina de la fábrica.",
-      "El aceite de su trípode y su bolsa coincide con el río.",
-      "Él graba vídeo junto al río para la ciudad.",
+      "El mismo tipo de aceite mancha las patas del trípode y el agua.",
+      "Un sospechoso graba donde la ciudad limpia la orilla del río.",
     ],
   },
   roblox_builder: {
     en: [
       "The pollution is machine oil from the factory.",
-      "The oil on the kids’ build table is the same as in the river.",
-      "He helps kids build things at the museum.",
+      "The slick matches oil from the kids’ demo table, not the main plant line.",
+      "One suspect teaches builds at the museum workshop.",
     ],
     es: [
       "La contaminación es aceite de máquina de la fábrica.",
-      "El aceite de la mesa de los niños es el mismo que en el río.",
-      "Él ayuda a los niños a armar cosas en el museo.",
+      "La mancha coincide con aceite de la mesa demo de niños, no con la línea principal.",
+      "Un sospechoso enseña armados en el taller del museo.",
     ],
   },
   elsa: {
     en: [
       "The pollution is machine oil from the factory.",
-      "Stage fog mixed with oil and washed into the drain.",
-      "She is in the winter light show on the plaza.",
+      "Show fog and the pipe oil shared the same storm drain.",
+      "One suspect’s show runs on the plaza stage at night.",
     ],
     es: [
       "La contaminación es aceite de máquina de la fábrica.",
-      "Niebla de escenario se mezcló con aceite y entró al desagüe.",
-      "Ella sale en el show de luces de invierno en la plaza.",
+      "Niebla del show y aceite de tubería compartieron el mismo desagüe.",
+      "El show de un sospechoso es de noche en el escenario de la plaza.",
     ],
   },
   steve: {
     en: [
       "The pollution is machine oil from the factory.",
-      "Factory oil from the drums stuck to his gloves after he changed clothes.",
-      "He is the blocky game mascot.",
+      "Work gloves picked up oil, not foam from a costume prop.",
+      "One suspect wears a blocky head for the game weekend crowd.",
     ],
     es: [
       "La contaminación es aceite de máquina de la fábrica.",
-      "Aceite de los bidones pegó a sus guantes al cambiarse de ropa.",
-      "Él es la mascota del juego con forma de bloques.",
+      "Guantes de trabajo cogieron aceite, no espuma de disfraz.",
+      "Un sospechoso usa cabeza cuadrada para el evento del juego.",
     ],
   },
 };
@@ -337,9 +337,9 @@ export const UI = {
     landingPlayStarting: "Starting…",
     landingTitleLine1: "Polluter",
     landingTitleLine2: "Mystery",
-    logoBcCaption: "Ballerina Cappuccina — café owner",
-    logoBhCaption: "Bacon Hair — factory worker",
-    logoSahurCaption: "Tung — night supervisor",
+    logoBcCaption: "Ballerina Cappuccina — Riverside Café Owner",
+    logoBhCaption: "Bacon Hair — Plant Maintenance Worker",
+    logoSahurCaption: "Tung — Night Shift Supervisor",
     logoStripAria: "Story characters",
     logoStripScrollIntro: "Meet the suspects",
     playShortcutTitle: "Start (shortcut P)",
@@ -394,9 +394,9 @@ export const UI = {
     landingPlayStarting: "Iniciando…",
     landingTitleLine1: "Contaminación",
     landingTitleLine2: "Misterio",
-    logoBcCaption: "Ballerina Cappuccina — café",
-    logoBhCaption: "Bacon Hair — fábrica",
-    logoSahurCaption: "Tung — supervisor",
+    logoBcCaption: "Ballerina Cappuccina — Propietaria de Café Ribereño",
+    logoBhCaption: "Bacon Hair — Técnico de Mantenimiento de Planta",
+    logoSahurCaption: "Tung — Supervisor de Turno Nocturno",
     logoStripAria: "Sospechosos",
     logoStripScrollIntro: "Los sospechosos",
     playShortcutTitle: "Empezar (P)",

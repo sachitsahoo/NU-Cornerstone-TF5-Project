@@ -7,7 +7,7 @@
         "3594085623"
       ],
       "name": "Bacon Hair",
-      "role": "Factory worker",
+      "role": "Plant Maintenance Worker",
       "description": "He moves oil and chemicals for the factory by the river. He is allowed to roll the big oil drums.",
       "alibis_innocent": [
         "Video shows a taller person than him moving drums. His shift ended before the drums moved.",
@@ -36,7 +36,7 @@
         "390485036"
       ],
       "name": "Ballerina Cappuccina",
-      "role": "Café owner",
+      "role": "Riverside Café Owner",
       "description": "She runs a small café on the river walk. She uses soap and spray bottles for dishes and floors.",
       "alibis_innocent": [
         "Her car left the lot before the drums moved. Night trash was only cups and food waste.",
@@ -65,7 +65,7 @@
         "3593868791"
       ],
       "name": "Tung Tung Tung Sahur",
-      "role": "Night boss",
+      "role": "Night Shift Supervisor",
       "description": "He runs the night shift at the factory by the river. He signs papers when oil trucks leave the plant.",
       "alibis_innocent": [
         "His van was empty when he stopped by the drain. Logs show no drums on board.",
@@ -94,7 +94,7 @@
         "3594000001"
       ],
       "name": "Roblox Noob",
-      "role": "Museum helper",
+      "role": "Museum Floor Volunteer",
       "description": "He hands out maps at the museum on the river. He does not work inside the oil plant.",
       "alibis_innocent": [
         "He led a kids scavenger hunt before the drums moved.",
@@ -122,7 +122,7 @@
         "3594000002"
       ],
       "name": "Roblox Guest",
-      "role": "Day visitor",
+      "role": "Day Pass Visitor",
       "description": "He visits on a paper guest pass for one day. He takes photos on the river path.",
       "alibis_innocent": [
         "Lobby logs show his pass out before the drums moved.",
@@ -150,7 +150,7 @@
         "3594000003"
       ],
       "name": "Baconette Hair",
-      "role": "Snack seller",
+      "role": "Riverwalk Food Vendor",
       "description": "She sells candy and drinks from a cart on the river path. Her cart is for food only.",
       "alibis_innocent": [
         "She packed the cart away before the drums moved.",
@@ -178,7 +178,7 @@
         "3594000004"
       ],
       "name": "Peeley",
-      "role": "Banana suit actor",
+      "role": "Museum Family Entertainer",
       "description": "He wears a banana costume for kids at the museum. The suit is big and puffy.",
       "alibis_innocent": [
         "He was still in the suit during drum movement time.",
@@ -206,7 +206,7 @@
         "3594000005"
       ],
       "name": "67",
-      "role": "River video person",
+      "role": "City River Videographer",
       "description": "He shoots video of the river for the city cleanup team. He uses a camera on a tripod with oily grease on the legs.",
       "alibis_innocent": [
         "His camera was pointed upriver during the drum video.",
@@ -234,7 +234,7 @@
         "3594000006"
       ],
       "name": "Roblox Builder",
-      "role": "Kids’ build helper",
+      "role": "Museum Workshop Instructor",
       "description": "He helps kids build projects at the museum by the river. The table uses small tubes of machine oil for gear demos.",
       "alibis_innocent": [
         "He locked the tool room and stayed in the workshop on video.",
@@ -262,7 +262,7 @@
         "3594000007"
       ],
       "name": "Elsa",
-      "role": "Winter show actor",
+      "role": "Downtown Plaza Performer",
       "description": "She performs in the winter light show on the plaza. The show uses fog machines and lights.",
       "alibis_innocent": [
         "She was in full costume until late rehearsal.",
@@ -290,8 +290,8 @@
         "3594000008"
       ],
       "name": "Steve",
-      "role": "Game mascot",
-      "description": "He wears a big block-head costume for a game event on the boardwalk. He is not allowed inside the oil plant.",
+      "role": "Waterfront Event Greeter",
+      "description": "He greets festival crowds in a block-head costume on the downtown waterfront. He is not allowed inside the oil plant.",
       "alibis_innocent": [
         "Fans took photos with him far from the plant that night.",
         "The suit head cannot fit through the drum door.",
