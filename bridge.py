@@ -235,8 +235,13 @@ async def api_led(body: dict):
     r = body.get("r", 0)
     g = body.get("g", 0)
     b = body.get("b", 0)
-    if led_button_worker is not None:
-        led_button_worker.send_output(f"{r},{g},{b}")
+    line = f"{r},{g},{b}"
+    # Single-Pico setups: LED port is DUMMY but RFID Pico runs firmware that reads
+    # serial RGB lines (see microcontroller/main.py) — forward colors to that port.
+    if resolved_led_port != "DUMMY" and led_button_worker is not None:
+        led_button_worker.send_output(line)
+    elif rfid_worker is not None:
+        rfid_worker.send_output(line)
     return {"ok": True}
 
 

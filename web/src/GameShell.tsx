@@ -225,7 +225,11 @@ export default function GameShell() {
       if (revealRef.current) return;
       if (viewRef.current !== "playing") return;
       if (!sceneSuspectsRef.current.some((c) => c.uid === uid)) return;
-      const char = charactersRef.current.find((c) => c.uid === uid);
+      const roster =
+        charactersRef.current.length > 0
+          ? charactersRef.current
+          : FALLBACK_CHARACTERS;
+      const char = charByUid(roster, uid);
       if (!char) return;
       const [r, g, b] = char.led_color;
       sendLed(r, g, b);
@@ -379,8 +383,12 @@ export default function GameShell() {
   const submitReveal = useCallback(() => {
     const uid = scannedUidRef.current;
     if (!uid || !confirmOpenRef.current) return;
-    const picked = charByUid(charactersRef.current, uid);
-    const cul = charByUid(charactersRef.current, culpritUidRef.current);
+    const roster =
+      charactersRef.current.length > 0
+        ? charactersRef.current
+        : FALLBACK_CHARACTERS;
+    const picked = charByUid(roster, uid);
+    const cul = charByUid(roster, culpritUidRef.current);
     if (!picked || !cul) return;
     const correct = picked.uid === cul.uid;
     setReveal({ correct, picked, culprit: cul });
