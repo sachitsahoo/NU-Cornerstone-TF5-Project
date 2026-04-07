@@ -120,6 +120,23 @@ TAG: 390485036
 
 Note these numbers — you'll need them when editing `characters.json`.
 
+### RFID Card → Character Map
+
+| Card # | Tag ID | Character |
+|--------|------------|--------------------------|
+| 1 | 378872690 | Ballerina Cappuccina |
+| 2 | 377346306 | Roblox Noob |
+| 3 | 379940674 | Roblox Guest |
+| 4 | 823919036 | Baconette Hair |
+| 5 | 3593868791 | Tung Tung Tung Sahur |
+| 6 | 378984946 | Peeley |
+| 7 | 379743602 | Agent 67 |
+| 8 | 377120434 | Roblox Builder |
+| 9 | 380546786 | Elsa |
+| 10 | 380094082 | Steve |
+| 11 | 3594085623 | Bacon Hair |
+| 12 | 379725810 | SpyderSammy |
+
 ---
 
 ## PC / Mac Setup

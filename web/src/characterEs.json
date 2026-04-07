@@ -174,5 +174,21 @@
       "Envió un mensaje sobre mover cosas pesadas a medianoche.",
       "Ropa de trabajo en su taquilla tenía su pulsera enganchada en la cremallera."
     ]
+  },
+  "spyder_sammy": {
+    "role": "Exterminador de Orilla del Río",
+    "description": "Rocía pesticidas y químicos en la orilla del río para mantener las plagas lejos del camino peatonal.",
+    "innocent_explanation": "El derrame es aceite grueso de fábrica. Sus sprays certificados son seguros para el agua y no dejarían una mancha de aceite.",
+    "culprit_explanation": "Vertió un bidón sin etiqueta de concentrado de pesticida prohibido al desagüe pluvial para evitar los costos de eliminación. Se mezcló con aceite de fábrica que ya había en la tubería.",
+    "alibis_innocent": [
+      "Su registro de rutas muestra que terminó la orilla del río antes del atardecer.",
+      "Su camión estaba en el depósito cuando se grabó el vídeo de los bidones.",
+      "Los químicos que usa son seguros para el agua y están certificados para trabajo en orillas."
+    ],
+    "alibis_guilty": [
+      "Se encontró un envase vacío sin etiqueta cerca del desagüe con químicos que no están en su permiso.",
+      "Su registro de ruta tiene un hueco de dos horas la noche en que el aceite llegó al río.",
+      "Residuos en la rejilla del desagüe coinciden con un concentrado de pesticida prohibido hallado en su camión."
+    ]
   }
 }

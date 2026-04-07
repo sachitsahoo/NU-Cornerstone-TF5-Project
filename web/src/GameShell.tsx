@@ -55,6 +55,7 @@ const DEV_UI = {
   simTagBacon: "Simulate tag (Bacon Hair)",
   simTagBallerina: "Simulate tag (Ballerina Cappuccina)",
   simTagTung: "Simulate tag (Tung)",
+  simTagSpyderSammy: "Simulate tag (SpyderSammy)",
   simTagRemoved: "Simulate tag removed",
 } as const;
 
@@ -888,6 +889,16 @@ export default function GameShell() {
                 }}
               >
                 {DEV_UI.simTagTung}
+              </button>
+              <button
+                type="button"
+                className="dev-strip__btn"
+                disabled={devBusy}
+                onClick={() => {
+                  void sendDev(devEventRequest("tag", "spyder_sammy"));
+                }}
+              >
+                {DEV_UI.simTagSpyderSammy}
               </button>
               <button
                 type="button"

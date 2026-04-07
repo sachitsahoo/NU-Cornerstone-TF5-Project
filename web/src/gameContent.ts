@@ -192,6 +192,18 @@ const CLUES_BY_CULPRIT: Record<string, Record<Lang, readonly [string, string, st
       "Un sospechoso usa cabeza cuadrada para el evento del juego.",
     ],
   },
+  spyder_sammy: {
+    en: [
+      "The pollution is machine oil from the factory.",
+      "A banned chemical concentrate was found near the storm drain on the riverbank.",
+      "One suspect's job takes them along the riverbank with tanks of chemical spray.",
+    ],
+    es: [
+      "La contaminación es aceite de máquina de la fábrica.",
+      "Se halló un concentrado químico prohibido junto al desagüe en la orilla del río.",
+      "El trabajo de un sospechoso lo lleva por la orilla con tanques de spray químico.",
+    ],
+  },
 };
 
 const FUN_FACT: Record<Lang, string> = {

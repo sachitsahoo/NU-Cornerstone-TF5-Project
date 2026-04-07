@@ -311,6 +311,34 @@
         160,
         80
       ]
+    },
+    {
+      "uid": "spyder_sammy",
+      "tag_ids": [
+        "379725810"
+      ],
+      "name": "SpyderSammy",
+      "role": "Riverbank Exterminator",
+      "description": "He sprays pesticides and chemicals along the riverbank to keep pests away from the walking path.",
+      "alibis_innocent": [
+        "His spray log shows he finished the riverbank route before sunset.",
+        "His truck was parked at the depot when the drum video was recorded.",
+        "The chemicals he uses are water-safe and certified for riverbank work."
+      ],
+      "alibis_guilty": [
+        "An empty unlabeled canister was found near the storm drain matching chemicals not on his permit.",
+        "His route log has a two-hour gap the night the oil hit the river.",
+        "Residue on the drain grate matches a banned pesticide concentrate found in his truck."
+      ],
+      "suspicious_detail": "His spray log shows he finished the riverbank route before sunset.",
+      "innocent_explanation": "The spill is thick factory machine oil. His certified spray chemicals are water-safe and would not leave an oil slick.",
+      "culprit_explanation": "He dumped an unlabeled drum of banned pesticide concentrate into the storm drain to avoid disposal fees. It mixed with factory oil already in the pipe.",
+      "image": "",
+      "led_color": [
+        160,
+        20,
+        200
+      ]
     }
   ]
 }
