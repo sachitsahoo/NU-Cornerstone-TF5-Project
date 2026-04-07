@@ -464,6 +464,25 @@ export function prepareSceneSuspects(
 /** Suspects shown in the playing scene (random subset of the full roster). */
 export const SUSPECTS_PER_SCENE = 3;
 
+/**
+ * Kiosk demo: only these suspects appear in the case. Set false to use the full
+ * roster from the API again.
+ */
+export const DEMO_THREE_SUSPECT_ONLY = true;
+export const DEMO_ROSTER_UIDS: readonly string[] = [
+  "bacon_hair",
+  "ballerina_cappuccina",
+  "baconette_hair",
+];
+
+/** Restricts roster for {@link DEMO_THREE_SUSPECT_ONLY}; falls back if data is incomplete. */
+export function filterDemoRoster(characters: CharacterJson[]): CharacterJson[] {
+  if (!DEMO_THREE_SUSPECT_ONLY) return characters;
+  const want = new Set(DEMO_ROSTER_UIDS);
+  const filtered = characters.filter((c) => want.has(c.uid));
+  return filtered.length > 0 ? filtered : characters;
+}
+
 function shuffleInPlace<T>(xs: T[]): void {
   for (let i = xs.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));

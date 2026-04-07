@@ -263,7 +263,7 @@ CHARS = [
             "She hid small oil bottles under the cart liner.",
             "She poured them into the drain when restocking late.",
         ),
-        "image": "",
+        "image": "assets/images/baconetteHairHeadshot-removebg-preview.png",
         "led_color": [255, 105, 180],
         "inn": [
             C(

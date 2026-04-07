@@ -5,6 +5,7 @@ import {
   charByUid,
   exitQuizFor,
   FALLBACK_CHARACTERS,
+  filterDemoRoster,
   pickCulpritForRound,
   pickSceneSuspects,
   prepareSceneSuspects,
@@ -289,8 +290,9 @@ export default function GameShell() {
       setLang(next);
       setLangPickerOpen(false);
       langPickerOpenRef.current = false;
-      const roster =
-        characters.length > 0 ? characters : FALLBACK_CHARACTERS;
+      const roster = filterDemoRoster(
+        characters.length > 0 ? characters : FALLBACK_CHARACTERS
+      );
       const cul = pickCulpritForRound(roster, roundCulprits);
       culpritUidRef.current = cul;
       setRoundCulpritUid(cul);
