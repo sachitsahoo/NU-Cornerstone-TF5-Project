@@ -161,6 +161,7 @@ export function ExitQuizOverlay({
                 );
               })}
             </div>
+            <p className="exit-quiz__pick-hint">{t(lang, "buttonTapHoldHint")}</p>
           </>
         ) : (
           <div

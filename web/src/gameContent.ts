@@ -1,285 +1,48 @@
-import type { CharacterJson } from "./gameTypes";
+import type { CharacterJson, CharactersApiResponse } from "./gameTypes";
+import pack from "./data/characters.json";
+import esOverlay from "./characterEs.json";
 
 export type Lang = "en" | "es";
 
 /** Used when GET /api/characters fails (e.g. Vite without bridge). */
-export const FALLBACK_CHARACTERS: CharacterJson[] = [
-  {
-    uid: "bacon_hair",
-    tag_ids: ["000000001"],
-    name: "Bacon Hair",
-    role: "Factory Worker",
-    description:
-      "He moves chemical drums around the factory. He's the only one allowed to roll them out.",
-    suspicious_detail:
-      "Security camera caught someone in his uniform rolling two chemical drums toward the river drain at 12:40 a.m.   and those drums never came back.",
-    innocent_explanation:
-      "If he were innocent, the drums would be on a truck receipt or back on the shelf — but they're not.",
-    culprit_explanation:
-      "He dumped the drums into the storm drain to skip the fee. The oil in the river matches exactly what he uses at work.",
-    image: "assets/images/Bacon_Hair_Shoulder_Up-removebg-preview.png",
-    led_color: [20, 120, 255],
-  },
-  {
-    uid: "ballerina_cappuccina",
-    tag_ids: ["000000002"],
-    name: "Ballerina Cappuccina",
-    role: "Café Owner",
-    description:
-      "She runs the riverside café. She only uses small bottles of soap and no big chemical drums.",
-    suspicious_detail:
-      "She left the café at 9:18 p.m. and was home and asleep by 10 p.m., two hours before the drums were moved.",
-    innocent_explanation:
-      "The river pollution is heavy machine oil — not café soap. Her timeline and trash clear her completely.",
-    culprit_explanation:
-      "She poured leftover cleaning chemicals behind her café for months. Rain washed them straight into the river.",
-    image: "assets/images/Ballerina_cappuccina_shoulder_up-removebg-preview.png",
-    led_color: [255, 80, 180],
-  },
-  {
-    uid: "tung",
-    tag_ids: ["3593868791"],
-    name: "Tung Tung Tung Sahur",
-    role: "Night Shift Supervisor",
-    description:
-      "He manages the night shift and safety paperwork and wasn't near the drums.",
-    suspicious_detail:
-      "At 12:40 a.m. he was on camera inside the building fixing a sensor. He had on a bright orange vest.",
-    innocent_explanation:
-      "He was on camera elsewhere in the building at the exact time the drums were moved, and he wears the wrong uniform color.",
-    culprit_explanation:
-      "Tung faked his night reports and dumped chemicals into the river during storms to save money.",
-    image: "assets/images/TTTSahur_Shoulder_Up-removebg-preview.png",
-    led_color: [255, 80, 20],
-  },
-  {
-    uid: "roblox_noob",
-    tag_ids: ["3594000001"],
-    name: "Roblox Noob",
-    role: "Riverside Museum Volunteer",
-    description:
-      "A cheerful volunteer who hands out visitor maps and runs the kids' scavenger hunt. He never goes near the factory dock or chemical drums.",
-    suspicious_detail:
-      "Riverside path camera, 8:45 p.m.: he was leading a family scavenger hunt with glow sticks and paper clues — no maintenance uniform, no drum keys, and no route toward the storm drain. His badge only scans at public areas.",
-    innocent_explanation:
-      "The river oil matches factory drums — not scavenger gear. He has no access to the maintenance corridor or the drums that moved at 12:40 a.m.",
-    culprit_explanation:
-      "He borrowed a maintenance badge after hours and rolled drums to the drain to avoid disposal fees — the oil still matches the factory stock he could only reach with that stolen access.",
-    image: "",
-    led_color: [255, 220, 60],
-  },
-  {
-    uid: "roblox_guest",
-    tag_ids: ["3594000002"],
-    name: "Roblox Guest",
-    role: "Guest Pass Visitor",
-    description:
-      "A day visitor on the classic guest-style pass. He photographs the skyline and leaves when the café closes — no factory clearance and no drum training.",
-    suspicious_detail:
-      "Lobby logs: his badge exits at 9:05 p.m. Phone records show a ride-share pickup downtown at 9:22 p.m. River cameras after midnight never show him near the storm drain or the factory fence.",
-    innocent_explanation:
-      "He was off-site hours before the drums moved. The midnight figure is in maintenance gear on the plant path — not a guest pass at the river walk.",
-    culprit_explanation:
-      "He slipped back in with a borrowed uniform and used a guest pass as cover — the drain video still matches his height and gait from older security stills.",
-    image: "",
-    led_color: [180, 180, 200],
-  },
-  {
-    uid: "baconette_hair",
-    tag_ids: ["3594000003"],
-    name: "Baconette Hair",
-    role: "River Walk Snack Cart Vendor",
-    description:
-      "She sells candy and cold drinks along the river walk. Her cart is tiny — no room for chemical drums — and she is not on the factory waste team.",
-    suspicious_detail:
-      "Riverside scene: closing receipts show she packed the cart at 8:30 p.m. Path cameras show her rolling toward the parking lot, away from the factory drain, well before the midnight drum run.",
-    innocent_explanation:
-      "Heavy machine oil from factory drums does not match snack-cart supplies. Her route and timeline point away from the drain.",
-    culprit_explanation:
-      "She hid small chemical jugs under the cart liner and poured them into the drain during late restocks — runoff carried them into the river after rain.",
-    image: "",
-    led_color: [255, 105, 180],
-  },
-  {
-    uid: "peeley",
-    tag_ids: ["3594000004"],
-    name: "Peeley",
-    role: "Costume Character (Banana Suit)",
-    description:
-      "A banana suit performer for family events. The suit lives in the costume closet — not the chemical room — and he does not handle factory waste.",
-    suspicious_detail:
-      "Riverside program: at 10:00 p.m. he was still in the museum atrium for costume tear-down. Security shows the full banana suit — no spare hands for rolling drums, and the exit to the storm drain stayed locked until staff left.",
-    innocent_explanation:
-      "The drain video shows a maintenance silhouette, not a bulky banana suit. His alibi is on camera inside the building during the drum movement window.",
-    culprit_explanation:
-      "He changed out of the suit in a loading bay and moved drums in maintenance coveralls stashed in his gear bag — the river samples still trace to the factory lubricants he accessed through a service door.",
-    image: "",
-    led_color: [255, 230, 80],
-  },
-  {
-    uid: "agent_67",
-    tag_ids: ["3594000005"],
-    name: "67",
-    role: "River Cleanup Documentarian",
-    description:
-      "Films 'before and after' shots for the volunteer cleanup crew. He carries a camera and tripod — not barrel keys or hazmat tags.",
-    suspicious_detail:
-      "Riverside bench camera, 11:45 p.m.: he was setting up a tripod facing upstream, away from the storm drain. Factory cameras still catch the drums rolling toward the drain at 12:40 a.m. while he stays on the public bench feed.",
-    innocent_explanation:
-      "He never crosses into the plant yard where the drums leave the building. The oil signature points to factory stock, not camera gear.",
-    culprit_explanation:
-      "He staged shots to hide trips to the drain between takes — traces on his tripod feet match mud at the grate matched to the same oil found in the water.",
-    image: "",
-    led_color: [100, 200, 255],
-  },
-  {
-    uid: "roblox_builder",
-    tag_ids: ["3594000006"],
-    name: "Roblox Builder",
-    role: "STEM Workshop Facilitator",
-    description:
-      "Runs the hands-on build table where kids snap together models and simple circuits. He carries plastic bins of parts and tools — not hazmat drums or factory keys.",
-    suspicious_detail:
-      "Riverside workshop log: he locked the tool cabinet at 9:50 p.m. and signed out through the lobby. Night security shows him in the workshop bay until 11:20 p.m. — nowhere near the factory storm drain when the drums roll at 12:40 a.m.",
-    innocent_explanation:
-      "His badge and cameras keep him on the education wing. The drain video shows maintenance gear on the plant path — not a workshop apron and part bins.",
-    culprit_explanation:
-      "He stashed spare lubricant from a donated demo kit and poured it down the drain after a late teardown — lab tests still tie the oil to the same factory stock the kit was meant to mimic.",
-    image: "",
-    led_color: [70, 180, 130],
-  },
-];
+export const FALLBACK_CHARACTERS: CharacterJson[] = (
+  pack as unknown as CharactersApiResponse
+).characters;
 
-/** Spanish display text for characters (API JSON stays English). */
-const CHARACTER_ES: Record<
-  string,
-  Pick<
-    CharacterJson,
-    | "name"
-    | "role"
-    | "description"
-    | "suspicious_detail"
-    | "innocent_explanation"
-    | "culprit_explanation"
-  >
-> = {
-  bacon_hair: {
-    name: "Bacon Hair",
-    role: "Obrero de mantenimiento",
-    description:
-      "Mueve aceites y químicos en la fábrica. Solo su equipo puede sacar los bidones grandes.",
-    suspicious_detail:
-      "12:40 a.m.: en cámara, alguien con uniforme de mantenimiento lleva dos bidones al desagüe del río. Esos bidones no volvieron al almacén.",
-    innocent_explanation:
-      "Si fuera inocente, los bidones estarían en un albarán o en el estante — pero no están.",
-    culprit_explanation:
-      "Los vertió al desagüe para no pagar el tratamiento. El aceite del río coincide con el lubricante que usa en las máquinas.",
-  },
-  ballerina_cappuccina: {
-    name: "Ballerina Cappuccina",
-    role: "Dueña del café",
-    description:
-      "Tiene el café junto al río. Usa sprays y jabón en botella — no bidones de fábrica.",
-    suspicious_detail:
-      "Salió del café a las 9:18 p.m. y estaba en casa a las 10 p.m., antes del vídeo de los bidones a medianoche.",
-    innocent_explanation:
-      "El laboratorio dice que el río tiene aceite de máquina, no limpiadores de café. Su horario no encaja con el vídeo.",
-    culprit_explanation:
-      "Vertió restos de limpieza detrás del café durante meses; la lluvia los llevó al río.",
-  },
-  tung: {
-    name: "Tung Tung Tung Sahur",
-    role: "Supervisor de noche",
-    description:
-      "Turnos y papeleo de seguridad. Los supervisores no firman bidones de residuos — eso es mantenimiento.",
-    suspicious_detail:
-      "A las 12:40 a.m. las cámaras lo muestran dentro arreglando un sensor. En el vídeo de los bidones, la figura lleva naranja de mantenimiento, no amarillo de supervisor.",
-    innocent_explanation:
-      "En cámara está en otra zona del edificio cuando se mueven los bidones; además el uniforme no coincide.",
-    culprit_explanation:
-      "Falsificó informes y vertió químicos al río en tormentas para ahorrar.",
-  },
-  roblox_noob: {
-    name: "Roblox Noob",
-    role: "Voluntario del museo",
-    description:
-      "Voluntario alegre que reparte mapas y organiza la búsqueda del tesoro infantil. No entra en el muelle de la fábrica ni en bidones químicos.",
-    suspicious_detail:
-      "Cámara del sendero, 8:45 p.m.: guiaba una familia con varitas y pistas — sin uniforme de mantenimiento, sin llaves de bidón y sin ruta al desagüe. Su tarjeta solo marca zonas públicas.",
-    innocent_explanation:
-      "El aceite del río coincide con bidones de fábrica, no con material de juego. No tiene acceso al pasillo de mantenimiento ni a los bidones de las 12:40 a.m.",
-    culprit_explanation:
-      "Tomó prestada una tarjeta de mantenimiento y llevó bidones al desagüe para evitar tasas — el aceite sigue coincidiendo con el stock al que solo pudo acceder así.",
-  },
-  roblox_guest: {
-    name: "Roblox Guest",
-    role: "Visitante con pase",
-    description:
-      "Visitante de día con pase estilo clásico. Fotografía el horizonte y se va al cerrar el café — sin permiso de fábrica ni formación con bidones.",
-    suspicious_detail:
-      "Registro del vestíbulo: su pase sale a las 9:05 p.m. El móvil muestra un coche a las 9:22 p.m. Cámaras del río después de medianoche no lo muestran junto al desagüe ni la valla de la fábrica.",
-    innocent_explanation:
-      "Estaba fuera del sitio horas antes de moverse los bidones. La figura de medianoche lleva ropa de mantenimiento en la planta — no un pase de invitado en el paseo.",
-    culprit_explanation:
-      "Volvió con un uniforme prestado y usó el pase como tapadera — el vídeo del desagüe coincide con su altura y forma en fotos antiguas de seguridad.",
-  },
-  baconette_hair: {
-    name: "Baconette Hair",
-    role: "Vendedora de carrito",
-    description:
-      "Vende dulces y bebidas en el paseo del río. Su carrito es pequeño — sin sitio para bidones — y no está en el equipo de residuos de la fábrica.",
-    suspicious_detail:
-      "Escena del río: el cierre muestra que recogió el carrito a las 8:30 p.m. Las cámaras la mueven hacia el aparcamiento, lejos del desagüe, antes de la carrera de bidones a medianoche.",
-    innocent_explanation:
-      "El aceite de máquina de bidones no coincide con suministros del carrito. Su ruta y horario se alejan del desagüe.",
-    culprit_explanation:
-      "Escondió botes pequeños bajo el forro del carrito y los vertió al desagüe en repostajes tardíos — la lluvia los llevó al río.",
-  },
-  peeley: {
-    name: "Peeley",
-    role: "Personaje disfraz (plátano)",
-    description:
-      "Animador con traje de plátano para eventos familiares. El traje está en el guardarropa — no en la sala química — y no gestiona residuos de fábrica.",
-    suspicious_detail:
-      "Programa del río: a las 10:00 p.m. seguía en el atrio desmontando el traje. Las cámaras muestran el traje entero — sin manos libres para bidones — y la salida al desagüe cerrada hasta que salió el personal.",
-    innocent_explanation:
-      "El vídeo del desagüe muestra una silueta de mantenimiento, no un plátano voluminoso. Su coartada queda en cámara dentro del edificio.",
-    culprit_explanation:
-      "Se cambió en un muelle y movió bidones con mono de mantenimiento guardado en su bolsa — las muestras del río siguen enlazando lubricantes de fábrica.",
-  },
-  agent_67: {
-    name: "67",
-    role: "Documentalista de limpieza",
-    description:
-      "Filma el antes y el después para el equipo de voluntarios. Lleva cámara y trípode — no llaves de bidón ni etiquetas de residuos.",
-    suspicious_detail:
-      "Cámara del banco del río, 11:45 p.m.: montaba un trípode río arriba, lejos del desagüe. Las cámaras de la fábrica siguen mostrando bidones hacia el desagüe a las 12:40 a.m. mientras él sigue en la zona pública.",
-    innocent_explanation:
-      "No cruza el patio de la planta donde salen los bidones. La firma del aceite apunta al stock de fábrica, no al equipo de cámara.",
-    culprit_explanation:
-      "Montó tomas para ocultar idas al desagüe entre planos — barro en el trípode coincide con el mismo aceite del agua.",
-  },
-  roblox_builder: {
-    name: "Roblox Builder",
-    role: "Facilitador del taller STEM",
-    description:
-      "Dirige la mesa de montaje donde los niños arman modelos y circuitos sencillos. Lleva cajas de piezas y herramientas — no bidones ni llaves de fábrica.",
-    suspicious_detail:
-      "Registro del taller junto al río: cerró el armario de herramientas a las 9:50 p.m. y salió por el vestíbulo. Seguridad nocturna lo muestra en el taller hasta las 11:20 p.m. — lejos del desagüe cuando los bidones se mueven a las 12:40 a.m.",
-    innocent_explanation:
-      "Su tarjeta y las cámaras lo mantienen en el ala educativa. El vídeo del desagüe muestra ropa de mantenimiento en la planta — no delantal de taller ni cajas de piezas.",
-    culprit_explanation:
-      "Guardó lubricante sobrante de un kit de demostración y lo vertió al desagüe tras un desmontaje tardío — el laboratorio sigue enlazando el aceite con el mismo stock de fábrica que el kit imitaba.",
-  },
+type EsOverlay = {
+  role: string;
+  description: string;
+  innocent_explanation: string;
+  culprit_explanation: string;
+  alibis_innocent: string[];
+  alibis_guilty: string[];
 };
 
+const ES = esOverlay as Record<string, EsOverlay>;
+
+/** Spanish display text for characters (API JSON stays English). */
 export function localizeCharacter(c: CharacterJson, lang: Lang): CharacterJson {
   if (lang !== "es") return c;
-  const es = CHARACTER_ES[c.uid];
+  const es = ES[c.uid];
   if (!es) return c;
-  return { ...c, ...es };
+  const merged: CharacterJson = {
+    ...c,
+    role: es.role,
+    description: es.description,
+    innocent_explanation: es.innocent_explanation,
+    culprit_explanation: es.culprit_explanation,
+    alibis_innocent: es.alibis_innocent,
+    alibis_guilty: es.alibis_guilty,
+  };
+  const i = c.round_alibi_index;
+  if (i !== undefined && i >= 0 && i <= 2) {
+    const pool = c.round_alibi_guilty ? merged.alibis_guilty : merged.alibis_innocent;
+    merged.suspicious_detail = pool[i];
+  }
+  return merged;
 }
 
+/** Fallback if an unknown culprit uid is passed (should not happen in normal play). */
 const CLUES: Record<Lang, string[]> = {
   en: [
     "The pollution is machine oil.",
@@ -291,6 +54,144 @@ const CLUES: Record<Lang, string[]> = {
     "Un obrero de mantenimiento llevó bidones al desagüe del río.",
     "Solo los obreros tienen llave y permiso para mover esos bidones.",
   ],
+};
+
+/**
+ * Three clues: (1) pollution = factory machine oil (2) how that oil ties to this scene/role (3) simple role.
+ */
+const CLUES_BY_CULPRIT: Record<string, Record<Lang, readonly [string, string, string]>> = {
+  bacon_hair: {
+    en: [
+      "The pollution is machine oil from the factory.",
+      "He rolls big oil drums between the machines and the river.",
+      "He fixes machines and moves those drums at work.",
+    ],
+    es: [
+      "La contaminación es aceite de máquina de la fábrica.",
+      "Él rueda bidones de aceite entre las máquinas y el río.",
+      "Arregla máquinas y mueve esos bidones en el trabajo.",
+    ],
+  },
+  ballerina_cappuccina: {
+    en: [
+      "The pollution is machine oil from the factory.",
+      "Greasy soap and degreaser from her café washed toward the river.",
+      "She runs the café right next to the river.",
+    ],
+    es: [
+      "La contaminación es aceite de máquina de la fábrica.",
+      "Jabón graso y desengrasante de su café fue hacia el río.",
+      "Ella tiene el café pegado al río.",
+    ],
+  },
+  tung: {
+    en: [
+      "The pollution is machine oil from the factory.",
+      "The oil left the plant on trucks he signed off on his forms.",
+      "He is the night boss who signs factory papers.",
+    ],
+    es: [
+      "La contaminación es aceite de máquina de la fábrica.",
+      "El aceite salió de la planta en camiones que él firmó en papeles.",
+      "Él es el jefe de noche que firma papeles de la fábrica.",
+    ],
+  },
+  roblox_noob: {
+    en: [
+      "The pollution is machine oil from the factory.",
+      "That oil only comes from big drums like the ones at the plant.",
+      "He helps at the museum but does not work in the plant.",
+    ],
+    es: [
+      "La contaminación es aceite de máquina de la fábrica.",
+      "Ese aceite solo sale de bidones grandes como los de la planta.",
+      "Él ayuda en el museo pero no trabaja en la planta.",
+    ],
+  },
+  roblox_guest: {
+    en: [
+      "The pollution is machine oil from the factory.",
+      "Moving that much oil takes factory keys and training.",
+      "He is a day visitor, not a factory worker.",
+    ],
+    es: [
+      "La contaminación es aceite de máquina de la fábrica.",
+      "Mover tanto aceite pide llaves y práctica de la fábrica.",
+      "Él es visitante de un día, no obrero de fábrica.",
+    ],
+  },
+  baconette_hair: {
+    en: [
+      "The pollution is machine oil from the factory.",
+      "Small oil bottles were hidden under her snack cart.",
+      "She sells snacks on the path by the river.",
+    ],
+    es: [
+      "La contaminación es aceite de máquina de la fábrica.",
+      "Botes de aceite pequeños estaban escondidos bajo su carrito.",
+      "Ella vende snacks en el camino junto al río.",
+    ],
+  },
+  peeley: {
+    en: [
+      "The pollution is machine oil from the factory.",
+      "Oil got on his work clothes after he took off the banana suit.",
+      "He wears the banana suit at the museum.",
+    ],
+    es: [
+      "La contaminación es aceite de máquina de la fábrica.",
+      "Aceite manchó su ropa de trabajo al quitarse el traje de plátano.",
+      "Él usa el traje de plátano en el museo.",
+    ],
+  },
+  agent_67: {
+    en: [
+      "The pollution is machine oil from the factory.",
+      "Oil from his tripod and camera bag matches the river.",
+      "He shoots video by the river for the city.",
+    ],
+    es: [
+      "La contaminación es aceite de máquina de la fábrica.",
+      "El aceite de su trípode y su bolsa coincide con el río.",
+      "Él graba vídeo junto al río para la ciudad.",
+    ],
+  },
+  roblox_builder: {
+    en: [
+      "The pollution is machine oil from the factory.",
+      "The oil on the kids’ build table is the same as in the river.",
+      "He helps kids build things at the museum.",
+    ],
+    es: [
+      "La contaminación es aceite de máquina de la fábrica.",
+      "El aceite de la mesa de los niños es el mismo que en el río.",
+      "Él ayuda a los niños a armar cosas en el museo.",
+    ],
+  },
+  elsa: {
+    en: [
+      "The pollution is machine oil from the factory.",
+      "Stage fog mixed with oil and washed into the drain.",
+      "She is in the winter light show on the plaza.",
+    ],
+    es: [
+      "La contaminación es aceite de máquina de la fábrica.",
+      "Niebla de escenario se mezcló con aceite y entró al desagüe.",
+      "Ella sale en el show de luces de invierno en la plaza.",
+    ],
+  },
+  steve: {
+    en: [
+      "The pollution is machine oil from the factory.",
+      "Factory oil from the drums stuck to his gloves after he changed clothes.",
+      "He is the blocky game mascot.",
+    ],
+    es: [
+      "La contaminación es aceite de máquina de la fábrica.",
+      "Aceite de los bidones pegó a sus guantes al cambiarse de ropa.",
+      "Él es la mascota del juego con forma de bloques.",
+    ],
+  },
 };
 
 const FUN_FACT: Record<Lang, string> = {
@@ -372,8 +273,10 @@ export function exitQuizFor(lang: Lang): ExitQuizContent {
   return EXIT_QUIZ[lang];
 }
 
-export function cluesFor(lang: Lang): string[] {
-  return CLUES[lang];
+export function cluesFor(lang: Lang, culpritUid: string): string[] {
+  const triple = CLUES_BY_CULPRIT[culpritUid]?.[lang];
+  if (triple) return [...triple];
+  return [...CLUES[lang]];
 }
 
 export function funFactFor(lang: Lang): string {
@@ -398,12 +301,12 @@ export const UI = {
       "Scan a suspect card to find out more.",
     investigationActive: "Investigation Active",
     cluesTitle: "Case clues",
-    confirmTitle: "IS THIS YOUR SUSPECT?",
+    confirmTitle: "PRESS BUTTON TO ACCUSE",
     confirmButton: "Confirm",
     cancelHint: "Remove card to choose again",
-    dossierAboutLabel: "Their job",
-    dossierSuspiciousHeading: "What we know",
-    suspiciousDetailLabel: "What we know",
+    dossierAboutLabel: "What they do",
+    dossierSuspiciousHeading: "A clue",
+    suspiciousDetailLabel: "A clue",
     resultCorrect: "YOU GOT IT!",
     resultIncorrect: "Wrong suspect!",
     yourPick: "Your pick",
@@ -429,7 +332,8 @@ export const UI = {
     landingBelowTitle: "The mystery continues",
     landingHeroAria: "Introduction",
     landingPlayChooseLanguage: "Choose language…",
-    landingPlayLabel: "Play",
+    landingPlayLabel: "PRESS BUTTON TO START",
+    buttonTapHoldHint: "Tap button to switch, hold to select",
     landingPlayStarting: "Starting…",
     landingTitleLine1: "Polluter",
     landingTitleLine2: "Mystery",
@@ -457,12 +361,12 @@ export const UI = {
     sceneHint: "Escanea una tarjeta para ver más.",
     investigationActive: "Investigación activa",
     cluesTitle: "Pistas",
-    confirmTitle: "¿ES ESTE TU SOSPECHOSO?",
+    confirmTitle: "PRESIONA EL BOTÓN PARA ACUSAR",
     confirmButton: "Confirmar",
     cancelHint: "Quita la tarjeta para cambiar",
-    dossierAboutLabel: "Su trabajo",
-    dossierSuspiciousHeading: "Datos",
-    suspiciousDetailLabel: "Datos",
+    dossierAboutLabel: "Qué hace",
+    dossierSuspiciousHeading: "Una pista",
+    suspiciousDetailLabel: "Una pista",
     resultCorrect: "¡Lo lograste!",
     resultIncorrect: "¡No es el culpable!",
     yourPick: "Tu elección",
@@ -485,7 +389,8 @@ export const UI = {
     landingBelowTitle: "Sigue el misterio",
     landingHeroAria: "Introducción",
     landingPlayChooseLanguage: "Idioma…",
-    landingPlayLabel: "Jugar",
+    landingPlayLabel: "PRESIONA EL BOTÓN PARA EMPEZAR",
+    buttonTapHoldHint: "Toca el botón para cambiar; mantén para elegir",
     landingPlayStarting: "Iniciando…",
     landingTitleLine1: "Contaminación",
     landingTitleLine2: "Misterio",
@@ -510,8 +415,38 @@ export function t(lang: Lang, key: UiKey): string {
   return UI[lang][key];
 }
 
+/** @deprecated Use pickCulpritForRound — kept for one-off reads of JSON config. */
 export function culpritUid(roundCulprits: string[]): string {
   return roundCulprits[0] ?? "bacon_hair";
+}
+
+/** If `round_culprits` has a valid first uid, use it; otherwise pick uniformly at random. */
+export function pickCulpritForRound(
+  roster: CharacterJson[],
+  roundCulprits: string[]
+): string {
+  if (roster.length === 0) return "bacon_hair";
+  const fixed = roundCulprits[0];
+  if (fixed && roster.some((c) => c.uid === fixed)) return fixed;
+  return roster[Math.floor(Math.random() * roster.length)].uid;
+}
+
+/** One random innocent or guilty alibi per suspect for this round (index 0–2). */
+export function prepareSceneSuspects(
+  picked: CharacterJson[],
+  culpritUidParam: string
+): CharacterJson[] {
+  return picked.map((c) => {
+    const guilty = c.uid === culpritUidParam;
+    const idx = Math.floor(Math.random() * 3) as 0 | 1 | 2;
+    const pool = guilty ? c.alibis_guilty : c.alibis_innocent;
+    return {
+      ...c,
+      round_alibi_index: idx,
+      round_alibi_guilty: guilty,
+      suspicious_detail: pool[idx],
+    };
+  });
 }
 
 /** Suspects shown in the playing scene (random subset of the full roster). */

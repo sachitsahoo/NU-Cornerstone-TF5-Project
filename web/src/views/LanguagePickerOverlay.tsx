@@ -57,6 +57,7 @@ export function LanguagePickerOverlay({
             );
           })}
         </div>
+        <p className="lang-overlay__hint">{t(lang, "buttonTapHoldHint")}</p>
       </div>
     </div>
   );

@@ -21,6 +21,8 @@ type RevealState = {
 type PlayingViewProps = {
   visible: boolean;
   lang: Lang;
+  /** Actual culprit this round. Drives which three case clues are shown. */
+  culpritUid: string;
   characters: CharacterJson[];
   highlightUid: string | null;
   confirmOpen: boolean;
@@ -90,6 +92,7 @@ function SuspectPortrait({ src }: { src: string }) {
 export function PlayingView({
   visible,
   lang,
+  culpritUid,
   characters,
   highlightUid,
   confirmOpen,
@@ -98,7 +101,10 @@ export function PlayingView({
   onContinueReveal,
   onSuspectSelect,
 }: PlayingViewProps) {
-  const clues = cluesFor(lang);
+  const clues = useMemo(
+    () => cluesFor(lang, culpritUid),
+    [lang, culpritUid]
+  );
 
   const cast = useMemo(() => {
     const row = characters.slice(0, SUSPECTS_PER_SCENE);

@@ -3,10 +3,11 @@ import { createPortal } from "react-dom";
 import { useBridgeWebSocket } from "./hooks/useBridgeWebSocket";
 import {
   charByUid,
-  culpritUid,
   exitQuizFor,
   FALLBACK_CHARACTERS,
+  pickCulpritForRound,
   pickSceneSuspects,
+  prepareSceneSuspects,
   riverExitFactsFor,
   SUSPECTS_PER_SCENE,
   type Lang,
@@ -119,11 +120,11 @@ export default function GameShell() {
   const sceneSuspectsRef = useRef<CharacterJson[]>([]);
   sceneSuspectsRef.current = sceneSuspects;
 
-  const [roundCulprits, setRoundCulprits] = useState<string[]>([
-    "bacon_hair",
-    "tung",
-  ]);
+  /** Empty = random culprit each play; set first uid to fix culprit for testing. */
+  const [roundCulprits, setRoundCulprits] = useState<string[]>([]);
   const culpritUidRef = useRef<string>("bacon_hair");
+  /** Synced with culpritUidRef for UI (case clues per culprit). */
+  const [roundCulpritUid, setRoundCulpritUid] = useState<string>("bacon_hair");
 
   const [highlightUid, setHighlightUid] = useState<string | null>(null);
   const [scannedUid, setScannedUid] = useState<string | null>(null);
@@ -263,16 +264,12 @@ export default function GameShell() {
   }, []);
 
   useEffect(() => {
-    culpritUidRef.current = culpritUid(roundCulprits);
-  }, [roundCulprits]);
-
-  useEffect(() => {
     void (async () => {
       try {
         const r = await fetch("/api/characters");
         if (!r.ok) {
           setCharacters(FALLBACK_CHARACTERS);
-          setRoundCulprits(["bacon_hair", "tung"]);
+          setRoundCulprits([]);
           return;
         }
         const data = (await r.json()) as CharactersApiResponse;
@@ -280,7 +277,7 @@ export default function GameShell() {
         setRoundCulprits(data.round_culprits);
       } catch {
         setCharacters(FALLBACK_CHARACTERS);
-        setRoundCulprits(["bacon_hair", "tung"]);
+        setRoundCulprits([]);
       }
     })();
   }, []);
@@ -293,10 +290,13 @@ export default function GameShell() {
       langPickerOpenRef.current = false;
       const roster =
         characters.length > 0 ? characters : FALLBACK_CHARACTERS;
-      const picked = pickSceneSuspects(
-        roster,
-        culpritUid(roundCulprits)
-      ).slice(0, SUSPECTS_PER_SCENE);
+      const cul = pickCulpritForRound(roster, roundCulprits);
+      culpritUidRef.current = cul;
+      setRoundCulpritUid(cul);
+      const picked = prepareSceneSuspects(
+        pickSceneSuspects(roster, cul).slice(0, SUSPECTS_PER_SCENE),
+        cul
+      );
       sceneSuspectsRef.current = picked;
       setSceneSuspects(picked);
       setPlayActive(true);
@@ -927,6 +927,7 @@ export default function GameShell() {
         <PlayingView
           visible={playingVisible}
           lang={lang}
+          culpritUid={roundCulpritUid}
           characters={sceneSuspects}
           highlightUid={highlightUid}
           confirmOpen={confirmOpen}
