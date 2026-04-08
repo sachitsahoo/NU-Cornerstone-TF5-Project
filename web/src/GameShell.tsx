@@ -53,6 +53,8 @@ const DEV_UI = {
   simButtonLegacy: "Simulate button (legacy)",
   simButtonDown: "Simulate button down",
   simButtonUp: "Simulate button up",
+  simButton2Down: "Simulate button 2 down",
+  simButton2Up: "Simulate button 2 up",
   simTagBacon: "Simulate tag (Bacon Hair)",
   simTagBallerina: "Simulate tag (Ballerina Cappuccina)",
   simTagTung: "Simulate tag (Tung)",
@@ -315,12 +317,10 @@ export default function GameShell() {
     [cancelHold, characters, sendBillboardDefault, roundCulprits]
   );
 
-  const HOLD_MS = 3000;
-  const HOLD_DELAY_MS = 100; // short taps cycle language; hold shows track right away
+  const HOLD_MS = 800;
 
-  /** Exit-quiz MCQ: fill duration for hold-to-confirm (tap = cycle, hold = confirm). */
-  const QUIZ_HOLD_MS = 3800;
-  const QUIZ_HOLD_DELAY_MS = 120;
+  /** Exit-quiz MCQ: fill duration for hold-to-confirm. */
+  const QUIZ_HOLD_MS = 1000;
 
   const startHold = useCallback(() => {
     cancelHold();
@@ -528,15 +528,18 @@ export default function GameShell() {
               quizPickerOpenedThisPressRef.current = false;
               return;
             }
-            if (
-              quizHoldDelayTimerRef.current === null &&
-              quizHoldStartRef.current === null
-            ) {
-              setQuizHoldCharging(true);
-              quizHoldDelayTimerRef.current = window.setTimeout(() => {
-                quizHoldDelayTimerRef.current = null;
-                startQuizHold();
-              }, QUIZ_HOLD_DELAY_MS);
+            // Single press confirms — no hold required
+            const q = exitQuizFor(lang);
+            const correct = quizHighlightIndexRef.current === q.correctIndex;
+            setExitQuizPhase("feedback");
+            exitQuizPhaseRef.current = "feedback";
+            setQuizFeedbackCorrect(correct);
+            if (correct) {
+              const [r, g, b] = LED_FEEDBACK_CORRECT;
+              sendLed(r, g, b);
+            } else {
+              const [r, g, b] = LED_FEEDBACK_WRONG;
+              sendLed(r, g, b);
             }
             return;
           }
@@ -548,21 +551,37 @@ export default function GameShell() {
               quizHoldDelayTimerRef.current != null ||
               quizHoldStartRef.current != null
             ) {
-              const next = (quizHighlightIndexRef.current + 1) % 4;
-              setQuizHighlightIndex(next);
-              quizHighlightIndexRef.current = next;
-              cancelQuizHold();
+              cancelQuizHold();  // cancel in-progress hold; no cycle here — use Button 2
             }
             return;
           }
-          if (msg.type === "button") {
+          if (msg.type === "button" || msg.type === "button2_down") {
             const next = (quizHighlightIndexRef.current + 1) % 4;
             setQuizHighlightIndex(next);
             quizHighlightIndexRef.current = next;
             return;
           }
+          // Don't catch-all return — let other event types (e.g. future button types) fall through
+        }
+      }
+
+      // ─── Button 2: cycle / switch only ───
+      if (msg.type === "button2_down") {
+        // Exit quiz pick phase: cycle MCQ answer
+        if (exitQuizPhaseRef.current === "pick") {
+          const next = (quizHighlightIndexRef.current + 1) % 4;
+          setQuizHighlightIndex(next);
+          quizHighlightIndexRef.current = next;
           return;
         }
+        // Landing with picker open: cycle language
+        if (viewRef.current === "landing" && langPickerOpenRef.current) {
+          const next: Lang = pickerLangRef.current === "en" ? "es" : "en";
+          setPickerLang(next);
+          pickerLangRef.current = next;
+          return;
+        }
+        return;
       }
 
       if (msg.type === "button_down") {
@@ -579,16 +598,10 @@ export default function GameShell() {
               setLangPickerOpen(true);
               langPickerOpenRef.current = true;
             }
-          } else if (holdDelayTimerRef.current === null && holdStartRef.current === null) {
-            // Picker already open, new press, hold not yet started.
-            // Also clears pickerOpenedThisPressRef as a fallback in case BUTTON_UP was dropped.
+          } else {
+            // Picker already open — single press confirms the selected language
             pickerOpenedThisPressRef.current = false;
-            setHoldCharging(true);
-            // Wait HOLD_DELAY_MS before starting the fill — short taps stay as language cycles.
-            holdDelayTimerRef.current = window.setTimeout(() => {
-              holdDelayTimerRef.current = null;
-              startHold();
-            }, HOLD_DELAY_MS);
+            onLanguagePick(pickerLangRef.current);
           }
           return;
         }
@@ -609,11 +622,7 @@ export default function GameShell() {
             // This release paired with the press that opened the picker — ignore
             pickerOpenedThisPressRef.current = false;
           } else if (holdDelayTimerRef.current != null || holdStartRef.current != null) {
-            // Short press (released before or during hold): cycle language
-            const next: Lang = pickerLangRef.current === "en" ? "es" : "en";
-            setPickerLang(next);
-            pickerLangRef.current = next;
-            cancelHold();
+            cancelHold();  // cancel in-progress hold; no cycle here — use Button 2
           }
           return;
         }
@@ -869,6 +878,26 @@ export default function GameShell() {
                 }}
               >
                 {DEV_UI.simButtonUp}
+              </button>
+              <button
+                type="button"
+                className="dev-strip__btn"
+                disabled={devBusy}
+                onClick={() => {
+                  void sendDev(devEventRequest("button2_down"));
+                }}
+              >
+                {DEV_UI.simButton2Down}
+              </button>
+              <button
+                type="button"
+                className="dev-strip__btn"
+                disabled={devBusy}
+                onClick={() => {
+                  void sendDev(devEventRequest("button2_up"));
+                }}
+              >
+                {DEV_UI.simButton2Up}
               </button>
               <button
                 type="button"

@@ -117,6 +117,10 @@ class SerialWorker(threading.Thread):
                         self._emit({"type": "button_up"})
                     elif line == "BUTTON":
                         self._emit({"type": "button"})  # legacy firmware
+                    elif line == "BUTTON2_DOWN":
+                        self._emit({"type": "button2_down"})
+                    elif line == "BUTTON2_UP":
+                        self._emit({"type": "button2_up"})
 
             except Exception as e:
                 self._emit({"type": "status", "connected": False, "message": f"Serial error: {e}"})

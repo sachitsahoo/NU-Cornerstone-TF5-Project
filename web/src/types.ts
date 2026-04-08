@@ -19,6 +19,8 @@ export type BridgeWsMessage =
   | { type: "button"; schema: BridgeEventSchema }
   | { type: "button_down"; schema: BridgeEventSchema }
   | { type: "button_up"; schema: BridgeEventSchema }
+  | { type: "button2_down"; schema: BridgeEventSchema }
+  | { type: "button2_up"; schema: BridgeEventSchema }
   | {
       type: "status";
       schema: BridgeEventSchema;
@@ -52,6 +54,8 @@ export type DevEventRequestV1 =
   | { schema: DevEventSchema; type: "button" }
   | { schema: DevEventSchema; type: "button_down" }
   | { schema: DevEventSchema; type: "button_up" }
+  | { schema: DevEventSchema; type: "button2_down" }
+  | { schema: DevEventSchema; type: "button2_up" }
   | { schema: DevEventSchema; type: "tag_removed" };
 
 export function devEventRequest(
@@ -64,6 +68,12 @@ export function devEventRequest(
   kind: "button_up"
 ): { schema: DevEventSchema; type: "button_up" };
 export function devEventRequest(
+  kind: "button2_down"
+): { schema: DevEventSchema; type: "button2_down" };
+export function devEventRequest(
+  kind: "button2_up"
+): { schema: DevEventSchema; type: "button2_up" };
+export function devEventRequest(
   kind: "tag_removed"
 ): { schema: DevEventSchema; type: "tag_removed" };
 export function devEventRequest(
@@ -71,7 +81,7 @@ export function devEventRequest(
   uid: string
 ): { schema: DevEventSchema; type: "tag"; uid: string };
 export function devEventRequest(
-  kind: "tag" | "button" | "button_down" | "button_up" | "tag_removed",
+  kind: "tag" | "button" | "button_down" | "button_up" | "button2_down" | "button2_up" | "tag_removed",
   uid?: string
 ): DevEventRequestV1 {
   const schema = devSchema();
@@ -82,6 +92,8 @@ export function devEventRequest(
   if (kind === "button") return { schema, type: "button" };
   if (kind === "button_down") return { schema, type: "button_down" };
   if (kind === "button_up") return { schema, type: "button_up" };
+  if (kind === "button2_down") return { schema, type: "button2_down" };
+  if (kind === "button2_up") return { schema, type: "button2_up" };
   return { schema, type: "tag_removed" };
 }
 
@@ -119,6 +131,8 @@ export function parseBridgeWsMessage(raw: unknown): BridgeWsMessage | null {
   if (t === "button") return { ...base, type: "button" };
   if (t === "button_down") return { ...base, type: "button_down" };
   if (t === "button_up") return { ...base, type: "button_up" };
+  if (t === "button2_down") return { ...base, type: "button2_down" };
+  if (t === "button2_up") return { ...base, type: "button2_up" };
   if (t === "status") {
     const connected = raw.connected;
     const message = raw.message;
