@@ -113,6 +113,13 @@ class SerialWorker(threading.Thread):
                     if not line:
                         continue
 
+                    if line == "REMOVED":
+                        if self._last_uid is not None:
+                            self._last_uid = None
+                            self._miss_count = 0
+                            self._emit({"type": "tag_removed"})
+                        continue
+
                     matched_uid = self._match_line_to_tag_uid(line)
 
                     if matched_uid:

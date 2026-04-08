@@ -26,14 +26,34 @@ def rfid_thread():
     reader = MFRC522(spi_id=0, sck=2, miso=4, mosi=3, cs=1, rst=18)
     reader.init()
     reader.antenna_gain = 0x04
+    last_card = None
+    card_present = False
+    miss_count = 0
+    MISS_THRESHOLD = 3  # 3 * 50ms = 150ms before REMOVED
+
     while True:
         (stat, tag_type) = reader.request(reader.REQIDL)
         if stat == reader.OK:
             (stat, uid) = reader.SelectTagSN()
             if stat == reader.OK:
                 card = int.from_bytes(bytes(uid), "little", False)
-                print("TAG: " + str(card))
-        utime.sleep_ms(50)  # small yield to avoid watchdog issues
+                if card != last_card:
+                    print("TAG: " + str(card))
+                    last_card = card
+                card_present = True
+                miss_count = 0
+            else:
+                miss_count += 1
+        else:
+            miss_count += 1
+
+        if card_present and miss_count >= MISS_THRESHOLD:
+            print("REMOVED")
+            card_present = False
+            last_card = None
+            miss_count = 0
+
+        utime.sleep_ms(50)
 
 _thread.start_new_thread(rfid_thread, ())
 
