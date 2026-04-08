@@ -98,13 +98,9 @@ function isRecord(v: unknown): v is Record<string, unknown> {
 export function parseBridgeWsMessage(raw: unknown): BridgeWsMessage | null {
   if (!isRecord(raw)) return null;
   const schema = raw.schema;
-  if (
-    !isRecord(schema) ||
-    schema.name !== BRIDGE_EVENT_SCHEMA_NAME ||
-    schema.version !== BRIDGE_EVENT_SCHEMA_VERSION
-  ) {
-    return null;
-  }
+  if (!isRecord(schema)) return null;
+  if (String(schema.name) !== BRIDGE_EVENT_SCHEMA_NAME) return null;
+  if (Number(schema.version) !== BRIDGE_EVENT_SCHEMA_VERSION) return null;
   const t = raw.type;
   const base = {
     schema: {
@@ -112,8 +108,13 @@ export function parseBridgeWsMessage(raw: unknown): BridgeWsMessage | null {
       version: BRIDGE_EVENT_SCHEMA_VERSION,
     },
   } as const;
-  if (t === "tag" && typeof raw.uid === "string") {
-    return { ...base, type: "tag", uid: raw.uid };
+  if (t === "tag") {
+    const uidRaw = raw.uid;
+    if (uidRaw == null) return null;
+    const uid =
+      typeof uidRaw === "string" ? uidRaw.trim() : String(uidRaw).trim();
+    if (!uid) return null;
+    return { ...base, type: "tag", uid };
   }
   if (t === "tag_removed") return { ...base, type: "tag_removed" };
   if (t === "button") return { ...base, type: "button" };

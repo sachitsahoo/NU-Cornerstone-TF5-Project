@@ -15,7 +15,8 @@ export default defineConfig({
     },
     // Bridge: /api, /ws, /dev/* (e.g. POST /dev/event), /assets from repo root
     proxy: {
-      "/ws": { target: "ws://127.0.0.1:8000", ws: true },
+      // Use http target so the dev server can upgrade to WebSocket reliably.
+      "/ws": { target: "http://127.0.0.1:8000", ws: true, changeOrigin: true },
       "/api": "http://127.0.0.1:8000",
       "/dev": "http://127.0.0.1:8000",
       "/assets": "http://127.0.0.1:8000",
