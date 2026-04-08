@@ -6,12 +6,16 @@ Events are pushed to a thread-safe queue as dicts (no PyQt).
 from __future__ import annotations
 
 import queue
+import re
 import threading
 
 import serial
 import serial.tools.list_ports
 
 SERIAL_BAUD = 115200
+
+# Pico prints e.g. "TAG: 3594085623" — prefer exact ID lookup; avoid substring false positives.
+_TAG_LINE_RE = re.compile(r"^TAG:\s*(\d+)", re.IGNORECASE)
 
 
 def auto_detect_pico_port() -> str | None:
@@ -54,6 +58,11 @@ class SerialWorker(threading.Thread):
         super().__init__(daemon=True)
         self.port = port
         self.tag_map = tag_map
+        self._tag_pairs_by_len_desc = sorted(
+            tag_map.items(),
+            key=lambda kv: len(kv[0]),
+            reverse=True,
+        )
         self.event_queue = event_queue
         self._running = True
         self._ser = None
@@ -66,6 +75,18 @@ class SerialWorker(threading.Thread):
 
     def _emit(self, d: dict):
         self.event_queue.put(d)
+
+    def _match_line_to_tag_uid(self, line: str) -> str | None:
+        m = _TAG_LINE_RE.match(line)
+        if m:
+            card_id = m.group(1)
+            uid = self.tag_map.get(card_id)
+            if uid is not None:
+                return uid
+        for raw_id, char_uid in self._tag_pairs_by_len_desc:
+            if raw_id in line:
+                return char_uid
+        return None
 
     def run(self):
         if self.port == "DUMMY":
@@ -92,11 +113,7 @@ class SerialWorker(threading.Thread):
                     if not line:
                         continue
 
-                    matched_uid = None
-                    for raw_id, char_uid in self.tag_map.items():
-                        if raw_id in line:
-                            matched_uid = char_uid
-                            break
+                    matched_uid = self._match_line_to_tag_uid(line)
 
                     if matched_uid:
                         self._miss_count = 0
