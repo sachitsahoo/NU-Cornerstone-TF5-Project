@@ -25,7 +25,7 @@ def set_color(r, g, b):
     np.write()
 
 try:
-    set_color(255, 180, 100)
+    set_color(138, 0, 196)
 except:
     print("Error setting color on init")
 

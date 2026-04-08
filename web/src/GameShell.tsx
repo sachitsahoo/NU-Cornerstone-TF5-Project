@@ -38,7 +38,7 @@ const EXIT_SCENE_LOAD_MS =
 const EXIT_TO_HOME_ANIM_MS = 480;
 
 /** Physical NeoPixel “billboard”: always lit — warm white idle, green/red for feedback. */
-const LED_BILLBOARD_DEFAULT: [number, number, number] = [255, 180, 100];
+const LED_BILLBOARD_DEFAULT: [number, number, number] = [138, 0, 196];
 const LED_FEEDBACK_CORRECT: [number, number, number] = [0, 255, 0];
 const LED_FEEDBACK_WRONG: [number, number, number] = [255, 0, 0];
 

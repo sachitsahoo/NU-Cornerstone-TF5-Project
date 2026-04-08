@@ -5,8 +5,10 @@
 An interactive Clue-style museum exhibit where visitors scan RFID suspect cards to investigate river pollution and accuse a culprit. The game reveals whether the player's choice was correct and explains the environmental impact.
 
 **Tech stack:**
-- **Microcontroller:** MicroPython on Raspberry Pi Pico (RFID reader, NeoPixel LEDs, button)
-- **Backend bridge:** Python/FastAPI + WebSocket server, communicates with Pico over serial
+- **Microcontrollers:** Two Raspberry Pi Picos running MicroPython
+  - Pico 1 (`rfid/`): RFID reader + idle LED animation
+  - Pico 2 (`led_button/`): NeoPixel strip + 2 buttons, receives LED color commands from bridge
+- **Backend bridge:** Python/FastAPI + WebSocket server, communicates with both Picos over separate serial ports
 - **Frontend:** React 18 + TypeScript, built with Vite
 - **Game data:** `characters.json` (suspects, tag IDs, culprit explanations)
 
@@ -17,7 +19,10 @@ Supports English and Spanish (EN/ES) localization.
 ```
 /
 ├── microcontroller/
-│   └── main.py              # MicroPython firmware flashed to Pico
+│   ├── rfid/
+│   │   └── main.py          # Pico 1: RFID scanning (Core 1) + idle LED bounce (Core 0)
+│   └── led_button/
+│       └── main.py          # Pico 2: NeoPixel strip (GP28, n=24) + 2 buttons (GP15, GP16)
 ├── hardware/
 │   └── serial_worker.py     # Thread that reads Pico serial → event queue
 ├── web/                     # React/TypeScript SPA
@@ -49,12 +54,14 @@ Supports English and Spanish (EN/ES) localization.
 ### Communication flow
 
 ```
-Pico (serial) → serial_worker.py → bridge.py (FastAPI/WebSocket :8000)
-                                        ↕ WebSocket /ws
-                               web/ React UI (Vite :5173 in dev)
+Pico 1 RFID (serial) ──┐
+                        ├─→ serial_worker.py → bridge.py (FastAPI/WebSocket :8000)
+Pico 2 LED/Btn (serial)─┘                          ↕ WebSocket /ws
+                                          web/ React UI (Vite :5173 in dev)
 ```
 
-- Pico outputs plain text over USB serial: `TAG: <id>`, `REMOVED`, `BUTTON`
+- **Pico 1** outputs `TAG: <id>` over serial when a card is scanned (every ~50ms while present)
+- **Pico 2** outputs `BUTTON_DOWN`, `BUTTON_UP`, `BUTTON2_DOWN`, `BUTTON2_UP`; receives `r,g,b\n` to set LED color
 - `serial_worker.py` parses these and emits typed event dicts to a queue
 - `bridge.py` consumes the queue and broadcasts versioned JSON messages over `/ws`
 - React hook `useBridgeWebSocket.ts` subscribes and drives `GameShell.tsx` state
@@ -65,7 +72,8 @@ Pico (serial) → serial_worker.py → bridge.py (FastAPI/WebSocket :8000)
 
 | Layer | Entry point |
 |---|---|
-| Microcontroller | `microcontroller/main.py` |
+| Pico 1 (RFID) | `microcontroller/rfid/main.py` |
+| Pico 2 (LED/Button) | `microcontroller/led_button/main.py` |
 | Python backend | `bridge.py` (FastAPI app) |
 | React frontend | `web/src/main.tsx` → `App.tsx` → `GameShell.tsx` |
 
@@ -103,9 +111,14 @@ In production, `bridge.py` serves the built `web/dist/` as static files at `/`.
 
 ### Microcontroller setup
 
-1. Flash MicroPython firmware to Pico (from micropython.org)
-2. Copy `mfrc522.py` RFID library to Pico root (github.com/wendlers/micropython-mfrc522)
-3. Copy `microcontroller/main.py` to Pico root as `main.py`
+**Pico 1 (RFID):**
+1. Flash MicroPython firmware (micropython.org/download/rp2-pico)
+2. Copy `mfrc522.py` to Pico root (github.com/wendlers/micropython-mfrc522)
+3. Copy `microcontroller/rfid/main.py` to Pico root as `main.py`
+
+**Pico 2 (LED/Button):**
+1. Flash MicroPython firmware
+2. Copy `microcontroller/led_button/main.py` to Pico root as `main.py` (no extra libs needed)
 
 ### Dev / testing without hardware
 
@@ -122,19 +135,28 @@ Edit `characters.json` to change suspects, RFID tag IDs, LED colors, or the culp
 
 ## Pico Pin Assignments
 
-From `microcontroller/main.py` (authoritative):
+### Pico 1 — RFID (`microcontroller/rfid/main.py`)
 
-| Signal | Pico pin |
-|---|---|
-| RFID CS | GP1 |
-| RFID SCK | GP2 |
-| RFID MOSI | GP3 |
-| RFID MISO | GP4 |
-| RFID RST | GP0 |
-| NeoPixel data | GP28 |
-| Button | GP14 |
+| Signal    | Pico pin |
+|-----------|----------|
+| RFID CS   | GP1      |
+| RFID SCK  | GP2      |
+| RFID MOSI | GP3      |
+| RFID MISO | GP4      |
+| RFID RST  | GP18     |
+| NeoPixel  | GP15     |
 
-NeoPixel pixel count: `n = 8` (edit at top of `main.py`). Button uses internal pull-up; triggers on falling edge.
+NeoPixel count: `n = 11`. Idle bounce animation only — not driven by bridge.
+
+### Pico 2 — LED/Button (`microcontroller/led_button/main.py`)
+
+| Signal   | Pico pin |
+|----------|----------|
+| NeoPixel | GP28     |
+| Button 1 | GP15     |
+| Button 2 | GP16     |
+
+NeoPixel count: `n = 24`. Both buttons use internal PULL_UP, debounced in firmware (50ms).
 
 ## Notes
 

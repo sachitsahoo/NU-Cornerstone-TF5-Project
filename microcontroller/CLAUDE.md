@@ -1,58 +1,97 @@
 # microcontroller/
 
-MicroPython firmware for the Raspberry Pi Pico. One file: `main.py`. This runs standalone on the Pico — no Python env, no pip.
+Two separate Raspberry Pi Picos. Each has its own `main.py` and runs standalone — no Python env, no pip.
 
-## What it does
+---
 
-Polling loop (10ms) that:
-1. Reads RFID tags via MFRC522 over SPI
-2. Monitors a button with internal pull-up
-3. Controls a NeoPixel LED strip
-4. Outputs plain-text events over USB serial to the host
+## Pico 1 — RFID (`rfid/main.py`)
 
-## Pin Assignments (authoritative)
+**Role:** RFID scanning only. Runs RFID reader on Core 1, idle LED bounce animation on Core 0.
 
-| Signal      | Pin  |
-|-------------|------|
-| RFID CS     | GP1  |
-| RFID SCK    | GP2  |
-| RFID MOSI   | GP3  |
-| RFID MISO   | GP4  |
-| RFID RST    | GP0  |
-| NeoPixel    | GP28 |
-| Button      | GP15 |
+### Pin Assignments
 
-NeoPixel count is set at the top of `main.py` as `n = 24`. Match this to actual hardware.
+| Signal    | Pin  |
+|-----------|------|
+| RFID CS   | GP1  |
+| RFID SCK  | GP2  |
+| RFID MOSI | GP3  |
+| RFID MISO | GP4  |
+| RFID RST  | GP18 |
+| NeoPixel  | GP15 |
 
-## Serial Output Format (115200 baud, newline-delimited)
+NeoPixel count: `n = 11`. Used for idle bounce animation (purple, 138,0,196). Not controlled by bridge.
+
+### Serial Output (115200 baud, newline-delimited)
 
 ```
-TAG: 3594085623       # RFID card detected (raw numeric ID)
-REMOVED               # card no longer in range
-BUTTON_DOWN           # sent every loop while button held
-BUTTON_UP             # sent once on release
-LED SET: 255,180,100  # acknowledges an LED command from host
+TAG: 3594085623    # RFID card detected (raw numeric ID, little-endian bytes)
 ```
 
-## Receiving LED Commands
+- Prints `TAG:` every ~50ms continuously while card is present (no dedup on Pico — bridge handles it)
+- **No `REMOVED` event currently** — bridge infers removal by absence of TAG messages
+- No button, no serial command input
 
-Bridge sends `255,180,100\n` over serial → Pico sets all NeoPixels to that RGB value.
-
-## Dependencies (must be on Pico root)
+### Dependencies (must be on Pico root)
 
 - `mfrc522.py` — RFID library (github.com/wendlers/micropython-mfrc522)
 - `main.py` — this file
 
-## Flashing / Deploying
+### Gotchas
+
+- RST is GP18, not GP0 — docs used to say GP0, that was wrong
+- TAG spam every 50ms is intentional; bridge deduplicates
+- Missing `mfrc522.py` = silent boot failure; check Thonny REPL
+
+---
+
+## Pico 2 — LED/Button (`led_button/main.py`)
+
+**Role:** NeoPixel strip control + two buttons. Receives LED color commands from bridge over serial.
+
+### Pin Assignments
+
+| Signal   | Pin  |
+|----------|------|
+| NeoPixel | GP28 |
+| Button 1 | GP15 |
+| Button 2 | GP16 |
+
+NeoPixel count: `n = 24`. Both buttons use internal PULL_UP. Debounce is handled **in firmware** (50ms).
+
+### Serial Input (from bridge → Pico)
+
+```
+255,180,100\n    # Sets all 24 NeoPixels to RGB(255,180,100)
+```
+
+### Serial Output (Pico → bridge)
+
+```
+BUTTON_DOWN      # Button 1 pressed
+BUTTON_UP        # Button 1 released
+BUTTON2_DOWN     # Button 2 pressed
+BUTTON2_UP       # Button 2 released
+LED SET: r,g,b   # Acknowledges a color command
+```
+
+- Inits all pixels to purple (138, 0, 196) on boot
+- Polling loop every 10ms
+- No RFID on this Pico
+
+### Dependencies (must be on Pico root)
+
+- `main.py` — this file only, no extra libraries
+
+### Gotchas
+
+- Debouncing is done in firmware here (unlike old single-Pico design where bridge debounced)
+- If bridge sends malformed serial (not `r,g,b`), Pico prints `Invalid input: <line>` and continues
+
+---
+
+## Flashing Either Pico
 
 1. Flash MicroPython firmware (micropython.org/download/rp2-pico)
-2. Copy `mfrc522.py` to Pico root via Thonny or `mpremote`
-3. Copy `main.py` to Pico root as `main.py` — runs automatically on boot
-
-## Gotchas
-
-- **No debouncing:** `BUTTON_DOWN` fires every 10ms while held. The bridge (`serial_worker.py`) handles debouncing, not the Pico.
-- **No JSON:** Output is plain text. The bridge parses and enriches it.
-- **MFRC522 must be present:** Missing library = silent boot failure. Check Thonny REPL if Pico isn't outputting anything.
-- **Pixel count:** `n` at top of file must match actual strip length or you'll get incorrect colors on overflow pixels.
-- **Tag IDs are raw integers:** The bridge maps these to character UIDs via `characters.json`.
+2. For RFID Pico: copy `mfrc522.py` to Pico root first
+3. Copy the relevant `main.py` to Pico root — runs automatically on boot
+4. Use Thonny or `mpremote` to transfer files
