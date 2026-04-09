@@ -151,6 +151,9 @@ export default function GameShell() {
   const activeCaseRef = useRef<BostonCaseId>("charles_river");
   activeCaseRef.current = activeCase;
 
+  /** Same seed as scene RNG — picks which of 10 exit-quiz questions matches this case/play. */
+  const [scenePlaySeed, setScenePlaySeed] = useState(0);
+
   /** Empty = random culprit each play; set first uid to fix culprit for testing. */
   const [roundCulprits, setRoundCulprits] = useState<string[]>([]);
   const culpritUidRef = useRef<string>("bacon_hair");
@@ -363,6 +366,7 @@ export default function GameShell() {
         characters.length > 0 ? characters : FALLBACK_CHARACTERS
       );
       const sceneSeed = randomSceneSeed();
+      setScenePlaySeed(sceneSeed);
       const rng = createSceneRandom(sceneSeed);
       const cul = pickCulpritForRound(roster, roundCulprits);
       culpritUidRef.current = cul;
@@ -435,7 +439,7 @@ export default function GameShell() {
     quizHoldConfirmTimerRef.current = window.setTimeout(() => {
       quizHoldRafRef.current = null;
       setQuizHoldProgress(1);
-      const q = exitQuizFor(lang);
+      const q = exitQuizFor(lang, activeCase, scenePlaySeed);
       const correct = quizHighlightIndexRef.current === q.correctIndex;
       setExitQuizPhase("feedback");
       exitQuizPhaseRef.current = "feedback";
@@ -449,7 +453,7 @@ export default function GameShell() {
         sendLed(r, g, b);
       }
     }, QUIZ_HOLD_MS);
-  }, [cancelQuizHold, sendLed, lang]);
+  }, [cancelQuizHold, sendLed, lang, activeCase, scenePlaySeed]);
 
   const submitReveal = useCallback(() => {
     const uid = scannedUidRef.current;
@@ -602,7 +606,7 @@ export default function GameShell() {
               return;
             }
             // Single press confirms — no hold required
-            const q = exitQuizFor(lang);
+            const q = exitQuizFor(lang, activeCase, scenePlaySeed);
             const correct = quizHighlightIndexRef.current === q.correctIndex;
             setExitQuizPhase("feedback");
             exitQuizPhaseRef.current = "feedback";
@@ -755,6 +759,9 @@ export default function GameShell() {
       beginExitToLandingWithAnimation,
       onContinueReveal,
       selectSuspectByUid,
+      lang,
+      activeCase,
+      scenePlaySeed,
     ]
   );
 
@@ -1074,7 +1081,7 @@ export default function GameShell() {
         <ExitQuizOverlay
           lang={lang}
           phase={exitQuizPhase}
-          quiz={exitQuizFor(lang)}
+          quiz={exitQuizFor(lang, activeCase, scenePlaySeed)}
           highlightIndex={quizHighlightIndex}
           holdProgress={quizHoldProgress}
           holdTrackVisible={quizHoldCharging}
