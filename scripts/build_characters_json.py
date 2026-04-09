@@ -21,7 +21,7 @@ CHARS = [
         "uid": "bacon_hair",
         "tag_ids": ["3594085623"],
         "name": "Bacon Hair",
-        "role": "Plant Maintenance Worker",
+        "role": "Factory Mechanic",
         "description": C(
             "He moves oil and chemicals for the factory by the river.",
             "He is allowed to roll the big oil drums.",
@@ -70,7 +70,7 @@ CHARS = [
         "uid": "ballerina_cappuccina",
         "tag_ids": ["390485036"],
         "name": "Ballerina Cappuccina",
-        "role": "Riverside Café Owner",
+        "role": "Café Owner",
         "description": C(
             "She runs a small café on the river walk.",
             "She uses soap and spray bottles for dishes and floors.",
@@ -164,7 +164,7 @@ CHARS = [
         "uid": "roblox_noob",
         "tag_ids": ["3594000001"],
         "name": "Roblox Noob",
-        "role": "Museum Floor Volunteer",
+        "role": "Museum Guide",
         "description": C(
             "He hands out maps at the museum on the river.",
             "He does not work inside the oil plant.",
@@ -178,7 +178,7 @@ CHARS = [
             "He wanted to skip paying the oil disposal fee.",
         ),
         "image": "",
-        "led_color": [255, 220, 60],
+        "led_color": [255, 255, 0],
         "inn": [
             C(
                 "He led a kids scavenger hunt before the drums moved.",
@@ -208,7 +208,7 @@ CHARS = [
         "uid": "roblox_guest",
         "tag_ids": ["3594000002"],
         "name": "Roblox Guest",
-        "role": "Day Pass Visitor",
+        "role": "Sales Representative",
         "description": C(
             "He visits on a paper guest pass for one day.",
             "He takes photos on the river path.",
@@ -222,7 +222,7 @@ CHARS = [
             "He used his guest pass as a cover story.",
         ),
         "image": "",
-        "led_color": [180, 180, 200],
+        "led_color": [0, 0, 139],
         "inn": [
             C(
                 "Lobby logs show his pass out before the drums moved.",
@@ -250,7 +250,7 @@ CHARS = [
         "uid": "baconette_hair",
         "tag_ids": ["3594000003"],
         "name": "Baconette Hair",
-        "role": "Riverwalk Food Vendor",
+        "role": "Street Food Vendor",
         "description": C(
             "She sells candy and drinks from a cart on the river path.",
             "Her cart is for food only.",
@@ -292,7 +292,7 @@ CHARS = [
         "uid": "peeley",
         "tag_ids": ["3594000004"],
         "name": "Peeley",
-        "role": "Museum Family Entertainer",
+        "role": "Office Assistant",
         "description": C(
             "He wears a banana costume for kids at the museum.",
             "The suit is big and puffy.",
@@ -306,7 +306,7 @@ CHARS = [
             "Then he rolled oil drums to the drain.",
         ),
         "image": "",
-        "led_color": [255, 230, 80],
+        "led_color": [255, 255, 0],
         "inn": [
             C(
                 "He was still in the suit during drum movement time.",
@@ -334,7 +334,7 @@ CHARS = [
         "uid": "agent_67",
         "tag_ids": ["3594000005"],
         "name": "67",
-        "role": "City River Videographer",
+        "role": "Freelance Videographer",
         "description": C(
             "He shoots video of the river for the city cleanup team.",
             "He uses a camera on a tripod with oily grease on the legs.",
@@ -348,7 +348,7 @@ CHARS = [
             "It was the same type of oil used at the factory.",
         ),
         "image": "",
-        "led_color": [100, 200, 255],
+        "led_color": [173, 216, 230],
         "inn": [
             C(
                 "His camera was pointed upriver during the drum video.",
@@ -377,7 +377,7 @@ CHARS = [
         "uid": "roblox_builder",
         "tag_ids": ["3594000006"],
         "name": "Roblox Builder",
-        "role": "Museum Workshop Instructor",
+        "role": "Youth Program Instructor",
         "description": C(
             "He helps kids build projects at the museum by the river.",
             "The table uses small tubes of machine oil for gear demos.",
@@ -391,7 +391,7 @@ CHARS = [
             "That oil is the same kind the factory uses.",
         ),
         "image": "",
-        "led_color": [70, 180, 130],
+        "led_color": [255, 140, 0],
         "inn": [
             C(
                 "He locked the tool room and stayed in the workshop on video.",
@@ -419,7 +419,7 @@ CHARS = [
         "uid": "elsa",
         "tag_ids": ["3594000007"],
         "name": "Elsa",
-        "role": "Downtown Plaza Performer",
+        "role": "Plaza Performer",
         "description": C(
             "She performs in the winter light show on the plaza.",
             "The show uses fog machines and lights.",
@@ -461,7 +461,7 @@ CHARS = [
         "uid": "steve",
         "tag_ids": ["3594000008"],
         "name": "Steve",
-        "role": "Waterfront Event Greeter",
+        "role": "Office Worker",
         "description": C(
             "He greets festival crowds in a block-head costume on the downtown waterfront.",
             "He is not allowed inside the oil plant.",

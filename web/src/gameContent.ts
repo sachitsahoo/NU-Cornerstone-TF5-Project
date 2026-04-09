@@ -45,163 +45,163 @@ export function localizeCharacter(c: CharacterJson, lang: Lang): CharacterJson {
 /** Fallback if an unknown culprit uid is passed (should not happen in normal play). */
 const CLUES: Record<Lang, string[]> = {
   en: [
-    "The pollution is machine oil.",
-    "A maintenance worker moved chemical drums to the river drain.",
-    "Only factory workers have the key and training to move drums.",
+    "The mess is factory machine oil.",
+    "Someone moved oil drums to the river drain.",
+    "Only factory workers can move those drums.",
   ],
   es: [
-    "La contaminación es aceite de máquina.",
-    "Un obrero de mantenimiento llevó bidones al desagüe del río.",
-    "Solo los obreros tienen llave y permiso para mover esos bidones.",
+    "Es aceite de máquina de fábrica.",
+    "Alguien movió bidones de aceite al desagüe del río.",
+    "Solo trabajadores de la fábrica pueden mover esos bidones.",
   ],
 };
 
 /**
- * Three clues: (1) factory machine oil (2) evidence trail, slightly inferential (3) narrows to one card without naming them.
+ * Three clues: (1) oil type (2–3) short evidence—enough to reason with, not a job listing.
  */
 const CLUES_BY_CULPRIT: Record<string, Record<Lang, readonly [string, string, string]>> = {
   bacon_hair: {
     en: [
-      "The pollution is machine oil from the factory.",
-      "Video shows drums rolling from the plant toward the river.",
-      "Only the crew that fixes machines is allowed to move those drums.",
+      "It's factory machine oil.",
+      "Video shows drums heading toward the river.",
+      "Scrape marks match a cart from the machine yard.",
     ],
     es: [
-      "La contaminación es aceite de máquina de la fábrica.",
-      "El vídeo muestra bidones que salen de la planta hacia el río.",
-      "Solo el equipo que arregla máquinas puede mover esos bidones.",
+      "Es aceite de máquina de la fábrica.",
+      "El vídeo muestra bidones hacia el río.",
+      "Rozaduras coinciden con un carro del taller de máquinas.",
     ],
   },
   ballerina_cappuccina: {
     en: [
-      "The pollution is machine oil from the factory.",
-      "Grease traced back to a café patio one step from the water.",
-      "One suspect’s shop opens straight onto the river path.",
+      "It's factory machine oil.",
+      "Grease traced to her café patio on the river walk.",
+      "The trail runs between the factory and that riverside café.",
     ],
     es: [
-      "La contaminación es aceite de máquina de la fábrica.",
-      "Grasa llevó la pista a la terraza de un café junto al agua.",
-      "El local de un sospechoso da directo al paseo del río.",
+      "Es aceite de máquina de la fábrica.",
+      "Grasa llevó a la terraza de su café en el paseo del río.",
+      "La pista va entre la fábrica y ese café ribereño.",
     ],
   },
   tung: {
     en: [
-      "The pollution is machine oil from the factory.",
-      "The oil shows up on paperwork that does not match a real truck run.",
-      "One suspect signs the night forms when oil leaves the plant.",
+      "It's factory machine oil.",
+      "Truck papers list a pickup that never happened.",
+      "The wrong form has a night shift stamp on it.",
     ],
     es: [
-      "La contaminación es aceite de máquina de la fábrica.",
-      "El aceite figura en papeles que no coinciden con un camión real.",
-      "Un sospechoso firma de noche los formularios cuando sale aceite de la planta.",
+      "Es aceite de máquina de la fábrica.",
+      "Los papeles del camión dicen una recogida que no ocurrió.",
+      "El formulario equivocado tiene sello de turno nocturno.",
     ],
   },
   roblox_noob: {
     en: [
-      "The pollution is machine oil from the factory.",
-      "The spill pattern matches plant drums, not maps or scavenger gear.",
-      "One suspect greets visitors at the museum, not the oil line.",
+      "It's factory machine oil.",
+      "The stain pattern fits factory drums.",
+      "A scavenger hunt photo shows the time by the museum steps.",
     ],
     es: [
-      "La contaminación es aceite de máquina de la fábrica.",
-      "La mancha coincide con bidones de planta, no con mapas ni juegos.",
-      "Un sospechoso recibe visitas en el museo, no en la línea de aceite.",
+      "Es aceite de máquina de la fábrica.",
+      "La mancha encaja con bidones de fábrica.",
+      "Una foto de la búsqueda del tesoro muestra la hora junto al museo.",
     ],
   },
   roblox_guest: {
     en: [
-      "The pollution is machine oil from the factory.",
-      "A spill this size usually moves through the plant gate, not the lobby.",
-      "One suspect’s pass only works until closing time.",
+      "It's factory machine oil.",
+      "This much oil usually moves on the freight road.",
+      "Lobby logs show an exit before the drums rolled.",
     ],
     es: [
-      "La contaminación es aceite de máquina de la fábrica.",
-      "Un derrame así suele salir por la planta, no por el vestíbulo.",
-      "El pase de un sospechoso solo vale hasta el cierre.",
+      "Es aceite de máquina de la fábrica.",
+      "Tanto aceite suele moverse por la vía de carga.",
+      "Registros del vestíbulo muestran salida antes de los bidones.",
     ],
   },
   baconette_hair: {
     en: [
-      "The pollution is machine oil from the factory.",
-      "Tests find the same oil tucked under a food cart liner.",
-      "One suspect wheels snacks along the walking path.",
+      "It's factory machine oil.",
+      "Oil pooled under a cart liner, not a sink.",
+      "Snack wrappers by the stain match a cart brand.",
     ],
     es: [
-      "La contaminación es aceite de máquina de la fábrica.",
-      "Pruebas hallan el mismo aceite bajo el forro de un carrito de comida.",
-      "Un sospechoso empuja snacks por el camino del paseo.",
+      "Es aceite de máquina de la fábrica.",
+      "Aceite bajo el forro de un carrito, no en un fregadero.",
+      "Envoltorios junto a la mancha coinciden con una marca de carrito.",
     ],
   },
   peeley: {
     en: [
-      "The pollution is machine oil from the factory.",
-      "Work pants picked up oil right after a full costume change.",
-      "One suspect’s job is to wear a big suit for kids.",
+      "It's factory machine oil.",
+      "Oil hit work clothes right after he changed out of the banana suit.",
+      "Fluff from a costume was on a drum at the grate.",
     ],
     es: [
-      "La contaminación es aceite de máquina de la fábrica.",
-      "Un mono de trabajo cogió aceite justo tras cambiar de disfraz entero.",
-      "El trabajo de un sospechoso es usar un traje grande para niños.",
+      "Es aceite de máquina de la fábrica.",
+      "Aceite en ropa de trabajo tras quitarse el traje de plátano.",
+      "Pelusa de disfraz apareció en un bidón en la rejilla.",
     ],
   },
   agent_67: {
     en: [
-      "The pollution is machine oil from the factory.",
-      "The same oil type smears his tripod legs and the water sample.",
-      "One suspect films where the city cleans the riverbank.",
+      "It's factory machine oil.",
+      "Tripod legs have the same grease as the water sample.",
+      "A camera was on the mud bank by the river.",
     ],
     es: [
-      "La contaminación es aceite de máquina de la fábrica.",
-      "El mismo tipo de aceite mancha las patas del trípode y el agua.",
-      "Un sospechoso graba donde la ciudad limpia la orilla del río.",
+      "Es aceite de máquina de la fábrica.",
+      "Las patas del trípode tienen la misma grasa que el agua.",
+      "Una cámara en el barro junto al río.",
     ],
   },
   roblox_builder: {
     en: [
-      "The pollution is machine oil from the factory.",
-      "The slick matches oil from the kids’ demo table, not the main plant line.",
-      "One suspect teaches builds at the museum workshop.",
+      "It's factory machine oil.",
+      "The oil matches the kids' demo tubes, not the plant pipes.",
+      "A door from the kids’ room sits near the grate.",
     ],
     es: [
-      "La contaminación es aceite de máquina de la fábrica.",
-      "La mancha coincide con aceite de la mesa demo de niños, no con la línea principal.",
-      "Un sospechoso enseña armados en el taller del museo.",
+      "Es aceite de máquina de la fábrica.",
+      "El aceite coincide con tubitos de demo, no con el tubo principal.",
+      "Una puerta del salón de niños queda cerca de la rejilla.",
     ],
   },
   elsa: {
     en: [
-      "The pollution is machine oil from the factory.",
-      "Show fog and the pipe oil shared the same storm drain.",
-      "One suspect’s show runs on the plaza stage at night.",
+      "It's factory machine oil.",
+      "Fog from her light show and pipe oil used the same drain.",
+      "The plaza rehearsal for that show matched when the oil hit the drain.",
     ],
     es: [
-      "La contaminación es aceite de máquina de la fábrica.",
-      "Niebla del show y aceite de tubería compartieron el mismo desagüe.",
-      "El show de un sospechoso es de noche en el escenario de la plaza.",
+      "Es aceite de máquina de la fábrica.",
+      "Niebla del show y aceite de tubo usan el mismo desagüe.",
+      "El ensayo en la plaza para ese show coincidió con el aceite en el desagüe.",
     ],
   },
   steve: {
     en: [
-      "The pollution is machine oil from the factory.",
-      "Work gloves picked up oil, not foam from a costume prop.",
-      "One suspect wears a blocky head for the game weekend crowd.",
+      "It's factory machine oil.",
+      "Work gloves picked up oil, not foam from the suit.",
+      "The mascot head can’t fit through the drum room door.",
     ],
     es: [
-      "La contaminación es aceite de máquina de la fábrica.",
-      "Guantes de trabajo cogieron aceite, no espuma de disfraz.",
-      "Un sospechoso usa cabeza cuadrada para el evento del juego.",
+      "Es aceite de máquina de la fábrica.",
+      "Guantes con aceite, no espuma del traje de cabeza cuadrada.",
+      "La cabeza grande no cabe por la puerta de la sala de bidones.",
     ],
   },
   spyder_sammy: {
     en: [
-      "The pollution is machine oil from the factory.",
-      "A banned chemical concentrate was found near the storm drain on the riverbank.",
-      "One suspect's job takes them along the riverbank with tanks of chemical spray.",
+      "It's factory machine oil.",
+      "A label for illegal chemicals was by the drain.",
+      "Hoses and a list of stops were by the drain.",
     ],
     es: [
-      "La contaminación es aceite de máquina de la fábrica.",
-      "Se halló un concentrado químico prohibido junto al desagüe en la orilla del río.",
-      "El trabajo de un sospechoso lo lleva por la orilla con tanques de spray químico.",
+      "Es aceite de máquina de la fábrica.",
+      "Una etiqueta de químico ilegal junto al desagüe.",
+      "Mangueras y una lista de paradas junto al desagüe.",
     ],
   },
 };
@@ -291,6 +291,68 @@ export function cluesFor(lang: Lang, culpritUid: string): string[] {
   return [...CLUES[lang]];
 }
 
+export type CaseClueGlyph = "water" | "fish" | "car";
+
+export type CaseClueItem = {
+  text: string;
+  glyph: CaseClueGlyph;
+};
+
+/**
+ * Deterministic PRNG for one scene: suspect roster, alibis, and clue order all draw
+ * from the same seed so they vary together each play.
+ */
+export type SceneRandom = {
+  /** Uniform in [0, 1). */
+  float: () => number;
+};
+
+/** Mulberry32 — fast, deterministic from a 32-bit seed. */
+export function createSceneRandom(seed: number): SceneRandom {
+  let a = seed >>> 0;
+  return {
+    float: () => {
+      let t = (a += 0x6d2b79f5) | 0;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    },
+  };
+}
+
+export function randomSceneSeed(): number {
+  if (typeof globalThis.crypto?.getRandomValues === "function") {
+    const u = new Uint32Array(1);
+    globalThis.crypto.getRandomValues(u);
+    return u[0]! >>> 0;
+  }
+  return (Math.random() * 0x100000000) >>> 0;
+}
+
+function shuffleInPlaceSeeded<T>(xs: T[], float: () => number): void {
+  for (let i = xs.length - 1; i > 0; i--) {
+    const j = Math.floor(float() * (i + 1));
+    [xs[i], xs[j]] = [xs[j], xs[i]];
+  }
+}
+
+const CASE_CLUE_GLYPHS: readonly CaseClueGlyph[] = ["water", "fish", "car"];
+
+/** Three case clues for the culprit, order shuffled per scene (glyph stays paired with each line). */
+export function caseCluesForScene(
+  lang: Lang,
+  culpritUid: string,
+  rng: SceneRandom
+): CaseClueItem[] {
+  const triple = cluesFor(lang, culpritUid);
+  const pairs: CaseClueItem[] = triple.map((text, i) => ({
+    text,
+    glyph: CASE_CLUE_GLYPHS[i]!,
+  }));
+  shuffleInPlaceSeeded(pairs, rng.float);
+  return pairs;
+}
+
 export function funFactFor(lang: Lang): string {
   return FUN_FACT[lang];
 }
@@ -349,8 +411,8 @@ export const UI = {
     landingPlayStarting: "Starting…",
     landingTitleLine1: "Polluter",
     landingTitleLine2: "Mystery",
-    logoBcCaption: "Ballerina Cappuccina — Riverside Café Owner",
-    logoBhCaption: "Bacon Hair — Plant Maintenance Worker",
+    logoBcCaption: "Ballerina Cappuccina — Café Owner",
+    logoBhCaption: "Bacon Hair — Factory Mechanic",
     logoSahurCaption: "Tung — Night Shift Supervisor",
     logoStripAria: "Story characters",
     logoStripScrollIntro: "Meet the suspects",
@@ -406,9 +468,9 @@ export const UI = {
     landingPlayStarting: "Iniciando…",
     landingTitleLine1: "Contaminación",
     landingTitleLine2: "Misterio",
-    logoBcCaption: "Ballerina Cappuccina — Propietaria de Café Ribereño",
-    logoBhCaption: "Bacon Hair — Técnico de Mantenimiento de Planta",
-    logoSahurCaption: "Tung — Supervisor de Turno Nocturno",
+    logoBcCaption: "Ballerina Cappuccina — Dueña De Un Café",
+    logoBhCaption: "Bacon Hair — Mecánico De Fábrica",
+    logoSahurCaption: "Tung — Supervisor De Turno Nocturno",
     logoStripAria: "Sospechosos",
     logoStripScrollIntro: "Los sospechosos",
     playShortcutTitle: "Empezar (P)",
@@ -443,14 +505,15 @@ export function pickCulpritForRound(
   return roster[Math.floor(Math.random() * roster.length)].uid;
 }
 
-/** One random innocent or guilty alibi per suspect for this round (index 0–2). */
+/** One innocent or guilty alibi per suspect for this round (index 0–2), drawn from scene RNG. */
 export function prepareSceneSuspects(
   picked: CharacterJson[],
-  culpritUidParam: string
+  culpritUidParam: string,
+  rng: SceneRandom
 ): CharacterJson[] {
   return picked.map((c) => {
     const guilty = c.uid === culpritUidParam;
-    const idx = Math.floor(Math.random() * 3) as 0 | 1 | 2;
+    const idx = Math.floor(rng.float() * 3) as 0 | 1 | 2;
     const pool = guilty ? c.alibis_guilty : c.alibis_innocent;
     return {
       ...c,
@@ -465,10 +528,10 @@ export function prepareSceneSuspects(
 export const SUSPECTS_PER_SCENE = 3;
 
 /**
- * Kiosk demo: only these suspects appear in the case. Set false to use the full
- * roster from the API again.
+ * Kiosk demo: when true, only {@link DEMO_ROSTER_UIDS} appear — good for a 3-card
+ * tabletop; set false so each play draws a random trio + culprit from the full roster.
  */
-export const DEMO_THREE_SUSPECT_ONLY = true;
+export const DEMO_THREE_SUSPECT_ONLY = false;
 export const DEMO_ROSTER_UIDS: readonly string[] = [
   "bacon_hair",
   "ballerina_cappuccina",
@@ -483,36 +546,31 @@ export function filterDemoRoster(characters: CharacterJson[]): CharacterJson[] {
   return filtered.length > 0 ? filtered : characters;
 }
 
-function shuffleInPlace<T>(xs: T[]): void {
-  for (let i = xs.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [xs[i], xs[j]] = [xs[j], xs[i]];
-  }
-}
-
 /**
  * Picks up to `SUSPECTS_PER_SCENE` suspects for one play-through: always includes
  * the culprit, fills remaining slots with random others, then shuffles order.
  */
 export function pickSceneSuspects(
   all: CharacterJson[],
-  culpritUidValue: string
+  culpritUidValue: string,
+  rng: SceneRandom
 ): CharacterJson[] {
   if (all.length === 0) return [];
   const cul = all.find((c) => c.uid === culpritUidValue);
   const others = all.filter((c) => c.uid !== culpritUidValue);
+  const float = rng.float;
   if (!cul) {
     const copy = [...all];
-    shuffleInPlace(copy);
+    shuffleInPlaceSeeded(copy, float);
     return copy.slice(0, Math.min(SUSPECTS_PER_SCENE, copy.length));
   }
   const n = Math.min(SUSPECTS_PER_SCENE, all.length);
   const needOthers = n - 1;
   const o = [...others];
-  shuffleInPlace(o);
+  shuffleInPlaceSeeded(o, float);
   const rest = o.slice(0, Math.min(needOthers, o.length));
   const combined = [cul, ...rest];
-  shuffleInPlace(combined);
+  shuffleInPlaceSeeded(combined, float);
   return combined;
 }
 

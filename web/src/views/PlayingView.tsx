@@ -1,9 +1,8 @@
 import { useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import type { CharacterJson } from "../gameTypes";
-import type { Lang } from "../gameContent";
+import type { CaseClueItem, Lang } from "../gameContent";
 import {
-  cluesFor,
   imageSrc,
   localizeCharacter,
   SUSPECTS_PER_SCENE,
@@ -21,8 +20,8 @@ type RevealState = {
 type PlayingViewProps = {
   visible: boolean;
   lang: Lang;
-  /** Actual culprit this round. Drives which three case clues are shown. */
-  culpritUid: string;
+  /** Three case lines + icons for this scene (built with scene RNG in GameShell). */
+  caseClues: CaseClueItem[];
   characters: CharacterJson[];
   highlightUid: string | null;
   confirmOpen: boolean;
@@ -31,8 +30,6 @@ type PlayingViewProps = {
   onContinueReveal: () => void;
   onSuspectSelect: (uid: string) => void;
 };
-
-const CLUE_ICONS: Array<"water" | "fish" | "car"> = ["water", "fish", "car"];
 
 function firstSentences(text: string, maxSentences = 2): string {
   const t = text.trim();
@@ -92,7 +89,7 @@ function SuspectPortrait({ src }: { src: string }) {
 export function PlayingView({
   visible,
   lang,
-  culpritUid,
+  caseClues,
   characters,
   highlightUid,
   confirmOpen,
@@ -101,11 +98,6 @@ export function PlayingView({
   onContinueReveal,
   onSuspectSelect,
 }: PlayingViewProps) {
-  const clues = useMemo(
-    () => cluesFor(lang, culpritUid),
-    [lang, culpritUid]
-  );
-
   const cast = useMemo(() => {
     const row = characters.slice(0, SUSPECTS_PER_SCENE);
     return row.map((c) => localizeCharacter(c, lang));
@@ -227,15 +219,18 @@ export function PlayingView({
                   <p className="scene-clues__hint">{t(lang, "sceneHint")}</p>
                 </div>
                 <ol className="scene-clues-list">
-                  {clues.map((line, i) => (
-                    <li key={i} className="scene-clues-list__item">
+                  {caseClues.map((item, i) => (
+                    <li
+                      key={`${item.glyph}-${item.text.slice(0, 24)}`}
+                      className="scene-clues-list__item"
+                    >
                       <div className="scene-clues-list__lead">
                         <span className="scene-clues-list__idx" aria-hidden>
                           {i + 1}
                         </span>
-                        <ClueGlyph kind={CLUE_ICONS[i] ?? "water"} />
+                        <ClueGlyph kind={item.glyph} />
                       </div>
-                      <p className="scene-clues-list__text">{line}</p>
+                      <p className="scene-clues-list__text">{item.text}</p>
                     </li>
                   ))}
                 </ol>

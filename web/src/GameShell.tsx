@@ -2,15 +2,19 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useBridgeWebSocket } from "./hooks/useBridgeWebSocket";
 import {
+  caseCluesForScene,
   charByUid,
+  createSceneRandom,
   exitQuizFor,
   FALLBACK_CHARACTERS,
   filterDemoRoster,
   pickCulpritForRound,
   pickSceneSuspects,
   prepareSceneSuspects,
+  randomSceneSeed,
   riverExitFactsFor,
   SUSPECTS_PER_SCENE,
+  type CaseClueItem,
   type Lang,
 } from "./gameContent";
 import type { CharacterJson, CharactersApiResponse } from "./gameTypes";
@@ -37,10 +41,17 @@ const EXIT_SCENE_LOAD_MS =
 /** Exit quiz overlay fade-out; keep in sync with `.exit-quiz` CSS transition. */
 const EXIT_TO_HOME_ANIM_MS = 480;
 
-/** Physical NeoPixel “billboard”: always lit — warm white idle, green/red for feedback. */
-const LED_BILLBOARD_DEFAULT: [number, number, number] = [138, 0, 196];
+/**
+ * Physical NeoPixel “billboard”: idle purple; green/red for feedback.
+ * Firmware sets one RGB for the whole strip — landing animates brightness + tint to suggest a side-to-side sweep.
+ */
+const LED_BILLBOARD_PURPLE: [number, number, number] = [138, 0, 196];
 const LED_FEEDBACK_CORRECT: [number, number, number] = [0, 255, 0];
 const LED_FEEDBACK_WRONG: [number, number, number] = [255, 0, 0];
+
+function clampLedChannel(x: number): number {
+  return Math.max(0, Math.min(255, Math.round(x)));
+}
 
 /** Dev chrome is English-only (not localized with exhibit language). */
 const DEV_UI = {
@@ -124,11 +135,12 @@ export default function GameShell() {
   const sceneSuspectsRef = useRef<CharacterJson[]>([]);
   sceneSuspectsRef.current = sceneSuspects;
 
+  /** Case clues + glyph order for this scene (from same RNG as roster and alibis). */
+  const [sceneCaseClues, setSceneCaseClues] = useState<CaseClueItem[]>([]);
+
   /** Empty = random culprit each play; set first uid to fix culprit for testing. */
   const [roundCulprits, setRoundCulprits] = useState<string[]>([]);
   const culpritUidRef = useRef<string>("bacon_hair");
-  /** Synced with culpritUidRef for UI (case clues per culprit). */
-  const [roundCulpritUid, setRoundCulpritUid] = useState<string>("bacon_hair");
 
   const [highlightUid, setHighlightUid] = useState<string | null>(null);
   const [scannedUid, setScannedUid] = useState<string | null>(null);
@@ -185,15 +197,45 @@ export default function GameShell() {
     });
   }, []);
 
-  /** Exhibit strip stays on at default warmth whenever we are not showing per-suspect or feedback colors. */
+  /** Solid exhibit purple whenever we are not showing per-suspect or feedback colors (all scenes except home). */
   const sendBillboardDefault = useCallback(() => {
-    const [r, g, b] = LED_BILLBOARD_DEFAULT;
+    const [r, g, b] = LED_BILLBOARD_PURPLE;
     sendLed(r, g, b);
   }, [sendLed]);
 
+  /** Home / landing: animated purple; every other phase uses solid purple via `sendBillboardDefault`. */
   useEffect(() => {
-    sendBillboardDefault();
-  }, [sendBillboardDefault]);
+    if (view !== "landing") return undefined;
+    const reduceMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) {
+      sendBillboardDefault();
+      return undefined;
+    }
+    const [pr, pg, pb] = LED_BILLBOARD_PURPLE;
+    const periodMs = 2600;
+    const tickMs = 55;
+    let timer: number | null = null;
+    const tick = () => {
+      const t = (Date.now() % 1_000_000_000) / periodMs;
+      const phase = t * Math.PI * 2;
+      const sweep = 0.5 + 0.5 * Math.sin(phase);
+      const k = 0.58 + 0.42 * sweep;
+      const lateral = Math.sin(phase * 0.5);
+      const tint = 0.08;
+      sendLed(
+        clampLedChannel(pr * k * (1 + tint * lateral)),
+        clampLedChannel(pg * k),
+        clampLedChannel(pb * k * (1 - tint * lateral))
+      );
+      timer = window.setTimeout(tick, tickMs);
+    };
+    tick();
+    return () => {
+      if (timer != null) window.clearTimeout(timer);
+    };
+  }, [view, sendLed, sendBillboardDefault]);
 
   const clearConfirmTimer = useCallback(() => {
     if (confirmTimerRef.current != null) {
@@ -299,13 +341,16 @@ export default function GameShell() {
       const roster = filterDemoRoster(
         characters.length > 0 ? characters : FALLBACK_CHARACTERS
       );
+      const sceneSeed = randomSceneSeed();
+      const rng = createSceneRandom(sceneSeed);
       const cul = pickCulpritForRound(roster, roundCulprits);
       culpritUidRef.current = cul;
-      setRoundCulpritUid(cul);
       const picked = prepareSceneSuspects(
-        pickSceneSuspects(roster, cul).slice(0, SUSPECTS_PER_SCENE),
-        cul
+        pickSceneSuspects(roster, cul, rng).slice(0, SUSPECTS_PER_SCENE),
+        cul,
+        rng
       );
+      setSceneCaseClues(caseCluesForScene(next, cul, rng));
       sceneSuspectsRef.current = picked;
       setSceneSuspects(picked);
       setPlayActive(true);
@@ -977,7 +1022,7 @@ export default function GameShell() {
         <PlayingView
           visible={playingVisible}
           lang={lang}
-          culpritUid={roundCulpritUid}
+          caseClues={sceneCaseClues}
           characters={sceneSuspects}
           highlightUid={highlightUid}
           confirmOpen={confirmOpen}
