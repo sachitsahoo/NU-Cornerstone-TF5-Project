@@ -201,6 +201,7 @@ export default function GameShell() {
   const exitToLandingAnimLockRef = useRef(false);
 
   const confirmTimerRef = useRef<number | null>(null);
+  const lastLedSentAtRef = useRef<number>(0);
 
   const exitSceneLoadMs =
     exitFactsFor(lang, activeCase).length * EXIT_FACT_READ_MS;
@@ -240,11 +241,15 @@ export default function GameShell() {
       const k = 0.58 + 0.42 * sweep;
       const lateral = Math.sin(phase * 0.5);
       const tint = 0.08;
-      sendLed(
-        clampLedChannel(pr * k * (1 + tint * lateral)),
-        clampLedChannel(pg * k),
-        clampLedChannel(pb * k * (1 - tint * lateral))
-      );
+      const now = Date.now();
+      if (now - lastLedSentAtRef.current >= 200) {
+        lastLedSentAtRef.current = now;
+        sendLed(
+          clampLedChannel(pr * k * (1 + tint * lateral)),
+          clampLedChannel(pg * k),
+          clampLedChannel(pb * k * (1 - tint * lateral))
+        );
+      }
       timer = window.setTimeout(tick, tickMs);
     };
     tick();
