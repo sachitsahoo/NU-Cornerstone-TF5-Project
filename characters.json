@@ -19,7 +19,7 @@
         "He complained about drum fees at work that day. The oil in the water matches his work lot number.",
         "Heat video shows his gloves right after the drums moved. Only his crew has those gloves."
       ],
-      "suspicious_detail": "Video shows a taller person than him moving drums. His shift ended before the drums moved.",
+      "suspicious_detail": "The video shows someone taller moving the drums. His shift ended early.",
       "innocent_explanation": "The oil in the river is from factory drums. He was not the one rolling drums in the video.",
       "culprit_explanation": "He poured oil from the drums into the storm drain. It was the same machine oil he uses at work.",
       "image": "assets/images/Bacon_Hair_Shoulder_Up-removebg-preview.png",
@@ -48,7 +48,7 @@
         "Empty jugs with her logo were near the drain.",
         "Pour times match rainy nights. Her phone stayed behind the shop those nights."
       ],
-      "suspicious_detail": "Her car left the lot before the drums moved. Night trash was only cups and food waste.",
+      "suspicious_detail": "Her car was gone before the spill. She only uses food-safe cleaners.",
       "innocent_explanation": "The river oil is thick factory oil. Her café only uses dish soap and food-safe cleaners.",
       "culprit_explanation": "She poured old degreaser and cleaner behind the café. Rain washed that greasy mix into the river.",
       "image": "assets/images/Ballerina_cappuccina_shoulder_up-removebg-preview.png",
@@ -77,7 +77,7 @@
         "He closed a repair ticket early. His phone was by the drain at the same time.",
         "Truck forms he signed do not match real pickups. The recycler never got those fees."
       ],
-      "suspicious_detail": "His van was empty when he stopped by the drain. Logs show no drums on board.",
+      "suspicious_detail": "His van was empty near the drain. No drums inside.",
       "innocent_explanation": "The person in the video wears maintenance orange. He wears a yellow supervisor vest on camera that night.",
       "culprit_explanation": "He signed fake truck forms so oil left the plant illegally. That oil went into the river instead of the recycler.",
       "image": "assets/images/TTTSahur_Shoulder_Up-removebg-preview.png",
@@ -106,7 +106,7 @@
         "He asked how to open the service gate.",
         "Drum labels were in his backpack. Oil smears matched the river."
       ],
-      "suspicious_detail": "He led a kids scavenger hunt before the drums moved.",
+      "suspicious_detail": "He was leading a kids scavenger hunt when it happened.",
       "innocent_explanation": "The oil in the river came from factory drums. He has no keys to the drum area.",
       "culprit_explanation": "He borrowed a maintenance badge and rolled drums to the drain. He wanted to skip paying the oil disposal fee.",
       "image": "assets/images/robloxNoobHeadshot.png",
@@ -134,7 +134,7 @@
         "He walked in through a side door left open.",
         "He messaged a friend asking where barrels go."
       ],
-      "suspicious_detail": "Lobby logs show his pass out before the drums moved.",
+      "suspicious_detail": "He signed out at the front desk before it happened.",
       "innocent_explanation": "The oil came from factory drums at night. He had already left downtown on a rideshare.",
       "culprit_explanation": "He came back in work clothes and moved oil drums. He used his guest pass as a cover story.",
       "image": "assets/images/robloxGuestHeadshot-removebg-preview.png",
@@ -162,7 +162,7 @@
         "A witness saw the cart at the grate after hours.",
         "Glue on her gloves matched sealant from drum caps."
       ],
-      "suspicious_detail": "She packed the cart away before the drums moved.",
+      "suspicious_detail": "She packed up her cart before the oil spill happened.",
       "innocent_explanation": "The river shows thick factory machine oil. Her cart only holds snacks and drinks.",
       "culprit_explanation": "She hid small oil bottles under the cart liner. She poured them into the drain when restocking late.",
       "image": "assets/images/baconetteHairHeadshot-removebg-preview.png",
@@ -190,7 +190,7 @@
         "Costume fluff was found on a drum at the grate.",
         "He posted online from the alley behind the museum."
       ],
-      "suspicious_detail": "He was still in the suit during drum movement time.",
+      "suspicious_detail": "He was still wearing his costume when it happened.",
       "innocent_explanation": "The video shows a thin person in work clothes. A banana suit is too bulky to move drums.",
       "culprit_explanation": "He took off the suit and put on stolen work clothes. Then he rolled oil drums to the drain.",
       "image": "assets/images/peelyheadshot.png",
@@ -218,7 +218,7 @@
         "His tripod stood in the mud right at the grate.",
         "He threw away a bottle of oil behind his camera case. The bottle matched factory oil."
       ],
-      "suspicious_detail": "His camera was pointed upriver during the drum video.",
+      "suspicious_detail": "His camera was pointing the wrong way during the spill.",
       "innocent_explanation": "The oil in the river came straight from factory drums. He was filming upriver when those drums moved.",
       "culprit_explanation": "He poured extra machine oil from his tripod can into the drain. It was the same type of oil used at the factory.",
       "image": "assets/images/agent67Headshot-removebg-preview.png",
@@ -246,7 +246,7 @@
         "He opened a tunnel door that leads near the grate.",
         "Empty oil tubes with his name were in his locker."
       ],
-      "suspicious_detail": "He locked the tool room and stayed in the workshop on video.",
+      "suspicious_detail": "He was on camera in the kids' room all night.",
       "innocent_explanation": "The spill is from huge plant drums. He stayed in the kids’ room all night on camera.",
       "culprit_explanation": "He poured leftover demo oil down the drain after closing. That oil is the same kind the factory uses.",
       "image": "assets/images/BuilderManHeadshots.webp",
@@ -274,7 +274,7 @@
         "She asked where to dump liquid fast behind the stage.",
         "Glitter on a drum matched her costume."
       ],
-      "suspicious_detail": "She was in full costume until late rehearsal.",
+      "suspicious_detail": "She was in costume at rehearsal the whole time.",
       "innocent_explanation": "The main spill is thick factory machine oil. She was on stage when the drums rolled at the plant.",
       "culprit_explanation": "She poured leftover fog fluid into the storm drain. It mixed with oil already in the pipe from the factory.",
       "image": "assets/images/elsaHeadshot.png",
@@ -302,7 +302,7 @@
         "He texted a friend about moving heavy props at midnight.",
         "Work clothes in his locker had his wristband stuck in the zipper."
       ],
-      "suspicious_detail": "Fans took photos with him far from the plant that night.",
+      "suspicious_detail": "People took pictures with him far from the factory.",
       "innocent_explanation": "The video shows a worker in coveralls. The mascot suit is too wide to fit in the drum room.",
       "culprit_explanation": "He took off the suit and wore stolen coveralls. He helped roll oil drums so no one saw the mascot.",
       "image": "assets/images/steveHeadshot.png",
@@ -330,7 +330,7 @@
         "His route log has a two-hour gap the night the oil hit the river.",
         "Residue on the drain grate matches a banned pesticide concentrate found in his truck."
       ],
-      "suspicious_detail": "His spray log shows he finished the riverbank route before sunset.",
+      "suspicious_detail": "He finished spraying the riverbank before it got dark.",
       "innocent_explanation": "The spill is thick factory machine oil. His certified spray chemicals are water-safe and would not leave an oil slick.",
       "culprit_explanation": "He dumped an unlabeled drum of banned pesticide concentrate into the storm drain to avoid disposal fees. It mixed with factory oil already in the pipe.",
       "image": "assets/images/SpyderSammyHeadshot.png",
