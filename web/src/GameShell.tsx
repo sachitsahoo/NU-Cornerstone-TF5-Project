@@ -108,6 +108,8 @@ export default function GameShell() {
   viewRef.current = view;
 
   const [lang, setLang] = useState<Lang>("en");
+  const langRef = useRef<Lang>(lang);
+  langRef.current = lang;
   const [langPickerOpen, setLangPickerOpen] = useState(false);
   const langPickerOpenRef = useRef(false);
   langPickerOpenRef.current = langPickerOpen;
@@ -550,6 +552,17 @@ export default function GameShell() {
   const beginEnjoymentExitToLandingWithAnimation = useCallback(() => {
     if (exitToLandingAnimLockRef.current) return;
     if (!enjoymentRatingOpenRef.current) return;
+    void fetch("/api/enjoyment-rating", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        stars: enjoymentStarsRef.current,
+        case_id: activeCaseRef.current,
+        lang: langRef.current,
+      }),
+    }).catch(() => {
+      /* kiosk: never block exit on logging failure */
+    });
     const reduceMotion =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;

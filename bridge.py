@@ -1,6 +1,7 @@
 """
 WebSocket bridge: Pico serial -> JSON events -> browser UI.
-Serves built React app (web/dist), /api/characters, static /assets, dev inject when DEV_MODE.
+Serves built React app (web/dist), /api/characters, POST /api/enjoyment-rating
+(append-only JSONL under data/), static /assets, dev inject when DEV_MODE.
 
 Run: python bridge.py                          # uses ports.json for this hostname, then AUTO
      python bridge.py --rfid-port /dev/cu.usbmodem1101 --led-port /dev/cu.usbmodem101
@@ -17,7 +18,9 @@ import os
 import queue
 import socket
 import sys
+import threading
 from contextlib import asynccontextmanager
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Set
 
@@ -44,6 +47,9 @@ CHARACTERS_FILE = ROOT / "characters.json"
 PORTS_FILE = ROOT / "ports.json"
 WEB_DIST = ROOT / "web" / "dist"
 ASSETS_DIR = ROOT / "assets"
+DATA_DIR = ROOT / "data"
+ENJOYMENT_RATINGS_FILE = DATA_DIR / "enjoyment_ratings.jsonl"
+_ratings_file_lock = threading.Lock()
 
 # MYSTERY_DEV: when unset or truthy ("1"), enables POST /dev/event and related dev UX.
 # Set to "0" or "false" in production kiosk builds to disable dev injection (404 on /dev/event).
@@ -88,6 +94,15 @@ def load_ports_config() -> tuple[str, str]:
     except Exception as e:
         logger.warning("ports.json read error: %s — falling back to AUTO.", e)
     return "AUTO", "AUTO"
+
+
+def append_enjoyment_rating_line(record: dict) -> None:
+    """Append one JSON object per line (JSONL). Thread-safe."""
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    line = json.dumps(record, ensure_ascii=False) + "\n"
+    with _ratings_file_lock:
+        with open(ENJOYMENT_RATINGS_FILE, "a", encoding="utf-8") as f:
+            f.write(line)
 
 
 def build_tag_map(characters: list) -> dict[str, str]:
@@ -242,6 +257,33 @@ async def api_led(body: dict):
         led_button_worker.send_output(line)
     elif rfid_worker is not None:
         rfid_worker.send_output(line)
+    return {"ok": True}
+
+
+@app.post("/api/enjoyment-rating")
+async def api_enjoyment_rating(body: dict):
+    """
+    Persist a 1–5 enjoyment score after the post-MCQ rating step.
+    Body: { "stars": int (1–5), "case_id"?: str, "lang"?: "en"|"es" }
+    Appends to data/enjoyment_ratings.jsonl (UTC timestamp per row).
+    """
+    stars = body.get("stars")
+    if type(stars) is not int or stars < 1 or stars > 5:
+        raise HTTPException(400, "stars must be an integer from 1 to 5")
+    case_id = body.get("case_id")
+    if case_id is not None and not isinstance(case_id, str):
+        case_id = str(case_id)
+    lang = body.get("lang", "en")
+    if lang not in ("en", "es"):
+        lang = "en"
+    record = {
+        "ts": datetime.now(timezone.utc).isoformat(),
+        "stars": stars,
+        "case_id": case_id,
+        "lang": lang,
+    }
+    await asyncio.to_thread(append_enjoyment_rating_line, record)
+    logger.info("Enjoyment rating saved: stars=%s case_id=%s lang=%s", stars, case_id, lang)
     return {"ok": True}
 
 

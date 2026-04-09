@@ -224,3 +224,6 @@ web/node_modules/
 web/dist/
 *.tsbuildinfo
 .claude-memory.md
+
+# Kiosk-collected enjoyment ratings (append-only log; see data/.gitkeep)
+data/enjoyment_ratings.jsonl
