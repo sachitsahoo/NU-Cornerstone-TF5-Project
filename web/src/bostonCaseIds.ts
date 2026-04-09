@@ -3,7 +3,7 @@ export const BOSTON_CASE_IDS = [
   "charles_river",
   "boston_common",
   "south_end",
-  "newbury_street",
+  "revere_beach",
 ] as const;
 
 export type BostonCaseId = (typeof BOSTON_CASE_IDS)[number];

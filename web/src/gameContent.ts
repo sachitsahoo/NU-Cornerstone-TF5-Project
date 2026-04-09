@@ -112,17 +112,17 @@ export const SCENE_CASE_COPY: Record<BostonCaseId, Record<Lang, SceneCaseStrings
     en: {
       sceneTitle: "The Boston Common Case",
       sceneDescriptor:
-        "Overnight, someone left huge piles of trash on Boston Common.",
+        "Boston Common is the city’s shared front yard—someone dumped bags and loose trash across the grass and paths, not in the bins.",
       sceneContext:
-        "Use the three clues to find who trashed Boston Common with piles of garbage last night.",
+        "Use the three clues to find who trashed Boston Common last night and harmed the park everyone relies on.",
       sceneExitTitle: "Keeping Boston Common clean for everyone",
     },
     es: {
       sceneTitle: "El caso de Boston Common",
       sceneDescriptor:
-        "Alguien dejó montones enormes de basura en Boston Common de la noche a la mañana.",
+        "Boston Common es el patio compartido de la ciudad: alguien tiró bolsas y basura suelta por el césped y los senderos, no en los contenedores.",
       sceneContext:
-        "Usa las tres pistas para averiguar quién llenó Boston Common de basura anoche.",
+        "Usa las tres pistas para averiguar quién destrozó Boston Common anoche y perjudicó el parque del que todos dependen.",
       sceneExitTitle: "Mantener limpio Boston Common para todos",
     },
   },
@@ -130,36 +130,36 @@ export const SCENE_CASE_COPY: Record<BostonCaseId, Record<Lang, SceneCaseStrings
     en: {
       sceneTitle: "The South End Case",
       sceneDescriptor:
-        "The South End parade route is closed after an illegal coal stunt blocked the march.",
+        "Illegal mining has started in the South End—tearing up streets, blocking the parade, and ruining the neighborhood for the whole city.",
       sceneContext:
-        "Use the three clues to find who ran an illegal coal stunt that closed the South End parade.",
-      sceneExitTitle: "Keeping South End streets safe for parades",
+        "Use the three clues to find who started mining in the South End and trashed the city’s streets and parade route.",
+      sceneExitTitle: "Stopping illegal mining from ruining Boston’s streets",
     },
     es: {
       sceneTitle: "El caso del South End",
       sceneDescriptor:
-        "Cerraron la ruta del desfile del South End tras un truco ilegal con carbón.",
+        "Ha empezado minería ilegal en el South End: destroza calles, cierra el desfile y arruina el barrio para toda la ciudad.",
       sceneContext:
-        "Usa las tres pistas para averiguar quién montó un truco ilegal con carbón que cerró el desfile del South End.",
-      sceneExitTitle: "Calles del South End seguras para desfiles",
+        "Usa las tres pistas para averiguar quién empezó a minar en el South End y destrozó las calles y la ruta del desfile.",
+      sceneExitTitle: "Evitar que la minería ilegal arruine las calles de Boston",
     },
   },
-  newbury_street: {
+  revere_beach: {
     en: {
-      sceneTitle: "The Newbury Street Case",
+      sceneTitle: "The Revere Beach Case",
       sceneDescriptor:
-        "Shop renovation debris showed up illegally in a Newbury Street service alley.",
+        "Someone is dumping trash straight into the water at Revere Beach—bags, plastic, and junk washing in with the tide.",
       sceneContext:
-        "Use the three clues to find who illegally dumped shop tear-out behind Newbury Street.",
-      sceneExitTitle: "Keeping Newbury Street alleys clear",
+        "Use the three clues to find who is putting garbage into the ocean at Revere Beach instead of using bins and haul-away.",
+      sceneExitTitle: "Keeping Revere Beach water clean",
     },
     es: {
-      sceneTitle: "El caso de Newbury Street",
+      sceneTitle: "El caso de Revere Beach",
       sceneDescriptor:
-        "Escombros de remodelación aparecieron ilegalmente en un callejón de servicio de Newbury Street.",
+        "Alguien está tirando basura al agua en Revere Beach: bolsas, plástico y desechos que entran con la marea.",
       sceneContext:
-        "Usa las tres pistas para averiguar quién tiró ilegalmente restos de tienda detrás de Newbury Street.",
-      sceneExitTitle: "Mantener limpios los callejones de Newbury Street",
+        "Usa las tres pistas para averiguar quién mete basura al mar en Revere Beach en vez de usar contenedores y retiro autorizado.",
+      sceneExitTitle: "Cuidar el agua en Revere Beach",
     },
   },
 };
@@ -200,26 +200,26 @@ const EXIT_FACTS_BY_CASE: Record<BostonCaseId, Record<Lang, string[]>> = {
   },
   boston_common: {
     en: [
-      "Boston Common belongs to everyone — pack out what you bring and use the park trash and recycling bins.",
+      "When people treat Boston Common like a dump, rats show up, grass gets ruined, and park staff can’t keep up — shared green space needs everyone’s care.",
     ],
     es: [
-      "Boston Common es de todos: llévate lo que traes y usa los contenedores de basura y reciclaje del parque.",
+      "Si la gente trata Boston Common como un vertedero, llegan ratas, se daña el césped y el personal no alcanza: el parque compartido necesita el cuidado de todos.",
     ],
   },
   south_end: {
     en: [
-      "Parades need permitted routes and safe setups — streets are for people, not surprise blockades or stunts.",
+      "Illegal mining in a city neighborhood tears up roads, spreads dust and junk, and shuts down parades and daily life — Boston needs permits and safe cleanup, not secret mines.",
     ],
     es: [
-      "Los desfiles necesitan rutas y montajes con permiso; las calles son para la gente, no para bloqueos sorpresa.",
+      "La minería ilegal en un barrio de la ciudad rompe calles, esparce polvo y basura y paraliza desfiles y la vida diaria: Boston necesita permisos y limpieza segura, no minas clandestinas.",
     ],
   },
-  newbury_street: {
+  revere_beach: {
     en: [
-      "Shops should haul renovation debris with licensed haulers — midnight alley dumps hurt neighbors and workers.",
+      "Trash in the water at Revere Beach hurts swimmers, wildlife, and the whole shoreline — carry out what you carry in, and never push garbage into the ocean.",
     ],
     es: [
-      "Las tiendas deben retirar escombros con transportistas autorizados; los vertidos nocturnos en callejones perjudican a todos.",
+      "La basura en el agua de Revere Beach perjudica a bañistas, vida marina y todo el litoral: llévate lo que traes y nunca empujes basura al océano.",
     ],
   },
 };

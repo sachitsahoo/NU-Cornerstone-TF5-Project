@@ -306,153 +306,153 @@ const SOUTH: Record<Lang, Record<string, Pair>> = {
   },
 };
 
-const NEWBURY: Record<Lang, Record<string, Pair>> = {
+const REVERE_BEACH: Record<Lang, Record<string, Pair>> = {
   en: {
     bacon_hair: {
       innocent_explanation:
-        "Oil cases are his world, not drywall. Surveillance skips him carrying tiles out of Newbury Street alleys.",
+        "His shift logs keep him at the plant when bags slid into the surf. Sand on his boots that night matches the factory yard, not Revere Beach wrack line.",
       culprit_explanation:
-        "He moonlit hauling renovation tear-out from a Newbury Street boutique and dumped it behind Newbury Street. Newbury Street, Newbury Street — the alley could not pass code.",
+        "He hauled plant trash to Revere Beach and shoved bags into the water to skip fees. Revere Beach, Revere Beach — plastic from his route washed back for everyone to see.",
     },
     ballerina_cappuccina: {
       innocent_explanation:
-        "Inspectors track her grease only. The Newbury Street pile is lumber and tile that never sat in her café kitchen.",
+        "Health inspectors had her grease logs clean. The trash in the water at Revere Beach is contractor plastic and strapping, not café service waste.",
       culprit_explanation:
-        "She paid a sketchy hauler to ditch torn-out counters off Newbury Street. Newbury Street debris blocked deliveries for every Newbury Street neighbor.",
+        "She rolled used oil jugs and broken crates to Revere Beach after closing and kicked them into the tide. Revere Beach swimmers found her cup sleeves the next morning.",
     },
     tung: {
       innocent_explanation:
-        "His paperwork stayed on oil trucks, not Newbury Street dumpsters. Cameras show him at the plant during the Newbury Street dump window.",
+        "Night cameras place him on the repair floor during the tide change. His signed haul forms never list Revere Beach as an approved dump site.",
       culprit_explanation:
-        "He signed off a phantom Newbury Street pickup so a buddy could ditch bags in the Newbury Street alley. Newbury Street, Newbury Street — fines landed on the block.",
+        "He falsified a beach ‘maintenance’ ticket so a truck could empty junk straight into the water at Revere Beach. Revere Beach, Revere Beach — the city closed a swim flag because of it.",
     },
     roblox_noob: {
       innocent_explanation:
-        "Museum policy forbids hauling construction junk. He was scanning tickets when the Newbury Street pile appeared.",
+        "Badge scans keep him inside the museum for gallery night. No loading-dock camera shows him dragging bags toward Revere Beach.",
       culprit_explanation:
-        "He dragged exhibit crates and broken shelving to a Newbury Street alley after hours. Newbury Street, Newbury Street — map flyers fluttered in the dust.",
+        "He borrowed a cart, stacked trash from events, and dumped it over the seawall at Revere Beach. Revere Beach map flyers floated out with the garbage.",
     },
     roblox_guest: {
       innocent_explanation:
-        "His pass expired before the Newbury Street mess. Ride shares show him away from Newbury Street when debris fell.",
+        "His pass logged out before the trash bloom in the shallows. Phone data puts him on a train away from Revere Beach at high tide.",
       culprit_explanation:
-        "He rented a dolly and rolled drywall out a Newbury Street service door into the alley. Newbury Street, Newbury Street — guest logs caught the door chime.",
+        "He came back after hours with black bags and rolled them into the surf at Revere Beach. Revere Beach, Revere Beach — Wonderland gate timestamps caught him walking toward the sand.",
     },
     baconette_hair: {
       innocent_explanation:
-        "Cart weight limits stopped her from moving tile sheets. Health tags prove she was vending, not demolishing Newbury Street shops.",
+        "Vendor rules cap her cart weight; she could not drag the heavy bags found floating. Wrapper brands in the water are bulk industrial, not her snack line.",
       culprit_explanation:
-        "She hid contractor bags under napkins and slid them into a Newbury Street alley during restock. Newbury Street, Newbury Street — grout matched her wheel wells.",
+        "She hid personal trash and broken stock under the cart cover and tipped it into Revere Beach at low tide. Revere Beach gulls tore the bags open before dawn.",
     },
     peeley: {
       innocent_explanation:
-        "Banana hands were waving at kids, not mixing mortar. The Newbury Street junk pile has no costume foam in the lab photos.",
+        "He was in the banana suit for a donor photo line; the suit cannot wade deep enough to push those bags offshore.",
       culprit_explanation:
-        "He changed clothes and helped a friend dump a Newbury Street remodel overnight. Newbury Street, Newbury Street — peel tape marked the drywall.",
+        "He peeled off the suit, grabbed event trash, and walked it into the water at Revere Beach. Revere Beach, Revere Beach — peel stickers stuck to a wet contractor sack.",
     },
     agent_67: {
       innocent_explanation:
-        "His shoot schedule was river-side, not Newbury Street back lots. Lenses never pointed down the Newbury Street alley that night.",
+        "His contract was city B-roll uptown; metadata shows no tripod time on Revere Beach sand during the dump.",
       culprit_explanation:
-        "He stacked b-roll crates and scrap wood in a Newbury Street alley to clear a set. Newbury Street, Newbury Street — paint chips matched his tripod case.",
+        "He filmed the tide pulling trash out for a ‘shock reel’ and helped shove a last bag in for the shot. Revere Beach, Revere Beach — salt ruined his lens but not his uploads.",
     },
     roblox_builder: {
       innocent_explanation:
-        "Live stream parents watched him sand tiny bridges all night. No sign he trucked debris to Newbury Street.",
+        "Stream chat timestamps show him gluing kid projects all evening. Workshop inventory never left the museum cage for Revere Beach.",
       culprit_explanation:
-        "He borrowed the workshop van and unloaded sawdust and broken tables behind Newbury Street. Newbury Street, Newbury Street — kid-safe paint cans rolled out.",
+        "He drove scrap builds and sawdust bags to Revere Beach in a borrowed van labeled ‘cleanup.’ Revere Beach foam lines turned brown where he emptied the bins into the ocean.",
     },
     elsa: {
       innocent_explanation:
-        "Her crates list glitter, not two-by-fours. Stagehands swear she never drove a truck down Newbury Street.",
+        "She was on headset for a downtown light cue; fog trucks never rolled to Revere Beach that night.",
       culprit_explanation:
-        "She stashed old stage flats and fog crates in a Newbury Street alley after a pop-up. Newbury Street, Newbury Street — glitter stuck to every tile shard.",
+        "She ditched prop crates and fog bottles into the surf at Revere Beach to clear the truck fast. Revere Beach glitter and confetti clumped with plastic in the wrack line.",
     },
     steve: {
       innocent_explanation:
-        "Mascot gloves cannot grip sheetrock. Event security logged him posing on the plaza, not behind Newbury Street.",
+        "Convention security has him in the block head for a midnight meet; foam gloves never soaked long enough to match the soaked trash bags.",
       culprit_explanation:
-        "He ditched the block head and hauled bags from a Newbury Street pop-up remodel. Newbury Street, Newbury Street — foam dust mixed with insulation.",
+        "He slipped out of the mascot suit, hauled contractor bags, and waded them into Revere Beach. Revere Beach, Revere Beach — grit from the gloves matched sand on the torn plastic.",
     },
     spyder_sammy: {
       innocent_explanation:
-        "Permitted chemicals stayed in labeled totes. The Newbury Street pile is construction waste, not spray tanks.",
+        "Permitted sprays on his truck do not match the solvent film on the floating bags. GPS has his rig at the depot during the Revere Beach dump window.",
       culprit_explanation:
-        "He hid illegal concentrate jugs under drywall in a Newbury Street alley. Newbury Street, Newbury Street — hazmat taped off the whole Newbury Street block.",
+        "He hid unlabeled jugs inside trash bags and rolled the lot into Revere Beach to dodge hazmat fees. Revere Beach, Revere Beach — a hazmat boom went up after kids found the drums in the foam.",
     },
   },
   es: {
     bacon_hair: {
       innocent_explanation:
-        "Sus casos son aceite, no yeso. Cámaras no lo muestran sacando azulejos de callejones de Newbury Street.",
+        "Registros de turno lo dejan en planta cuando bolsas entraron al mar. Arena en botas coincide con patio de fábrica, no con la línea de algas de Revere Beach.",
       culprit_explanation:
-        "Hizo mudanzas nocturnas de demolición desde una boutique de Newbury Street y lo tiró detrás de Newbury Street. Newbury Street, Newbury Street — el callejón no pasó inspección.",
+        "Llevó basura de planta a Revere Beach y empujó bolsas al agua para evitar tasas. Revere Beach, Revere Beach — plástico de su ruta volvió a la orilla para que todos lo vieran.",
     },
     ballerina_cappuccina: {
       innocent_explanation:
-        "Inspectores rastrean su grasa, no madera. El montón de Newbury Street es losa que nunca estuvo en su cocina.",
+        "Inspectores de salud tienen sus registros de grasa limpios. La basura en el agua en Revere Beach es plástico de obra, no residuos de café.",
       culprit_explanation:
-        "Pagó a un transportista dudoso para tirar mostradores viejos fuera de Newbury Street. Escombros de Newbury Street bloquearon entregas en toda la cuadra.",
+        "Rodó bidones de aceite usados y cajas rotas a Revere Beach al cerrar y los empujó con la marea. Nadadores de Revere Beach hallaron sus fundas de vaso al alba.",
     },
     tung: {
       innocent_explanation:
-        "Su papeleo era de camiones de aceite, no contenedores de Newbury Street. Cámaras lo dejan en planta durante el vertido en Newbury Street.",
+        "Cámaras nocturnas lo ponen en reparaciones en el cambio de marea. Sus formas firmadas nunca listan Revere Beach como vertedero autorizado.",
       culprit_explanation:
-        "Firmó una recogida fantasma en Newbury Street para que un amigo tirara bolsas en el callejón de Newbury Street. Newbury Street, Newbury Street — multas para la manzana.",
+        "Falsificó un vale de ‘mantenimiento’ en playa para vaciar un camión al agua en Revere Beach. Revere Beach, Revere Beach — la ciudad bajó bandera de baño por eso.",
     },
     roblox_noob: {
       innocent_explanation:
-        "El museo prohíbe llevar escombros. Escaneaba entradas cuando apareció el montón de Newbury Street.",
+        "Escaneos de gafete lo mantienen dentro del museo en noche de galería. Ninguna cámara del muelle lo muestra arrastrando bolsas hacia Revere Beach.",
       culprit_explanation:
-        "Arrastró cajas de exposición y estantes rotos a un callejón de Newbury Street. Newbury Street, Newbury Street — volantes del mapa en el polvo.",
+        "Pidió prestado un carrito, apiló basura de eventos y la tiró por el muro al mar en Revere Beach. Volantes del mapa del museo flotaron con la basura.",
     },
     roblox_guest: {
       innocent_explanation:
-        "Su pase venció antes del desorden de Newbury Street. Viajes compartidos lo alejan de Newbury Street cuando cayó el escombro.",
+        "Su pase registró salida antes de la mancha de basura en lo poco profundo. Datos del móvil lo ponen en tren lejos de Revere Beach en pleamar.",
       culprit_explanation:
-        "Alquiló un carrito y sacó yeso por una puerta de servicio de Newbury Street al callejón. Newbury Street, Newbury Street — registros del pase captaron la puerta.",
+        "Volvió de noche con bolsas negras y las rodó a la resaca en Revere Beach. Revere Beach, Revere Beach — sellos de entrada en Wonderland lo muestran yendo a la arena.",
     },
     baconette_hair: {
       innocent_explanation:
-        "Límites de peso del carrito impiden planchas de azulejo. Etiquetas de salud prueban que vendía, no demolía tiendas de Newbury Street.",
+        "Normas del carrito limitan peso; no pudo arrastrar las bolsas pesadas flotantes. Marcas en el agua son industriales, no su línea de snacks.",
       culprit_explanation:
-        "Escondió bolsas de obra bajo servilletas y las deslizó a un callejón de Newbury Street al reabastecer. Newbury Street, Newbury Street — lechada en sus ruedas.",
+        "Escondió basura personal y stock roto bajo la funda y lo volcó en Revere Beach en marea baja. Gaviotas de Revere Beach rompieron las bolsas antes del alba.",
     },
     peeley: {
       innocent_explanation:
-        "Manos de plátano saludaban niños, no mezclaban mortero. El montón de Newbury Street no tiene espuma de disfraz en fotos.",
+        "Estaba en traje de plátano para fotos con donantes; el traje no puede vadear lo bastante para empujar esas bolsas mar adentro.",
       culprit_explanation:
-        "Se cambió y ayudó a vaciar una remodelación de Newbury Street de madrugada. Newbury Street, Newbury Street — cinta del plátano en el yeso.",
+        "Se quitó el traje, tomó basura del evento y la metió al agua en Revere Beach. Revere Beach, Revere Beach — pegatinas de plátano pegadas a saco mojado de obra.",
     },
     agent_67: {
       innocent_explanation:
-        "Su agenda era el río, no los fondos de Newbury Street. Lentes nunca apuntaron al callejón de Newbury Street esa noche.",
+        "Su contrato era metraje municipal céntrico; metadatos sin trípode en arena de Revere Beach durante el vertido.",
       culprit_explanation:
-        "Apiló cajas de metraje y madera en un callejón de Newbury Street para despejar un set. Newbury Street, Newbury Street — pintura en su maletín del trípode.",
+        "Filmó la marea sacando basura para un reel de ‘impacto’ y empujó una bolsa más para la toma. Revere Beach, Revere Beach — sal arruinó el lente pero no sus subidas.",
     },
     roblox_builder: {
       innocent_explanation:
-        "Padres lo vieron lijar puentes mini toda la noche. No hay señal de furgoneta a Newbury Street.",
+        "Chat del stream lo deja pegando proyectos infantiles toda la noche. Inventario del taller nunca salió de la jaula del museo hacia Revere Beach.",
       culprit_explanation:
-        "Tomó la furgoneta del taller y descargó aserrín y mesas rotas detrás de Newbury Street. Newbury Street, Newbury Street — latas de pintura infantil rodaron.",
+        "Llevó restos de armados y bolsas de aserrín a Revere Beach en furgoneta prestada de ‘limpieza.’ Espuma de Revere Beach se oscureció donde vació cubos al océano.",
     },
     elsa: {
       innocent_explanation:
-        "Sus cajas listan purpurina, no madera. Utilería jura que no condujo por Newbury Street.",
+        "Estaba con auricular para luces en el centro; camiones de niebla no fueron a Revere Beach esa noche.",
       culprit_explanation:
-        "Escondió viejos flats y cajas de niebla en un callejón de Newbury Street tras un pop-up. Newbury Street, Newbury Street — purpurina en cada trozo de azulejo.",
+        "Tiró cajas de utilería y botellas de niebla al mar en Revere Beach para vaciar el camión rápido. Purpurina y confeti de Revere Beach se juntaron con plástico en la línea de algas.",
     },
     steve: {
       innocent_explanation:
-        "Guantes de mascota no agarran paneles de yeso. Seguridad lo registró en la plaza, no detrás de Newbury Street.",
+        "Seguridad del evento lo tiene con cabeza de bloque en meet de medianoche; guantes de espuma no se empaparon lo bastante para coincidir con bolsas mojadas.",
       culprit_explanation:
-        "Dejó la cabeza cuadrada y cargó bolsas de remodelación pop-up de Newbury Street. Newbury Street, Newbury Street — polvo de espuma con aislamiento.",
+        "Salió del traje, cargó bolsas de obra y las metió al agua en Revere Beach. Revere Beach, Revere Beach — arena de los guantes coincidió con plástico rasgado.",
     },
     spyder_sammy: {
       innocent_explanation:
-        "Químicos permitidos en bidones etiquetados. El montón de Newbury Street es obra, no tanques de spray.",
+        "Fumigaciones permitidas no coinciden con película de disolvente en bolsas flotantes. GPS pone su camión en depósito en la hora del vertido en Revere Beach.",
       culprit_explanation:
-        "Escondió bidones ilegales bajo yeso en un callejón de Newbury Street. Newbury Street, Newbury Street — emergencias acordonaron la manzana de Newbury Street.",
+        "Escondió bidones sin etiqueta dentro de bolsas y rodó todo a Revere Beach para evitar tasas hazmat. Revere Beach, Revere Beach — emergencias acordonaron cuando niños hallaron bidones en la espuma.",
     },
   },
 };
@@ -464,7 +464,7 @@ export const CASE_EXPLANATIONS: Record<
 > = {
   boston_common: COMMON,
   south_end: SOUTH,
-  newbury_street: NEWBURY,
+  revere_beach: REVERE_BEACH,
 };
 
 export function explanationsForCase(

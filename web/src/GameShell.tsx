@@ -21,7 +21,7 @@ import {
   type Lang,
 } from "./gameContent";
 
-/** `?case=charles_river|boston_common|south_end|newbury_street` forces that case (kiosk testing). */
+/** `?case=charles_river|boston_common|south_end|revere_beach` forces that case (kiosk testing). */
 function caseIdFromUrl(): BostonCaseId | null {
   const raw = new URLSearchParams(window.location.search).get("case");
   if (!raw) return null;
