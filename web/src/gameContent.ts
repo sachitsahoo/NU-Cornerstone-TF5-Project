@@ -9,6 +9,10 @@ import { explanationsForCase } from "./caseExplanations";
 import pack from "./data/characters.json";
 import esOverlay from "./characterEs.json";
 import type { Lang } from "./lang";
+import {
+  pickExitQuiz,
+  type ExitQuizContent,
+} from "./exitQuizBank";
 
 export type { Lang } from "./lang";
 export { BOSTON_CASE_IDS, pickRandomCase } from "./bostonCaseIds";
@@ -192,34 +196,34 @@ const SOLUTIONS: Record<Lang, string[]> = {
 const EXIT_FACTS_BY_CASE: Record<BostonCaseId, Record<Lang, string[]>> = {
   charles_river: {
     en: [
-      "The Charles River went from one of the dirtiest rivers in the US to one of the cleanest today!",
+      "The Charles River is much cleaner today than it used to be.",
     ],
     es: [
-      "¡El río Charles pasó de ser uno de los más contaminados de EE. UU. a uno de los más limpios hoy!",
+      "El río Charles está mucho más limpio hoy que antes.",
     ],
   },
   boston_common: {
     en: [
-      "When people treat Boston Common like a dump, rats show up, grass gets ruined, and park staff can’t keep up — shared green space needs everyone’s care.",
+      "Litter brings rats and hurts the grass. Use the bins.",
     ],
     es: [
-      "Si la gente trata Boston Common como un vertedero, llegan ratas, se daña el césped y el personal no alcanza: el parque compartido necesita el cuidado de todos.",
+      "La basura atrae ratas y daña el césped. Usa los contenedores.",
     ],
   },
   south_end: {
     en: [
-      "Illegal mining in a city neighborhood tears up roads, spreads dust and junk, and shuts down parades and daily life — Boston needs permits and safe cleanup, not secret mines.",
+      "Secret digs tear up streets and block parades. Big street work needs a permit.",
     ],
     es: [
-      "La minería ilegal en un barrio de la ciudad rompe calles, esparce polvo y basura y paraliza desfiles y la vida diaria: Boston necesita permisos y limpieza segura, no minas clandestinas.",
+      "Las excavaciones clandestinas rompen calles y bloquean desfiles. La obra grande necesita permiso.",
     ],
   },
   revere_beach: {
     en: [
-      "Trash in the water at Revere Beach hurts swimmers, wildlife, and the whole shoreline — carry out what you carry in, and never push garbage into the ocean.",
+      "Trash in the water hurts people and wildlife. Pack out what you pack in.",
     ],
     es: [
-      "La basura en el agua de Revere Beach perjudica a bañistas, vida marina y todo el litoral: llévate lo que traes y nunca empujes basura al océano.",
+      "La basura en el agua lastima a personas y animales. Llévate lo que traes.",
     ],
   },
 };
@@ -233,52 +237,19 @@ export function riverExitFactsFor(lang: Lang): string[] {
   return exitFactsFor(lang, "charles_river");
 }
 
-/** One post–fun-facts MCQ (easy–medium), aligned with river exit facts. */
-export type ExitQuizContent = {
-  question: string;
-  choices: [string, string, string, string];
-  correctIndex: 0 | 1 | 2 | 3;
-  /** Short explanation shown after a correct answer (same language as question). */
-  feedbackCorrectBlurb: string;
-  /** Short explanation shown after a wrong answer (same language as question). */
-  feedbackIncorrectBlurb: string;
-};
+/** Post–fun-facts MCQ (easy); bank lives in `exitQuizBank.ts`. */
+export type { ExitQuizContent };
 
-const EXIT_QUIZ: Record<Lang, ExitQuizContent> = {
-  en: {
-    question:
-      "Street storm drains often connect straight to rivers. What should you never pour down them?",
-    choices: [
-      "Only clean water",
-      "Paint, motor oil, or leftover chemicals",
-      "Cold coffee or tea",
-      "Rain from your boots",
-    ],
-    correctIndex: 1,
-    feedbackCorrectBlurb:
-      "Right! That stuff goes to the river and can pollute the water we drink and swim in.",
-    feedbackIncorrectBlurb:
-      "Those drains don't clean water. Paint, oil, and chemicals go straight to the river—use the trash or a drop-off.",
-  },
-  es: {
-    question:
-      "Muchas alcantarillas van al río. ¿Qué no debes verter?",
-    choices: [
-      "Solo agua limpia",
-      "Pintura, aceite o químicos",
-      "Café o té frío",
-      "Agua de lluvia",
-    ],
-    correctIndex: 1,
-    feedbackCorrectBlurb:
-      "¡Bien! Eso llega al río y ensucia el agua.",
-    feedbackIncorrectBlurb:
-      "Ahí no se filtra el agua. Eso va al río: llévalo a reciclaje o basura segura.",
-  },
-};
-
-export function exitQuizFor(lang: Lang): ExitQuizContent {
-  return EXIT_QUIZ[lang];
+/**
+ * One quiz per play, chosen from 10 per scene/language. Uses the same `sceneSeed`
+ * as the suspect roster so the question matches the case the visitor just played.
+ */
+export function exitQuizFor(
+  lang: Lang,
+  caseId: BostonCaseId,
+  sceneSeed: number
+): ExitQuizContent {
+  return pickExitQuiz(lang, caseId, sceneSeed);
 }
 
 export function cluesFor(

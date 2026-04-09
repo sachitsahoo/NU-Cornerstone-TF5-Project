@@ -145,7 +145,7 @@ export function PlayingView({
 
           <div className="scene__split">
             <div className="scene__river-wrap">
-              <SceneCaseBanner caseId={activeCase} lang={lang} />
+              <SceneCaseBanner caseId={activeCase} />
               {confirmOpen && picked && (
                 <div
                   className="scene-river-confirm"

@@ -1,28 +1,39 @@
 import type { BostonCaseId } from "../bostonCaseIds";
-import type { Lang } from "../lang";
-import { sceneCaseCopy } from "../gameContent";
+import bostonCommonUrl from "../../../assets/images/BostonCommonBackground.png?url";
+import revereBeachUrl from "../../../assets/images/RevereBeachBackground.png?url";
+import southEndUrl from "../../../assets/images/SouthEndSceneIMage.png?url";
 import { SceneRiverBanner } from "./SceneRiverBanner";
 
 type SceneCaseBannerProps = {
   caseId: BostonCaseId;
-  lang: Lang;
 };
 
-/** Charles River keeps the skyline photo; other cases use a themed placeholder panel. */
-export function SceneCaseBanner({ caseId, lang }: SceneCaseBannerProps) {
+const CASE_BANNER_URL: Record<
+  Exclude<BostonCaseId, "charles_river">,
+  string
+> = {
+  boston_common: bostonCommonUrl,
+  south_end: southEndUrl,
+  revere_beach: revereBeachUrl,
+};
+
+/** Charles River uses the skyline photo; other cases use full-bleed art from `assets/images/`. */
+export function SceneCaseBanner({ caseId }: SceneCaseBannerProps) {
   if (caseId === "charles_river") {
     return <SceneRiverBanner />;
   }
-  const { sceneTitle, sceneDescriptor } = sceneCaseCopy(lang, caseId);
   return (
     <div
       className={`scene-case-banner scene-case-banner--${caseId}`}
       aria-hidden
     >
-      <div className="scene-case-banner__inner">
-        <p className="scene-case-banner__label">{sceneTitle}</p>
-        <p className="scene-case-banner__descriptor">{sceneDescriptor}</p>
-      </div>
+      <img
+        className="scene-case-banner__img"
+        src={CASE_BANNER_URL[caseId]}
+        alt=""
+        decoding="async"
+        fetchPriority="low"
+      />
     </div>
   );
 }
