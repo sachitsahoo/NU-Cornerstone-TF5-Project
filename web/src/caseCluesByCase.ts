@@ -1,6 +1,6 @@
 /**
  * Three clue lines per culprit per Boston case (EN/ES). All 12 character uids appear under
- * charles_river, boston_common, south_end, and newbury_street — not river-only.
+ * charles_river, boston_common, south_end, and revere_beach — not river-only.
  */
 import type { BostonCaseId } from "./bostonCaseIds";
 import type { Lang } from "./lang";
@@ -450,149 +450,149 @@ export const CLUES_BY_CASE: Record<
       ],
     },
   },
-  newbury_street: {
+  revere_beach: {
     bacon_hair: {
       en: [
-        "Renovation drum stickers from a boutique job site ended up in the alley heap.",
-        "Drywall dust on his gloves matches mortar from the tile scraps in the pile.",
-        "Van tire treads match gouges in the service lane behind the shops.",
+        "Oily drum labels washed up at Revere Beach match stickers from his factory loading route.",
+        "Deep treads in the soft sand at Revere Beach lead from the parking strip to the wrack line.",
+        "Night photos show his work van idling at Revere Beach when bags hit the surf.",
       ],
       es: [
-        "Pegatinas de bidón de obra de una boutique terminaron en el montón del callejón.",
-        "Polvo de yeso en guantes coincide con mortero de restos de azulejo del montón.",
-        "Huellas de neumático de furgoneta coinciden con surcos en el carril de servicio.",
+        "Etiquetas aceitosas de bidón en la orilla de Revere Beach coinciden con su ruta de carga de fábrica.",
+        "Huellas profundas en la arena de Revere Beach van del estacionamiento a la línea de marea.",
+        "Fotos nocturnas muestran su furgoneta de trabajo en Revere Beach cuando bolsas llegaron a la resaca.",
       ],
     },
     ballerina_cappuccina: {
       en: [
-        "Branded cup sleeves are tangled with broken floor tile in the contractor bags.",
-        "Her supplier van was cited for idle loading behind a boutique the same night.",
-        "Coffee grounds in the debris match her grinder batch number from that week.",
+        "Branded cup sleeves floated in with tide foam at Revere Beach—same print as her café.",
+        "Used grounds in a split bag on the sand match her weekly grinder batch code.",
+        "Her supplier van GPS lingers at Revere Beach after closing on the night of the dump.",
       ],
       es: [
-        "Fundas de vaso de su marca enredadas con azulejo roto en bolsas de obra.",
-        "Multaron su furgoneta de proveedor por carga detenida detrás de una boutique esa noche.",
-        "Posos en el escombro coinciden con el lote de molinillo de esa semana.",
+        "Fundas de vaso de su marca flotaron con espuma de marea en Revere Beach.",
+        "Posos en bolsa rota en arena coinciden con el lote semanal de su molinillo.",
+        "GPS de su furgoneta de proveedor se queda en Revere Beach tras cerrar la noche del vertido.",
       ],
     },
     tung: {
       en: [
-        "A debris manifest with his initials lists the alley with no licensed hauler stamp.",
-        "Traffic camera stills show his crew's cone pattern blocking the service entrance.",
-        "He approved an off-books truck that never checked in at the transfer station.",
+        "A night haul form with his initials lists Revere Beach as a drop with no transfer-station stamp.",
+        "Orange cones from his crew were photographed at the Revere Beach lot before high tide.",
+        "He green-lit an off-books truck that never logged out of the beach access road.",
       ],
       es: [
-        "Manifiesto con sus iniciales lista el callejón sin sello de transportista.",
-        "Fotos de cámara de tráfico muestran conos de su cuadrilla bloqueando la entrada de servicio.",
-        "Autorizó camión extraoficial que nunca registró en la estación de transferencia.",
+        "Forma nocturna con sus iniciales lista Revere Beach como descarga sin sello de estación.",
+        "Conos naranjas de su cuadrilla fotografiados en el lote de Revere Beach antes de pleamar.",
+        "Autorizó camión extraoficial que nunca registró salida del acceso a la playa.",
       ],
     },
     roblox_noob: {
       en: [
-        "Fresh museum tour flyers were tucked under the top bags in the pile.",
-        "He asked facilities how to haul tear-out from a shop remodel after hours.",
-        "A museum loading dolly was abandoned beside the debris stack.",
+        "Laminated museum maps in the surf line were the same batch handed out downtown.",
+        "He asked staff how to 'lose trash fast' near the Blue Line and the beach.",
+        "A museum hand truck was found above the high-tide mark at Revere Beach.",
       ],
       es: [
-        "Volantes nuevos del tour del museo bajo las bolsas superiores del montón.",
-        "Preguntó a mantenimiento cómo sacar restos de remodelación de tienda tras cerrar.",
-        "Carrito del muelle del museo abandonado junto al montón de escombros.",
+        "Mapas laminados del museo en la línea de resaca son del mismo lote del centro.",
+        "Preguntó cómo 'perder basura rápido' cerca del Blue Line y la playa.",
+        "Carrito del museo hallado sobre la marca de pleamar en Revere Beach.",
       ],
     },
     roblox_guest: {
       en: [
-        "Guest badge scans hit a boutique loading door minutes before the pile photo timestamp.",
-        "Rental dolly treads lead from the sidewalk cut to the alley heap.",
-        "Messages coordinate 'tile bags behind the pink door' with his contact saved.",
+        "His guest pass scanned at Wonderland, then footprints match the wet sand drag to the bags.",
+        "Texts on his phone say 'push it past the wrack' with a Revere Beach pin dropped.",
+        "Rental wagon treads lead from the boardwalk cut to where plastic bloomed in the water.",
       ],
       es: [
-        "Escaneos de gafete en puerta de carga minutos antes de la hora de la foto del montón.",
-        "Huellas de carrito de alquiler van del corte de acera al montón del callejón.",
-        "Mensajes coordinan 'bolsas de azulejo tras la puerta rosa' con su contacto guardado.",
+        "Su pase escaneó en Wonderland; huellas coinciden con arrastre en arena húmeda hacia bolsas.",
+        "Mensajes dicen 'empújalo pasando la línea de algas' con pin de Revere Beach.",
+        "Huellas de carrito de alquiler van del acceso del paseo marítimo al plástico en el agua.",
       ],
     },
     baconette_hair: {
       en: [
-        "Narrow cart wheels left grout smears that match boutique floor dust in the pile.",
-        "She backed in for a restock with the tailgate aimed at the taped-off alley mouth.",
-        "Snack crates were stacked to hide contractor bags behind her awning.",
+        "Snack wrappers in the floating mat share a distributor stamp with her cart stock.",
+        "She backed the cart to the seawall for 'ice restock' when cameras lost the beach angle.",
+        "Sticky syrup rings on a black bag match her pour spouts from the same night.",
       ],
       es: [
-        "Ruedas estrechas dejaron lechada que coincide con polvo de piso de boutique.",
-        "Retrocedió para reabastecer con portón hacia la boca acordonada del callejón.",
-        "Cajas de snacks tapaban bolsas de obra detrás del toldo.",
+        "Envoltorios en el tapete flotante comparten sello de distribuidor con su carrito.",
+        "Acercó el carrito al muro para 'hielo' cuando cámaras perdieron el ángulo de playa.",
+        "Anillos de jarabe en bolsa negra coinciden con sus vertidos esa noche.",
       ],
     },
     peeley: {
       en: [
-        "Costume bag fabric matched scraps stuck to a bundle of drywall.",
-        "He carried contractor bags down the block in plain clothes after the suit came off.",
-        "Peel-sticker backing was pressed into wet grout on a discarded tile.",
+        "Yellow suit fibers snagged on a zip-tie that held a bag floating at Revere Beach.",
+        "A livestream geotag pins him on the sand after he peeled off the banana suit.",
+        "Peel stickers washed ashore in the same clump as fast-food bags from his meet-and-greet route.",
       ],
       es: [
-        "Tela de bolsa del disfraz coincidió con retazos en un fajo de yeso.",
-        "Llevó bolsas de obra por la cuadra en ropa civil tras quitarse el traje.",
-        "Respaldo de pegatina de plátano marcó lechada húmeda en un azulejo tirado.",
+        "Fibras amarillas del traje en una brida que sujetaba bolsa flotando en Revere Beach.",
+        "Geotag de transmisión lo ubica en la arena tras quitarse el traje de plátano.",
+        "Pegatinas de plátano llegaron a la orilla con bolsas de comida rápida de su ruta.",
       ],
     },
     agent_67: {
       en: [
-        "Paint flecks on his tripod feet match fresh boutique trim found in the pile.",
-        "A time-lapse from his angle catches debris flying into the frame from the alley.",
-        "He sold 'reno leak' photos to a gossip site before sanitation crews arrived.",
+        "His tripod feet have dried salt rings matching splash marks on a torn contractor bag.",
+        "B-roll metadata shows him framing the tide pulling trash out while standing in the shallows.",
+        "He sold cellphone clips titled 'Revere Beach midnight dump' before the city press release.",
       ],
       es: [
-        "Restos de pintura en patas del trípode coinciden con moldura fresca del montón.",
-        "Un time-lapse desde su ángulo muestra escombros entrando al encuadre del callejón.",
-        "Vendió fotos de 'filtración de obra' antes de que llegara saneamiento.",
+        "Patas del trípode con sal seca coinciden con salpicaduras en bolsa de obra rota.",
+        "Metadatos de metraje lo muestran filmando la marea sacando basura en lo poco profundo.",
+        "Vendió clips titulados 'vertido de medianoche en Revere Beach' antes del comunicado municipal.",
       ],
     },
     roblox_builder: {
       en: [
-        "Lumber tags from the kids' workshop match sticks and screws in the illegal pile.",
-        "He borrowed a van lettered for storefront refresh work on the block.",
-        "Sawdust from his bench was mixed under shattered display-case glass in the bags.",
+        "Plywood scraps with kids' workshop stamps washed in with the Revere Beach foam.",
+        "He borrowed a van marked 'beach cleanup volunteer' but never checked in with the crew chief.",
+        "Sawdust-clumped glue on a float matches the museum build table batch from Friday.",
       ],
       es: [
-        "Etiquetas de madera del taller infantil coinciden con tablas y tornillos del montón.",
-        "Pidió furgoneta rotulada para renovación de vitrinas en la cuadra.",
-        "Aserrín de su banco mezclado bajo vidrio roto de vitrina en las bolsas.",
+        "Restos de madera del taller infantil llegaron con espuma en Revere Beach.",
+        "Pidió furgoneta rotulada 'voluntario limpieza playa' pero nunca reportó al jefe de cuadrilla.",
+        "Pegamento con aserrín en flotador coincide con el lote del viernes en el museo.",
       ],
     },
     elsa: {
       en: [
-        "Show glitter clung to shattered glass from a boutique window in the heap.",
-        "Fog-fluid crates were stored behind a shop for 'atmosphere' shots that blocked pickup.",
-        "Confetti from her finale was pressed into caulk smeared on dumped trim.",
+        "Glitter from her costumes sparkled in clumps on black bags rolling in the surf.",
+        "Fog-fluid bottles with her vendor tape floated just inside the swim buoys at Revere Beach.",
+        "Confetti from a rehearsal was pressed into a wet receipt time-stamped at Revere Beach parking.",
       ],
       es: [
-        "Purpurina del show pegada a vidrio roto de vitrina en el montón.",
-        "Cajas de fluido de niebla guardadas tras una tienda para tomas que bloquearon recogida.",
-        "Confeti de su final marcó masilla en molduras tiradas.",
+        "Purpurina de sus vestuarios en grumos sobre bolsas negras en la resaca.",
+        "Botellas de fluido de niebla con su cinta de proveedor flotaron dentro de las boyas.",
+        "Confeti de ensayo marcó un recibo mojado con hora del estacionamiento de Revere Beach.",
       ],
     },
     steve: {
       en: [
-        "Insulation fibers from the pile clung to the inside of his foam costume gloves.",
-        "He changed behind a boutique scaffold minutes before bags hit the pavement.",
-        "Block-head gloves turned up in a contractor tote left beside the heap.",
+        "Foam glove grit matches sand stuck to a split trash bag at the waterline.",
+        "Fans' photos place him by the Revere Beach wall minutes before plastic bloomed offshore.",
+        "He slipped out of the block-head suit where a contractor tote sat above the wet sand.",
       ],
       es: [
-        "Fibras de aislamiento del montón pegadas al interior de guantes de espuma.",
-        "Se cambió tras andamio de boutique minutos antes de las bolsas en acera.",
-        "Guantes del bloque aparecieron en bolsa de obra junto al montón.",
+        "Arena en guantes de espuma coincide con bolsa rota en la línea del agua.",
+        "Fotos de fans lo sitúan junto al muro de Revere Beach antes del plástico en el mar.",
+        "Salió del traje de bloque donde había bolsa de obra sobre arena mojada.",
       ],
     },
     spyder_sammy: {
       en: [
-        "Pesticide totes were stacked with renovation bags like hazmat hidden as construction junk.",
-        "His hose was coiled behind a boutique dumpster with mortar crust on the nozzle.",
-        "A drum in the pile had his route sticker peeled and stuck back crooked.",
+        "Unlabeled chemical jugs floated beside food trash like someone hid hazmat as beach garbage.",
+        "His spray hose nozzle tested positive for the same solvent film on bags in the surf.",
+        "Truck GPS shows slow rolls along Revere Beach Boulevard during the tide change.",
       ],
       es: [
-        "Bidones de pesticida apilados con bolsas de obra como si escondieran hazmat.",
-        "Manguera enrollada tras contenedor con mortero seco en la boquilla.",
-        "Un bidón tenía su etiqueta de ruta pegada torcida de nuevo.",
+        "Bidones sin etiqueta flotaron junto a basura de comida como hazmat disfrazado.",
+        "Boquilla de manguera dio película de disolvente igual a bolsas en la resaca.",
+        "GPS del camión muestra vueltas lentas por Revere Beach Boulevard en el cambio de marea.",
       ],
     },
   },
@@ -611,14 +611,14 @@ export const DEFAULT_CLUES_BY_CASE: Record<Lang, Record<BostonCaseId, string[]>>
       "Whoever did this skipped every trash and recycling bin on purpose.",
     ],
     south_end: [
-      "Police closed the parade route after an unpermitted coal stunt blocked the march.",
-      "Props and coal dust were stacked where floats should stage.",
-      "City permits never authorized mining or tunnel sets on the parade map.",
+      "Illegal mining in the South End is ruining the city—streets are torn up, coal dust everywhere, and the parade is shut down.",
+      "Unpermitted dig sites and mine props block the South End where floats and crowds should move.",
+      "Boston never authorized mining on neighborhood streets—someone started it anyway and trashed the South End route.",
     ],
-    newbury_street: [
-      "A service alley behind the boutiques is blocked by shop tear-out and drywall.",
-      "Renovation debris is supposed to leave on licensed trucks, not at midnight.",
-      "Tile dust and broken cases in the pile point to a rushed illegal dump.",
+    revere_beach: [
+      "Trash is showing up in the water at Revere Beach—bags and plastic that should never reach the ocean.",
+      "Beach crews say the tide is dragging in junk from someone dumping at the shoreline after hours.",
+      "Revere Beach has bins and pickup rules; whoever did this shoved garbage straight into the water.",
     ],
   },
   es: {
@@ -633,14 +633,14 @@ export const DEFAULT_CLUES_BY_CASE: Record<Lang, Record<BostonCaseId, string[]>>
       "Quien hizo esto ignoró a propósito todos los contenedores de basura y reciclaje.",
     ],
     south_end: [
-      "La policía cerró la ruta tras un truco con carbón sin permiso que bloqueó el desfile.",
-      "Utilería y polvo de carbón ocuparon el espacio donde deberían armarse las carrozas.",
-      "Los permisos municipales nunca autorizaron minas ni túneles en el mapa del desfile.",
+      "La minería ilegal en el South End está arruinando la ciudad: calles rotas, polvo de carbón y desfile cancelado.",
+      "Excavaciones y utilería de mina sin permiso bloquean el South End donde deberían ir carrozas y público.",
+      "Boston nunca autorizó minas en calles del barrio: alguien las empezó igual y destrozó la ruta del South End.",
     ],
-    newbury_street: [
-      "Un callejón de servicio detrás de boutiques está bloqueado con escombros de obra.",
-      "Los restos de remodelación deben salir en camiones autorizados, no a medianoche.",
-      "Polvo de azulejo y vitrinas rotas en el montón apuntan a un vertido apresurado.",
+    revere_beach: [
+      "Basura aparece en el agua de Revere Beach: bolsas y plástico que no deberían llegar al océano.",
+      "Personal de playa dice que la marea arrastra basura de alguien que vertió en la orilla de noche.",
+      "Revere Beach tiene contenedores y normas; quien hizo esto empujó basura directo al agua.",
     ],
   },
 };

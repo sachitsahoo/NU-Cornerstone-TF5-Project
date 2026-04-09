@@ -648,82 +648,82 @@ const south_end: Record<string, CharacterCasePools> = {
   },
 };
 
-const newbury_street: Record<string, CharacterCasePools> = {
+const revere_beach: Record<string, CharacterCasePools> = {
   bacon_hair: {
     en: {
       innocent: [
-        "Delivery logs show his rig at the plant loading dock during the alley dump.",
-        "Drywall dust on his gloves does not match the boutique tile mortar in the pile.",
-        "Cameras on his route never face the service alley behind the shops.",
+        "Delivery logs show his rig at the plant pier when trash hit the Revere Beach surf.",
+        "Oil smears on his gloves match factory grease, not the food plastic in the floating mat.",
+        "Dash cam on his route never points toward the Revere Beach parking strip.",
       ],
       guilty: [
-        "Renovation drum stickers from a Newbury job site were in the debris heap.",
-        "Tire treads match his work van leaving the alley before dawn.",
-        "He texted about 'dropping off scrap where cameras never tilt.'",
+        "Factory drum labels washed up with tide foam match stickers from his loading shift.",
+        "Deep van treads in the soft sand match his tires pulling away from the wrack line.",
+        "He texted about 'letting the ocean take the bags' from a Revere Beach pin.",
       ],
     },
     es: {
       innocent: [
-        "Registros de entrega ponen su unidad en muelle de planta durante el vertido del callejón.",
-        "Polvo de yeso en guantes no coincide con mortero de azulejo de boutique del montón.",
-        "Cámaras de su ruta no miran el callejón de servicio detrás de las tiendas.",
+        "Registros de entrega ponen su unidad en muelle de planta cuando basura entró al mar en Revere Beach.",
+        "Manchas de aceite en guantes coinciden con grasa de fábrica, no con plástico de comida flotante.",
+        "Cámara del tablero nunca apunta al estacionamiento de Revere Beach.",
       ],
       guilty: [
-        "Pegatinas de obra de un sitio en Newbury aparecieron en el montón.",
-        "Huellas de neumático coinciden con su furgoneta saliendo del callejón antes del alba.",
-        "Mensaje sobre 'dejar escombros donde las cámaras no miran.'",
+        "Etiquetas de bidón de fábrica llegaron con espuma de marea de su turno de carga.",
+        "Huellas profundas en arena blanda coinciden con sus neumáticos saliendo de la línea de algas.",
+        "Mensaje sobre 'dejar que el mar se lleve las bolsas' con pin de Revere Beach.",
       ],
     },
   },
   ballerina_cappuccina: {
     en: {
       innocent: [
-        "Her supplier van was in the shop district on the opposite end of the street that night.",
-        "Tile samples in the pile are high-end imports her café never ordered.",
-        "She was catering a private event with a stamped contract for the same hours.",
+        "Grease-trap pickups for her café were on the books hours before plastic bloomed in the Revere Beach surf.",
+        "Cup brands in the floating trash are chains her shop does not stock.",
+        "She was plating a wedding tasting with a signed timeline during high tide.",
       ],
       guilty: [
-        "Branded cup sleeves were mixed with broken tile in the alley bags.",
-        "Her van was cited for idle loading behind a Newbury boutique the night of the dump.",
-        "Coffee grounds in the pile match her grinder batch lot from that week.",
+        "Branded cup sleeves tangled in seaweed match sleeves from her counter stack.",
+        "Her van GPS hovers at Revere Beach after close on the night bags slid in.",
+        "Coffee grounds in a split sack on the sand match her grinder batch sticker.",
       ],
     },
     es: {
       innocent: [
-        "Su furgoneta de proveedor estaba en otro extremo de la calle esa noche.",
-        "Muestras de azulejo del montón son importadas que su café nunca pidió.",
-        "Catering con contrato sellado cubre las mismas horas del vertido.",
+        "Recogidas de trampa de grasa de su café estaban agendadas antes de que plástico apareciera en Revere Beach.",
+        "Marcas de vasos en la basura flotante no son las que vende su local.",
+        "Estaba en cata de boda con horario firmado durante pleamar.",
       ],
       guilty: [
-        "Fundas de vaso de su marca se mezclaron con azulejo roto en bolsas del callejón.",
-        "Multaron su furgoneta por carga detenida detrás de una boutique de Newbury esa noche.",
-        "Posos del montón coinciden con el lote de molinillo de esa semana.",
+        "Fundas de vaso enredadas en algas coinciden con las de su mostrador.",
+        "GPS de su furgoneta se queda en Revere Beach tras cerrar la noche de las bolsas.",
+        "Posos en saco roto en arena coinciden con etiqueta de su molinillo.",
       ],
     },
   },
   tung: {
     en: {
       innocent: [
-        "Night forms he signed reference a plant pickup—timestamps do not overlap the alley window.",
-        "Orange cones from his crew were logged at the industrial yard, not on Newbury.",
-        "His card opens factory doors only; boutique alleys are out of scope.",
+        "Night forms he signed lock him to plant pickups—timestamps miss the Revere Beach tide change.",
+        "Orange cones from his crew were logged at the yard, not along Revere Beach Boulevard.",
+        "His access card never opens beach maintenance gates on the city system.",
       ],
       guilty: [
-        "A debris manifest with his initials lists a Newbury alley with no hauler stamp.",
-        "Traffic cam caught his crew's cone pattern blocking the service entrance.",
-        "He approved an off-books truck that never checked in at the transfer station.",
+        "A haul manifest with his initials lists Revere Beach with no transfer-station stamp.",
+        "Traffic cam shows his cone pattern blocking the beach access lane before high tide.",
+        "He approved a truck that offloaded straight onto the sand without weighing in.",
       ],
     },
     es: {
       innocent: [
-        "Formas nocturnas que firmó son de recogida en planta; horas no cruzan el callejón.",
-        "Conos de su cuadrilla registrados en patio industrial, no en Newbury.",
-        "Su tarjeta solo abre puertas de fábrica; callejones de tiendas quedan fuera.",
+        "Formas nocturnas lo atan a recogidas en planta; horas no cruzan el cambio de marea en Revere Beach.",
+        "Conos de su cuadrilla registrados en patio, no en Revere Beach Boulevard.",
+        "Su tarjeta nunca abre portones de mantenimiento de playa en el sistema municipal.",
       ],
       guilty: [
-        "Manifiesto con sus iniciales lista callejón de Newbury sin sello de transportista.",
-        "Cámara de tráfico captó patrón de conos bloqueando entrada de servicio.",
-        "Autorizó camión extraoficial que nunca registró en la estación de transferencia.",
+        "Manifiesto con sus iniciales lista Revere Beach sin sello de estación de transferencia.",
+        "Cámara muestra sus conos bloqueando acceso a la playa antes de pleamar.",
+        "Autorizó camión que descargó en arena sin pesar en báscula.",
       ],
     },
   },
@@ -731,181 +731,181 @@ const newbury_street: Record<string, CharacterCasePools> = {
     en: {
       innocent: [
         "He was giving a late gallery tour; badge scans keep him inside the museum.",
-        "Museum flyers found under bags were misprints from last season's exhibit.",
-        "Staff confirm he asked about recycling rules, not illegal dumping.",
+        "Flyers found in the surf were old misprints, not his current tour batch.",
+        "Staff say he only asked how visitors should use beach trash cans responsibly.",
       ],
       guilty: [
-        "Fresh flyers for his tour were tucked under contractor bags in the pile.",
-        "He asked facilities how to 'haul junk off Newbury fast after hours.'",
-        "A dolly from the museum loading dock was left in the alley beside the debris.",
+        "Fresh tour flyers floated in the same clump as black contractor bags.",
+        "He asked how to 'lose event trash fast near Wonderland and the beach.'",
+        "A museum hand truck was abandoned above the wet sand at Revere Beach.",
       ],
     },
     es: {
       innocent: [
         "Daba tour tardío; escaneos de gafete lo mantienen dentro del museo.",
-        "Volantes del museo bajo bolsas son errores de impresión de temporada pasada.",
-        "Personal confirma que preguntó por reciclaje, no por vertido ilegal.",
+        "Volantes en la resaca son viejos errores de imprenta, no su lote actual.",
+        "Personal dice que solo preguntó cómo usar contenedores de playa con responsabilidad.",
       ],
       guilty: [
-        "Volantes nuevos de su tour aparecieron bajo bolsas de obra.",
-        "Preguntó a mantenimiento cómo 'sacar escombros de Newbury rápido tras cerrar.'",
-        "Carrito del muelle del museo quedó en el callejón junto al montón.",
+        "Volantes nuevos del tour flotaron con bolsas negras de obra.",
+        "Preguntó cómo 'perder basura de evento rápido cerca de Wonderland y la playa.'",
+        "Carrito del museo abandonado sobre arena mojada en Revere Beach.",
       ],
     },
   },
   roblox_guest: {
     en: {
       innocent: [
-        "His guest badge logged out before the debris showed up on the 311 report.",
-        "Phone location stayed in Cambridge during the dump timestamp.",
-        "He never had a loading key for boutique service doors.",
+        "His guest badge logged out before the trash mat showed on the lifeguard photo log.",
+        "Phone location stayed on the Red Line away from Revere Beach at high tide.",
+        "He never had a key to the beach equipment shed.",
       ],
       guilty: [
-        "His badge scanned at a Newbury loading door minutes before the pile photo.",
-        "Rental dolly treads lead from the sidewalk cut to the alley heap.",
-        "Messages coordinate 'tile bags behind the pink door' with his contact saved.",
+        "Wonderland gate scans place him walking toward the sand minutes before bags rolled in.",
+        "Rental wagon treads lead from the boardwalk cut to the plastic in the shallows.",
+        "Texts say 'push past the wrack' with a dropped Revere Beach map pin.",
       ],
     },
     es: {
       innocent: [
-        "Su gafete registró salida antes de que el montón apareciera en el reporte 311.",
-        "Ubicación del móvil se quedó en Cambridge en la hora del vertido.",
-        "Nunca tuvo llave de carga de puertas de servicio de boutiques.",
+        "Su gafete registró salida antes de la mancha de basura en foto del salvavidas.",
+        "Móvil en la línea roja lejos de Revere Beach en pleamar.",
+        "Nunca tuvo llave del cobertizo de equipo de playa.",
       ],
       guilty: [
-        "Su gafete se escaneó en puerta de carga de Newbury minutos antes de la foto del montón.",
-        "Huellas de carrito de alquiler van del corte de acera al montón del callejón.",
-        "Mensajes coordinan 'bolsas de azulejo tras la puerta rosa' con su contacto guardado.",
+        "Escaneos en Wonderland lo ponen yendo a la arena minutos antes de las bolsas.",
+        "Huellas de carrito van del paseo al plástico en lo poco profundo.",
+        "Mensajes dicen 'pasar la línea de algas' con pin de Revere Beach.",
       ],
     },
   },
   baconette_hair: {
     en: {
       innocent: [
-        "Her cart was in for a wheel repair; she could not haul debris that night.",
-        "Grout smeared on the pile is floor tile type; her cart only sells packaged food.",
-        "Street vendors on her corner vouch she restocked syrup, not rubble.",
+        "Her cart was in for a wheel repair; she could not drag the heavy bags found in the surf.",
+        "Wrapper codes in the floating mat are bulk warehouse brands, not her snack SKUs.",
+        "Corner vendors vouch she restocked syrup while the tide brought trash in.",
       ],
       guilty: [
-        "Wheel grooves left grout smears matching the boutique tile dust in the pile.",
-        "She parked for a restock with the tailgate facing the blocked alley entrance.",
-        "Snack crates were stacked to hide contractor bags behind her awning.",
+        "Narrow wheel grooves in wet sand match her cart tires backing to the seawall.",
+        "She parked for 'ice restock' with the tailgate aimed at the spot bags entered the water.",
+        "Sticky syrup rings on a torn bag match her pour nozzles from the same night.",
       ],
     },
     es: {
       innocent: [
-        "Su carrito estaba en reparación de rueda; no pudo transportar escombros esa noche.",
-        "Lechada del montón es de piso; su carrito solo vende comida empaquetada.",
-        "Vendedores de su esquina avalan que reabastecía jarabe, no escombros.",
+        "Su carrito estaba en reparación; no pudo arrastrar bolsas pesadas halladas en la resaca.",
+        "Códigos de envoltorio en la mancha flotante son de mayoreo, no de sus snacks.",
+        "Vendedores avalan que reabastecía jarabe cuando la marea trajo basura.",
       ],
       guilty: [
-        "Surcos de rueda dejaron lechada que coincide con polvo de azulejo del montón.",
-        "Estacionó para reabastecer con portón hacia la entrada bloqueada del callejón.",
-        "Cajas de snacks tapaban bolsas de obra detrás del toldo.",
+        "Surcos estrechos en arena mojada coinciden con ruedas de su carrito al muro.",
+        "Estacionó para 'hielo' con portón hacia donde las bolsas entraron al agua.",
+        "Anillos de jarabe en bolsa rasgada coinciden con sus picos de vertido esa noche.",
       ],
     },
   },
   peeley: {
     en: {
       innocent: [
-        "He was doing a photo line in costume; timestamps cover the alley dump window.",
-        "The banana suit cannot carry sheetrock without tearing the seams.",
-        "Museum security has him on indoor cameras during the haul.",
+        "He was doing a photo line in costume; timestamps cover the tide window.",
+        "The banana suit cannot wade deep enough to shove those bags past the buoys.",
+        "Museum security has him on indoor cameras during the beach complaint call.",
       ],
       guilty: [
-        "Costume bag fabric matched scraps stuck to a drywall bundle.",
-        "He carried contractor bags down Newbury in plain clothes after the suit came off.",
-        "Peel-sticker backing was found pressed into wet grout on a thrown tile.",
+        "Yellow suit fibers snagged on a zip-tie that held a bag in the foam line.",
+        "A livestream geotag pins him on the sand right after he peeled off the suit.",
+        "Peel stickers washed up glued to fast-food sacks from his meet-and-greet route.",
       ],
     },
     es: {
       innocent: [
-        "Hacía fila de fotos en disfraz; marcas de tiempo cubren la hora del vertido del callejón.",
-        "El traje de plátano no aguanta planchas de yeso sin romperse.",
-        "Seguridad del museo lo tiene en cámaras interiores durante el traslado.",
+        "Hacía fila de fotos en disfraz; marcas cubren la ventana de marea.",
+        "El traje de plátano no puede vadear lo bastante para empujar bolsas tras las boyas.",
+        "Seguridad del museo lo tiene adentro durante la llamada de queja de playa.",
       ],
       guilty: [
-        "Tela de bolsa del disfraz coincidió con retazos en un fajo de yeso.",
-        "Llevó bolsas de obra por Newbury en ropa civil tras quitarse el traje.",
-        "Respaldo de pegatina de plátano quedó marcado en lechada húmeda de un azulejo tirado.",
+        "Fibras amarillas enganchadas en brida que sujetaba bolsa en la espuma.",
+        "Geotag de transmisión lo ubica en arena tras quitarse el traje.",
+        "Pegatinas de plátano llegaron pegadas a bolsas de comida rápida de su ruta.",
       ],
     },
   },
   agent_67: {
     en: {
       innocent: [
-        "His tripod scraped a public art install uptown—metadata proves he was not behind the shops.",
-        "Recovered cards show continuous city-hall B-roll during the dump.",
-        "Lens caps in his bag tested clean of the boutique mortar mix.",
+        "Metadata locks his tripod uptown for city-hall B-roll during the Revere Beach dump.",
+        "Recovered cards show continuous rolling with no beach GPS tags that night.",
+        "Salt crust on his gear bag tested as road salt, not ocean spray from the sand.",
       ],
       guilty: [
-        "Paint chips on his tripod feet match fresh boutique trim found in the pile.",
-        "A time-lapse file shows debris flying into frame from his alley angle.",
-        "He sold 'reno leak' photos to a gossip site before sanitation arrived.",
+        "Dried salt rings on tripod feet match splash marks on a floating contractor sack.",
+        "A time-lapse catches him framing the tide pulling trash while standing in the shallows.",
+        "He sold clips titled 'Revere Beach midnight dump' before the press office woke up.",
       ],
     },
     es: {
       innocent: [
-        "Su trípode rozó una instalación artística céntrica — metadatos prueban que no estaba detrás de las tiendas.",
-        "Tarjetas recuperadas muestran metraje continuo de ayuntamiento durante el vertido.",
-        "Tapas de lente en su bolsa salieron limpias del mortero de boutique.",
+        "Metadatos fijan su trípode céntrico para metraje municipal durante el vertido en Revere Beach.",
+        "Tarjetas muestran rodaje continuo sin etiquetas GPS de playa esa noche.",
+        "Costra de sal en bolsa dio sal de carretera, no rocío oceánico de arena.",
       ],
       guilty: [
-        "Restos de pintura en patas del trípode coinciden con moldura fresca del montón.",
-        "Un time-lapse muestra escombros entrando en encuadre desde su ángulo del callejón.",
-        "Vendió fotos de 'filtración de obra' a un sitio chismoso antes de saneamiento.",
+        "Anillos de sal seca en patas coinciden con salpicaduras en saco flotante.",
+        "Time-lapse lo muestra filmando la marea sacando basura en lo poco profundo.",
+        "Vendió clips titulados 'vertido de medianoche en Revere Beach' antes de prensa.",
       ],
     },
   },
   roblox_builder: {
     en: {
       innocent: [
-        "Inventory tags show all workshop lumber accounted for in the museum cage.",
-        "Parents on the stream chat confirm he never left the build table.",
-        "None of his class screws match the hardware in the alley debris.",
+        "Inventory tags show all workshop lumber caged at the museum during the tide change.",
+        "Parents on stream chat confirm he never left the build table that evening.",
+        "None of his class glue batches match the adhesive film on bags in the surf.",
       ],
       guilty: [
-        "Lumber tags from his workshop match sticks in the illegal pile.",
-        "He borrowed a van lettered for 'storefront refresh' on Newbury.",
-        "Sawdust from his bench was mixed under broken display cases in the bags.",
+        "Plywood scraps with workshop stamps washed in with the Revere Beach foam.",
+        "He borrowed a van marked 'beach cleanup volunteer' but never signed in with the crew chief.",
+        "Sawdust clumped in the floating mat matches shavings from his Friday bench batch.",
       ],
     },
     es: {
       innocent: [
-        "Etiquetas de inventario muestran toda la madera del taller en jaula del museo.",
-        "Padres en el chat del stream confirman que no dejó la mesa de armado.",
-        "Ningún tornillo de su clase coincide con el hardware del callejón.",
+        "Inventario muestra madera del taller en jaula del museo en el cambio de marea.",
+        "Padres en el chat confirman que no dejó la mesa esa tarde.",
+        "Ningún lote de pegamento coincide con película adhesiva en bolsas en la resaca.",
       ],
       guilty: [
-        "Etiquetas de madera del taller coinciden con tablas del montón ilegal.",
-        "Pidió furgoneta rotulada para 'renovación de vitrina' en Newbury.",
-        "Aserrín de su banco se mezcló bajo vitrinas rotas en las bolsas.",
+        "Restos de madera con sellos del taller llegaron con espuma de Revere Beach.",
+        "Pidió furgoneta de 'voluntario limpieza playa' pero nunca firmó con el jefe de cuadrilla.",
+        "Aserrín en el tapete flotante coincide con virutas del viernes en su banco.",
       ],
     },
   },
   elsa: {
     en: {
       innocent: [
-        "Prop crates in the pile are hardware-store brands; hers are custom road cases.",
-        "She was on a headset downtown for a dry tech run, not loading alleys.",
-        "Fog-fluid bottles in the heap are a brand her show does not use.",
+        "Fog-fluid bottles in the surf are hardware brands; hers are theater-grade road cases.",
+        "She was on headset downtown for a dry tech run, not on Revere Beach sand.",
+        "Glitter clumps in the water test as craft glitter, not her stage blend.",
       ],
       guilty: [
-        "Glitter from her costumes stuck to shattered glass from boutique windows.",
-        "She stored fog crates behind a shop for 'atmosphere' shots that blocked pickup.",
-        "Confetti from her finale was pressed into caulk smeared on dumped trim.",
+        "Show glitter clumped with plastic inside swim buoys at Revere Beach.",
+        "Fog crates with her tape floated just past the shallow rope where kids wade.",
+        "Confetti from her finale stuck to a wet parking receipt time-stamped at Revere Beach.",
       ],
     },
     es: {
       innocent: [
-        "Cajas del montón son de ferretería; las suyas son flight cases a medida.",
-        "Estaba con auricular en ensayo técnico céntrico, no cargando callejones.",
-        "Botellas de niebla del montón son marca que su show no usa.",
+        "Botellas en la resaca son de ferretería; las suyas son de teatro en flight cases.",
+        "Estaba con auricular en ensayo céntrico, no en arena de Revere Beach.",
+        "Purpurina en el agua es de manualidades, no su mezcla de escenario.",
       ],
       guilty: [
-        "Purpurina de sus vestuarios pegada a vidrio roto de vitrinas.",
-        "Guardó cajas de niebla tras una tienda para tomas de 'atmósfera' que bloquearon recogida.",
-        "Confeti de su final quedó en masilla untada en molduras tiradas.",
+        "Purpurina del show en grumos con plástico dentro de boyas en Revere Beach.",
+        "Cajas de niebla con su cinta flotaron pasada la cuerda donde chapotean niños.",
+        "Confeti de su final pegado a recibo mojado con hora de estacionamiento de Revere Beach.",
       ],
     },
   },
@@ -913,51 +913,51 @@ const newbury_street: Record<string, CharacterCasePools> = {
     en: {
       innocent: [
         "Convention hall scans show him in suit and head for a midnight fan meet.",
-        "Foam from the costume cannot scrape the metal studs found in the debris.",
-        "His square-toe mascot boots were in lost-and-found during the alley haul.",
+        "Foam from the costume cannot hold enough soaked sand to match the tide-line bags.",
+        "His mascot boots were in lost-and-found when lifeguards flagged the trash mat.",
       ],
       guilty: [
-        "Insulation fibers from the pile clung to foam glove interiors from his suit.",
-        "He changed behind a Newbury scaffold minutes before bags hit the pavement.",
-        "Security saw block-head gloves tossed in a contractor tote by the pile.",
+        "Grit inside foam gloves matches sand pressed into a split trash sack at the waterline.",
+        "Fan photos place him by the Revere Beach wall minutes before plastic bloomed offshore.",
+        "Block-head gloves turned up in a wet contractor tote above the high-tide mark.",
       ],
     },
     es: {
       innocent: [
-        "Escaneos del salón lo muestran con traje y cabeza en meet de medianoche con fans.",
-        "La espuma del disfraz no raspa los montantes metálicos del escombro.",
-        "Sus botas cuadradas del disfraz estaban en objetos perdidos durante el traslado.",
+        "Escaneos del salón lo muestran con traje y cabeza en meet de medianoche.",
+        "La espuma no retiene arena mojada suficiente para coincidir con bolsas de la marea.",
+        "Botas del disfraz en objetos perdidos cuando salvavidas reportaron la mancha.",
       ],
       guilty: [
-        "Fibras de aislamiento del montón pegadas al interior de guantes de espuma del traje.",
-        "Se cambió detrás de andamio de Newbury minutos antes de las bolsas en acera.",
-        "Seguridad vio guantes del bloque en bolsa de obra junto al montón.",
+        "Arena dentro de guantes de espuma coincide con bolsa rasgada en línea del agua.",
+        "Fotos de fans lo sitúan junto al muro de Revere Beach antes del plástico en el mar.",
+        "Guantes del bloque en bolsa mojada de obra sobre marca de pleamar.",
       ],
     },
   },
   spyder_sammy: {
     en: {
       innocent: [
-        "His permitted chemical list excludes the adhesive found on boutique tile shards.",
-        "GPS shows the spray truck parked at the depot for service that night.",
-        "He finished a riverbank contract before the boutique trash timestamp.",
+        "Permitted concentrates on his truck do not match the solvent film on floating bags.",
+        "GPS shows the spray rig parked at the depot for service during the tide dump.",
+        "He finished a marsh contract miles north before the Revere Beach complaint time.",
       ],
       guilty: [
-        "Pesticide totes were stacked with reno bags like someone hid hazmat as construction junk.",
-        "His hose was coiled behind the boutique dumpster with mortar on the nozzle.",
-        "A drum in the pile had his route sticker peeled and stuck back crooked.",
+        "Unlabeled jugs floated beside food trash like hazmat dressed up as beach garbage.",
+        "His hose nozzle tested positive for the same solvent sheen on bags in the foam.",
+        "Truck GPS shows slow rolls along Revere Beach Boulevard as the tide turned.",
       ],
     },
     es: {
       innocent: [
-        "Su lista de químicos permitidos excluye el adhesivo hallado en restos de azulejo.",
-        "GPS muestra el camión de fumigación en taller de servicio esa noche.",
-        "Terminó contrato en ribera antes de la hora de la basura de boutique.",
+        "Concentrados permitidos no coinciden con película de disolvente en bolsas flotantes.",
+        "GPS muestra equipo de fumigación en taller durante el vertido de marea.",
+        "Terminó contrato en marisma al norte antes de la hora de la queja en Revere Beach.",
       ],
       guilty: [
-        "Bidones de pesticida apilados con bolsas de obra como si escondieran hazmat.",
-        "Su manguera enrollada tras contenedor con mortero en la boquilla.",
-        "Un bidón del montón tenía su etiqueta de ruta pegada torcida de nuevo.",
+        "Bidones sin etiqueta flotaron junto a comida como hazmat disfrazado de basura de playa.",
+        "Boquilla de manguera dio mismo brillo disolvente que bolsas en la espuma.",
+        "GPS muestra vueltas lentas por Revere Beach Boulevard al girar la marea.",
       ],
     },
   },
@@ -969,7 +969,7 @@ const BY_CASE: Record<
 > = {
   boston_common,
   south_end,
-  newbury_street,
+  revere_beach,
 };
 
 export function characterAlibiPools(
