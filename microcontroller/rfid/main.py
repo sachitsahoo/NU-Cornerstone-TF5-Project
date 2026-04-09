@@ -9,9 +9,12 @@ n = 11
 p = 15
 np = neopixel.NeoPixel(machine.Pin(p), n)
 
+ORCHID = (111, 0, 255)
+PURPLE = (180, 0, 180)
+
 def clear():
     for i in range(n):
-        np[i] = (0, 0, 0)
+        np[i] = ORCHID
 
 def set_pixel(pos, r, g, b):
     clear()
@@ -60,7 +63,7 @@ _thread.start_new_thread(rfid_thread, ())
 pos = 0
 direction = 1
 while True:
-    set_pixel(pos, 138, 0, 196)
+    set_pixel(pos, *PURPLE)
     pos += direction
     if pos >= n - 1:
         pos = n - 1
@@ -69,3 +72,4 @@ while True:
         pos = 0
         direction = 1
     utime.sleep_ms(50)
+
