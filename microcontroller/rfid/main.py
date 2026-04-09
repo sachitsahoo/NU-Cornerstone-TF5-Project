@@ -37,9 +37,8 @@ def rfid_thread():
             (stat, uid) = reader.SelectTagSN()
             if stat == reader.OK:
                 card = int.from_bytes(bytes(uid), "little", False)
-                if card != last_card:
-                    print("TAG: " + str(card))
-                    last_card = card
+                print("TAG: " + str(card))
+                last_card = card
                 card_present = True
                 miss_count = 0
             else:
