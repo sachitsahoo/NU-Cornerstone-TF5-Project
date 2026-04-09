@@ -1,5 +1,6 @@
 import type { CharacterJson, CharactersApiResponse } from "./gameTypes";
 import type { BostonCaseId } from "./bostonCaseIds";
+import { characterAlibiPools } from "./caseAlibisByCase";
 import {
   CLUES_BY_CASE,
   DEFAULT_CLUES_BY_CASE,
@@ -30,23 +31,39 @@ type EsOverlay = {
 const ES = esOverlay as Record<string, EsOverlay>;
 
 /** Spanish display text for characters (API JSON stays English). */
-export function localizeCharacter(c: CharacterJson, lang: Lang): CharacterJson {
+export function localizeCharacter(
+  c: CharacterJson,
+  lang: Lang,
+  activeCase: BostonCaseId = "charles_river"
+): CharacterJson {
   if (lang !== "es") return c;
   const es = ES[c.uid];
   if (!es) return c;
+  const useCharlesRiverAlibis = activeCase === "charles_river";
   const merged: CharacterJson = {
     ...c,
     role: es.role,
     description: es.description,
     innocent_explanation: es.innocent_explanation,
     culprit_explanation: es.culprit_explanation,
-    alibis_innocent: es.alibis_innocent,
-    alibis_guilty: es.alibis_guilty,
+    ...(useCharlesRiverAlibis
+      ? {
+          alibis_innocent: es.alibis_innocent,
+          alibis_guilty: es.alibis_guilty,
+        }
+      : {}),
   };
   const i = c.round_alibi_index;
-  if (i !== undefined && i >= 0 && i <= 2) {
-    const pool = c.round_alibi_guilty ? merged.alibis_guilty : merged.alibis_innocent;
-    merged.suspicious_detail = pool[i];
+  if (
+    useCharlesRiverAlibis &&
+    i !== undefined &&
+    i >= 0 &&
+    i <= 2
+  ) {
+    const pool = c.round_alibi_guilty
+      ? merged.alibis_guilty!
+      : merged.alibis_innocent!;
+    merged.suspicious_detail = pool[i]!;
   }
   return merged;
 }
@@ -57,7 +74,7 @@ export function localizeCharacterForPlay(
   lang: Lang,
   caseId: BostonCaseId
 ): CharacterJson {
-  const base = localizeCharacter(c, lang);
+  const base = localizeCharacter(c, lang, caseId);
   const { innocent_explanation, culprit_explanation } = explanationsForCase(
     base,
     caseId,
@@ -95,7 +112,7 @@ export const SCENE_CASE_COPY: Record<BostonCaseId, Record<Lang, SceneCaseStrings
     en: {
       sceneTitle: "The Boston Common Case",
       sceneDescriptor:
-        "Boston Common is the crime scene — Boston Common, Boston Common, Boston Common.",
+        "Overnight, someone left huge piles of trash on Boston Common.",
       sceneContext:
         "Use the three clues to find who trashed Boston Common with piles of garbage last night.",
       sceneExitTitle: "Keeping Boston Common clean for everyone",
@@ -103,7 +120,7 @@ export const SCENE_CASE_COPY: Record<BostonCaseId, Record<Lang, SceneCaseStrings
     es: {
       sceneTitle: "El caso de Boston Common",
       sceneDescriptor:
-        "Boston Common es la escena — Boston Common, Boston Common, Boston Common.",
+        "Alguien dejó montones enormes de basura en Boston Common de la noche a la mañana.",
       sceneContext:
         "Usa las tres pistas para averiguar quién llenó Boston Common de basura anoche.",
       sceneExitTitle: "Mantener limpio Boston Common para todos",
@@ -113,7 +130,7 @@ export const SCENE_CASE_COPY: Record<BostonCaseId, Record<Lang, SceneCaseStrings
     en: {
       sceneTitle: "The South End Case",
       sceneDescriptor:
-        "The South End parade route is shut down — South End, South End, South End.",
+        "The South End parade route is closed after an illegal coal stunt blocked the march.",
       sceneContext:
         "Use the three clues to find who ran an illegal coal stunt that closed the South End parade.",
       sceneExitTitle: "Keeping South End streets safe for parades",
@@ -121,7 +138,7 @@ export const SCENE_CASE_COPY: Record<BostonCaseId, Record<Lang, SceneCaseStrings
     es: {
       sceneTitle: "El caso del South End",
       sceneDescriptor:
-        "La ruta del desfile del South End está cerrada — South End, South End, South End.",
+        "Cerraron la ruta del desfile del South End tras un truco ilegal con carbón.",
       sceneContext:
         "Usa las tres pistas para averiguar quién montó un truco ilegal con carbón que cerró el desfile del South End.",
       sceneExitTitle: "Calles del South End seguras para desfiles",
@@ -131,7 +148,7 @@ export const SCENE_CASE_COPY: Record<BostonCaseId, Record<Lang, SceneCaseStrings
     en: {
       sceneTitle: "The Newbury Street Case",
       sceneDescriptor:
-        "Renovation debris hit a Newbury Street alley — Newbury Street, Newbury Street.",
+        "Shop renovation debris showed up illegally in a Newbury Street service alley.",
       sceneContext:
         "Use the three clues to find who illegally dumped shop tear-out behind Newbury Street.",
       sceneExitTitle: "Keeping Newbury Street alleys clear",
@@ -139,7 +156,7 @@ export const SCENE_CASE_COPY: Record<BostonCaseId, Record<Lang, SceneCaseStrings
     es: {
       sceneTitle: "El caso de Newbury Street",
       sceneDescriptor:
-        "Escombros de obra en un callejón de Newbury Street — Newbury Street, Newbury Street.",
+        "Escombros de remodelación aparecieron ilegalmente en un callejón de servicio de Newbury Street.",
       sceneContext:
         "Usa las tres pistas para averiguar quién tiró ilegalmente restos de tienda detrás de Newbury Street.",
       sceneExitTitle: "Mantener limpios los callejones de Newbury Street",
@@ -183,26 +200,26 @@ const EXIT_FACTS_BY_CASE: Record<BostonCaseId, Record<Lang, string[]>> = {
   },
   boston_common: {
     en: [
-      "Boston Common belongs to everyone — pack out what you bring, and always use the bins on Boston Common, Boston Common!",
+      "Boston Common belongs to everyone — pack out what you bring and use the park trash and recycling bins.",
     ],
     es: [
-      "Boston Common es de todos — llévate lo que traes y usa los contenedores en Boston Common, Boston Common.",
+      "Boston Common es de todos: llévate lo que traes y usa los contenedores de basura y reciclaje del parque.",
     ],
   },
   south_end: {
     en: [
-      "South End parades need safe, permitted routes — South End streets are for people, not surprise mines!",
+      "Parades need permitted routes and safe setups — streets are for people, not surprise blockades or stunts.",
     ],
     es: [
-      "Los desfiles del South End necesitan rutas seguras y con permiso — ¡las calles del South End son para la gente, no para minas sorpresa!",
+      "Los desfiles necesitan rutas y montajes con permiso; las calles son para la gente, no para bloqueos sorpresa.",
     ],
   },
   newbury_street: {
     en: [
-      "Newbury Street shops must haul debris legally — hire licensed trucks, not midnight alley dumps on Newbury Street!",
+      "Shops should haul renovation debris with licensed haulers — midnight alley dumps hurt neighbors and workers.",
     ],
     es: [
-      "Las tiendas de Newbury Street deben retirar escombros con permiso — ¡camiones autorizados, no vertidos nocturnos en callejones de Newbury Street!",
+      "Las tiendas deben retirar escombros con transportistas autorizados; los vertidos nocturnos en callejones perjudican a todos.",
     ],
   },
 };
@@ -493,17 +510,26 @@ export function pickCulpritForRound(
 export function prepareSceneSuspects(
   picked: CharacterJson[],
   culpritUidParam: string,
-  rng: SceneRandom
+  rng: SceneRandom,
+  caseId: BostonCaseId,
+  lang: Lang
 ): CharacterJson[] {
   return picked.map((c) => {
     const guilty = c.uid === culpritUidParam;
     const idx = Math.floor(rng.float() * 3) as 0 | 1 | 2;
-    const pool = guilty ? c.alibis_guilty : c.alibis_innocent;
+    const { innocent, guilty: guiltyPool } = characterAlibiPools(
+      c,
+      caseId,
+      lang
+    );
+    const pool = guilty ? guiltyPool : innocent;
     return {
       ...c,
+      alibis_innocent: innocent,
+      alibis_guilty: guiltyPool,
       round_alibi_index: idx,
       round_alibi_guilty: guilty,
-      suspicious_detail: pool[idx],
+      suspicious_detail: pool[idx]!,
     };
   });
 }

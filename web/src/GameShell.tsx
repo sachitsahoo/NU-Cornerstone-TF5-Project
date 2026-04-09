@@ -372,7 +372,9 @@ export default function GameShell() {
       const picked = prepareSceneSuspects(
         pickSceneSuspects(roster, cul, rng).slice(0, SUSPECTS_PER_SCENE),
         cul,
-        rng
+        rng,
+        caseId,
+        next
       );
       setSceneCaseClues(caseCluesForScene(next, cul, rng, caseId));
       sceneSuspectsRef.current = picked;
