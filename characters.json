@@ -16,12 +16,12 @@
       ],
       "alibis_guilty": [
         "Two drums were marked recycled but the truck never took them. Scrape marks at the drain match his cart.",
-        "He complained about drum fees at work that day. The oil in the water matches his work lot number.",
+        "He complained about drum fees at work that day. The oil in the water is the same kind he used every day at work.",
         "Heat video shows his gloves right after the drums moved. Only his crew has those gloves."
       ],
       "suspicious_detail": "The video shows someone taller moving the drums. His shift ended early.",
       "innocent_explanation": "The oil in the river is from factory drums. He was not the one rolling drums in the video.",
-      "culprit_explanation": "He poured oil from the drums into the storm drain. It was the same machine oil he uses at work.",
+      "culprit_explanation": "He poured oil from the drums into the drain that leads to the river. It was the same machine oil he uses at work.",
       "image": "assets/images/Bacon_Hair_Shoulder_Up-removebg-preview.png",
       "led_color": [
         20,
@@ -39,18 +39,18 @@
       "role": "Café Owner",
       "description": "She runs a small café on the river walk. She uses soap and spray bottles for dishes and floors.",
       "alibis_innocent": [
-        "Her car left the lot before the drums moved. Night trash was only cups and food waste.",
+        "She drove away before the drums moved. Night trash was only cups and food waste.",
         "She was home when the factory cameras showed drums rolling.",
         "Inspectors only allow food cleaners at her shop. None of those match the thick oil in the river."
       ],
       "alibis_guilty": [
-        "Staff saw jugs behind the café after closing. The labels match degreaser in the gutter.",
+        "Workers saw big jugs behind the café after closing. The labels match the heavy grease cleaner found in the gutter.",
         "Empty jugs with her logo were near the drain.",
         "Pour times match rainy nights. Her phone stayed behind the shop those nights."
       ],
       "suspicious_detail": "Her car was gone before the spill. She only uses food-safe cleaners.",
       "innocent_explanation": "The river oil is thick factory oil. Her café only uses dish soap and food-safe cleaners.",
-      "culprit_explanation": "She poured old degreaser and cleaner behind the café. Rain washed that greasy mix into the river.",
+      "culprit_explanation": "She poured old grease cleaner behind the café. When it rained, the oily mixture washed into the river.",
       "image": "assets/images/Ballerina_cappuccina_shoulder_up-removebg-preview.png",
       "led_color": [
         255,
@@ -70,16 +70,16 @@
       "alibis_innocent": [
         "His van was empty when he stopped by the drain. Logs show no drums on board.",
         "Plant cameras put him on the repair floor during the drum video.",
-        "His card never opened the drum cage that night."
+        "His key card never unlocked the room where the drums are kept."
       ],
       "alibis_guilty": [
         "He borrowed an orange jacket from the locker room. Fibers on the grate match that jacket.",
         "He closed a repair ticket early. His phone was by the drain at the same time.",
-        "Truck forms he signed do not match real pickups. The recycler never got those fees."
+        "The forms he signed do not match real pickups. The recycling company never got the drums."
       ],
       "suspicious_detail": "His van was empty near the drain. No drums inside.",
-      "innocent_explanation": "The person in the video wears maintenance orange. He wears a yellow supervisor vest on camera that night.",
-      "culprit_explanation": "He signed fake truck forms so oil left the plant illegally. That oil went into the river instead of the recycler.",
+      "innocent_explanation": "The worker in the video wears orange work clothes. He wears a yellow supervisor vest on camera that night.",
+      "culprit_explanation": "He filled out fake paperwork so oil could secretly leave the factory. That oil went into the river instead of the recycling center.",
       "image": "assets/images/TTTSahur_Shoulder_Up-removebg-preview.png",
       "led_color": [
         255,
@@ -98,7 +98,7 @@
       "description": "He hands out maps at the museum on the river. He does not work inside the oil plant.",
       "alibis_innocent": [
         "He led a kids scavenger hunt before the drums moved.",
-        "His badge only opens public doors at the museum. He never scanned into the plant after seven p.m.",
+        "His badge only opens public doors at the museum. He never got into the factory after 7 p.m.",
         "He signed out at the front desk hours before the video."
       ],
       "alibis_guilty": [
@@ -108,7 +108,7 @@
       ],
       "suspicious_detail": "He was leading a kids scavenger hunt when it happened.",
       "innocent_explanation": "The oil in the river came from factory drums. He has no keys to the drum area.",
-      "culprit_explanation": "He borrowed a maintenance badge and rolled drums to the drain. He wanted to skip paying the oil disposal fee.",
+      "culprit_explanation": "He borrowed a worker's badge to get into the locked area and moved drums to the drain. He didn't want to pay to have the oil removed safely.",
       "image": "assets/images/robloxNoobHeadshot.png",
       "led_color": [
         255,
@@ -125,7 +125,7 @@
       "role": "Sales Representative",
       "description": "He visits on a paper guest pass for one day. He takes photos on the river path.",
       "alibis_innocent": [
-        "Lobby logs show his pass out before the drums moved.",
+        "The front desk records show he left before the drums moved.",
         "River cameras never show him at the drain that night.",
         "His phone stayed across town until morning."
       ],
@@ -136,7 +136,7 @@
       ],
       "suspicious_detail": "He signed out at the front desk before it happened.",
       "innocent_explanation": "The oil came from factory drums at night. He had already left downtown on a rideshare.",
-      "culprit_explanation": "He came back in work clothes and moved oil drums. He used his guest pass as a cover story.",
+      "culprit_explanation": "He came back wearing work clothes and moved oil drums. He used his visitor pass as an excuse to get back inside.",
       "image": "assets/images/robloxGuestHeadshot-removebg-preview.png",
       "led_color": [
         0,
@@ -154,17 +154,17 @@
       "description": "She sells candy and drinks from a cart on the river path. Her cart is for food only.",
       "alibis_innocent": [
         "She packed the cart away before the drums moved.",
-        "Health rules list only food on her cart.",
+        "Health inspectors say she can only keep food in her cart.",
         "Her wristband does not open the plant gate."
       ],
       "alibis_guilty": [
-        "Hidden jugs under the liner tested positive for the same oil.",
+        "Hidden jugs under the bottom of her cart had the same oil in them.",
         "A witness saw the cart at the grate after hours.",
         "Glue on her gloves matched sealant from drum caps."
       ],
       "suspicious_detail": "She packed up her cart before the oil spill happened.",
       "innocent_explanation": "The river shows thick factory machine oil. Her cart only holds snacks and drinks.",
-      "culprit_explanation": "She hid small oil bottles under the cart liner. She poured them into the drain when restocking late.",
+      "culprit_explanation": "She hid small oil bottles under the bottom lining of her cart. At night when filling up her cart, she poured them down the drain.",
       "image": "assets/images/baconetteHairHeadshot-removebg-preview.png",
       "led_color": [
         255,
@@ -210,17 +210,17 @@
       "description": "He shoots video of the river for the city cleanup team. He uses a camera on a tripod with oily grease on the legs.",
       "alibis_innocent": [
         "His camera was pointed upriver during the drum video.",
-        "His memory card has no long break to reach the plant.",
+        "His video recording shows no gap long enough for him to go to the factory.",
         "Plant security never scanned his badge at the drums."
       ],
       "alibis_guilty": [
-        "Oily rags from his gear bag match the river oil.",
+        "Oily rags from his camera bag match the river oil.",
         "His tripod stood in the mud right at the grate.",
         "He threw away a bottle of oil behind his camera case. The bottle matched factory oil."
       ],
       "suspicious_detail": "His camera was pointing the wrong way during the spill.",
       "innocent_explanation": "The oil in the river came straight from factory drums. He was filming upriver when those drums moved.",
-      "culprit_explanation": "He poured extra machine oil from his tripod can into the drain. It was the same type of oil used at the factory.",
+      "culprit_explanation": "He poured extra machine oil from a small can he kept with his camera into the drain. It was the same type of oil used at the factory.",
       "image": "assets/images/agent67Headshot-removebg-preview.png",
       "led_color": [
         173,
@@ -235,20 +235,20 @@
       ],
       "name": "Roblox Builder",
       "role": "Youth Program Instructor",
-      "description": "He helps kids build projects at the museum by the river. The table uses small tubes of machine oil for gear demos.",
+      "description": "He helps kids build projects at the museum by the river. His table uses small tubes of oil to show how machines move.",
       "alibis_innocent": [
         "He locked the tool room and stayed in the workshop on video.",
-        "His key card never opens the waste hall.",
+        "His key card never opens the room where waste is kept.",
         "Parents watched him on a live stream during the drum video."
       ],
       "alibis_guilty": [
-        "Demo oil from his table matches the river slick.",
+        "Oil from his project table matches the oil in the river.",
         "He opened a tunnel door that leads near the grate.",
         "Empty oil tubes with his name were in his locker."
       ],
       "suspicious_detail": "He was on camera in the kids' room all night.",
       "innocent_explanation": "The spill is from huge plant drums. He stayed in the kids’ room all night on camera.",
-      "culprit_explanation": "He poured leftover demo oil down the drain after closing. That oil is the same kind the factory uses.",
+      "culprit_explanation": "He poured leftover machine oil from his project table down the drain after closing. It is the same kind of oil the factory uses.",
       "image": "assets/images/BuilderManHeadshots.webp",
       "led_color": [
         255,
@@ -270,13 +270,13 @@
         "Her prop boxes list only lights and glitter."
       ],
       "alibis_guilty": [
-        "A fog hose tested positive for the same oil mix.",
-        "She asked where to dump liquid fast behind the stage.",
+        "A tube from her fog machine had the same oil in it.",
+        "She asked how to pour out extra liquid quickly behind the stage.",
         "Glitter on a drum matched her costume."
       ],
       "suspicious_detail": "She was in costume at rehearsal the whole time.",
       "innocent_explanation": "The main spill is thick factory machine oil. She was on stage when the drums rolled at the plant.",
-      "culprit_explanation": "She poured leftover fog fluid into the storm drain. It mixed with oil already in the pipe from the factory.",
+      "culprit_explanation": "She poured leftover liquid from her fog machine into the drain pipe. It mixed with oil already in the pipe from the factory.",
       "image": "assets/images/elsaHeadshot.png",
       "led_color": [
         180,
@@ -291,10 +291,10 @@
       ],
       "name": "Steve",
       "role": "Office Worker",
-      "description": "He greets festival crowds in a block-head costume on the downtown waterfront. He is not allowed inside the oil plant.",
+      "description": "He wears a big square-headed mascot costume at festivals by the river. He is not allowed inside the oil factory.",
       "alibis_innocent": [
         "Fans took photos with him far from the plant that night.",
-        "The suit head cannot fit through the drum door.",
+        "The costume head is too big to fit through the door to the drum storage room.",
         "His event badge only opens the convention hall."
       ],
       "alibis_guilty": [
@@ -319,20 +319,20 @@
       ],
       "name": "SpyderSammy",
       "role": "Pest Control Technician",
-      "description": "He sprays pesticides and chemicals along the riverbank to keep pests away from the walking path.",
+      "description": "He sprays bug-killing liquid along the riverbank to keep bugs away from the walking path.",
       "alibis_innocent": [
         "His spray log shows he finished the riverbank route before sunset.",
-        "His truck was parked at the depot when the drum video was recorded.",
-        "The chemicals he uses are water-safe and certified for riverbank work."
+        "His truck was parked at the yard when the drum video was recorded.",
+        "The sprays he uses are safe for the river and approved for riverbank work."
       ],
       "alibis_guilty": [
-        "An empty unlabeled canister was found near the storm drain matching chemicals not on his permit.",
+        "An empty container with no label was found near the drain. It had chemicals he was not allowed to have.",
         "His route log has a two-hour gap the night the oil hit the river.",
-        "Residue on the drain grate matches a banned pesticide concentrate found in his truck."
+        "Leftover spray on the drain matches an illegal bug killer found in his truck."
       ],
       "suspicious_detail": "He finished spraying the riverbank before it got dark.",
-      "innocent_explanation": "The spill is thick factory machine oil. His certified spray chemicals are water-safe and would not leave an oil slick.",
-      "culprit_explanation": "He dumped an unlabeled drum of banned pesticide concentrate into the storm drain to avoid disposal fees. It mixed with factory oil already in the pipe.",
+      "innocent_explanation": "The spill is thick factory machine oil. The sprays he is allowed to use are safe for water and would not leave an oil slick.",
+      "culprit_explanation": "He dumped a container of illegal bug spray into the drain to avoid paying to throw it away safely. It mixed with factory oil already in the pipe.",
       "image": "assets/images/SpyderSammyHeadshot.png",
       "led_color": [
         255,
