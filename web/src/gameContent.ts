@@ -116,7 +116,7 @@ export const SCENE_CASE_COPY: Record<BostonCaseId, Record<Lang, SceneCaseStrings
     en: {
       sceneTitle: "The Boston Common Case",
       sceneDescriptor:
-        "Boston Common is the city’s shared front yard—someone dumped bags and loose trash across the grass and paths, not in the bins.",
+        "Boston Common is the city’s shared front yard. Someone dumped bags and loose trash across the grass and paths, not in the bins.",
       sceneContext:
         "Use the three clues to find who trashed Boston Common last night and harmed the park everyone relies on.",
       sceneExitTitle: "Keeping Boston Common clean for everyone",
@@ -134,7 +134,7 @@ export const SCENE_CASE_COPY: Record<BostonCaseId, Record<Lang, SceneCaseStrings
     en: {
       sceneTitle: "The South End Case",
       sceneDescriptor:
-        "Illegal mining has started in the South End—tearing up streets, blocking the parade, and ruining the neighborhood for the whole city.",
+        "Illegal mining has started in the South End, tearing up streets, blocking the parade, and ruining the neighborhood for the whole city.",
       sceneContext:
         "Use the three clues to find who started mining in the South End and trashed the city’s streets and parade route.",
       sceneExitTitle: "Stopping illegal mining from ruining Boston’s streets",
@@ -152,7 +152,7 @@ export const SCENE_CASE_COPY: Record<BostonCaseId, Record<Lang, SceneCaseStrings
     en: {
       sceneTitle: "The Revere Beach Case",
       sceneDescriptor:
-        "Someone is dumping trash straight into the water at Revere Beach—bags, plastic, and junk washing in with the tide.",
+        "Someone is dumping trash straight into the water at Revere Beach: bags, plastic, and junk washing in with the tide.",
       sceneContext:
         "Use the three clues to find who is putting garbage into the ocean at Revere Beach instead of using bins and haul-away.",
       sceneExitTitle: "Keeping Revere Beach water clean",
@@ -183,12 +183,12 @@ const FUN_FACT: Record<Lang, string> = {
 const SOLUTIONS: Record<Lang, string[]> = {
   en: [
     "Check drain pipes automatically and share the results publicly.",
-    "Plant bushes and grass near rivers — they filter dirty water before it gets in.",
+    "Plant bushes and grass near rivers. They filter dirty water before it gets in.",
     "Let workers report rule-breaking safely, without getting in trouble.",
   ],
   es: [
     "Revisar tuberías con sensores y publicar los datos.",
-    "Plantar vegetación en la orilla — filtra el agua antes de entrar al río.",
+    "Plantar vegetación en la orilla. Filtra el agua antes de entrar al río.",
     "Que los trabajadores puedan reportar sin represalias.",
   ],
 };
@@ -383,9 +383,9 @@ export const UI = {
     landingPlayStarting: "Starting…",
     landingTitleLine1: "Polluter",
     landingTitleLine2: "Mystery",
-    logoBcCaption: "Ballerina Cappuccina — Café Owner",
-    logoBhCaption: "Bacon Hair — Factory Mechanic",
-    logoSahurCaption: "Tung — Night Shift Supervisor",
+    logoBcCaption: "Ballerina Cappuccina: Café Owner",
+    logoBhCaption: "Bacon Hair: Factory Mechanic",
+    logoSahurCaption: "Tung: Night Shift Supervisor",
     logoStripAria: "Story characters",
     logoStripScrollIntro: "Meet the suspects",
     playShortcutTitle: "Start (shortcut P)",
@@ -440,9 +440,9 @@ export const UI = {
     landingPlayStarting: "Iniciando…",
     landingTitleLine1: "Contaminación",
     landingTitleLine2: "Misterio",
-    logoBcCaption: "Ballerina Cappuccina — Dueña De Un Café",
-    logoBhCaption: "Bacon Hair — Mecánico De Fábrica",
-    logoSahurCaption: "Tung — Supervisor De Turno Nocturno",
+    logoBcCaption: "Ballerina Cappuccina: Dueña De Un Café",
+    logoBhCaption: "Bacon Hair: Mecánico De Fábrica",
+    logoSahurCaption: "Tung: Supervisor De Turno Nocturno",
     logoStripAria: "Sospechosos",
     logoStripScrollIntro: "Los sospechosos",
     playShortcutTitle: "Empezar (P)",
