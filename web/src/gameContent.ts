@@ -1,8 +1,17 @@
 import type { CharacterJson, CharactersApiResponse } from "./gameTypes";
+import type { BostonCaseId } from "./bostonCaseIds";
+import {
+  CLUES_BY_CASE,
+  DEFAULT_CLUES_BY_CASE,
+} from "./caseCluesByCase";
+import { explanationsForCase } from "./caseExplanations";
 import pack from "./data/characters.json";
 import esOverlay from "./characterEs.json";
+import type { Lang } from "./lang";
 
-export type Lang = "en" | "es";
+export type { Lang } from "./lang";
+export { BOSTON_CASE_IDS, pickRandomCase } from "./bostonCaseIds";
+export type { BostonCaseId } from "./bostonCaseIds";
 
 /** Used when GET /api/characters fails (e.g. Vite without bridge). */
 export const FALLBACK_CHARACTERS: CharacterJson[] = (
@@ -42,169 +51,108 @@ export function localizeCharacter(c: CharacterJson, lang: Lang): CharacterJson {
   return merged;
 }
 
-/** Fallback if an unknown culprit uid is passed (should not happen in normal play). */
-const CLUES: Record<Lang, string[]> = {
-  en: [
-    "The mess is factory machine oil.",
-    "Someone moved oil drums to the river drain.",
-    "Only factory workers can move those drums.",
-  ],
-  es: [
-    "Es aceite de máquina de fábrica.",
-    "Alguien movió bidones de aceite al desagüe del río.",
-    "Solo trabajadores de la fábrica pueden mover esos bidones.",
-  ],
+/** Localized character plus innocent/culprit reveal lines for the active Boston case. */
+export function localizeCharacterForPlay(
+  c: CharacterJson,
+  lang: Lang,
+  caseId: BostonCaseId
+): CharacterJson {
+  const base = localizeCharacter(c, lang);
+  const { innocent_explanation, culprit_explanation } = explanationsForCase(
+    base,
+    caseId,
+    lang
+  );
+  return { ...base, innocent_explanation, culprit_explanation };
+}
+
+export type SceneCaseStrings = {
+  sceneTitle: string;
+  sceneDescriptor: string;
+  sceneContext: string;
+  sceneExitTitle: string;
 };
 
-/**
- * Three clues: (1) oil type (2–3) short evidence—enough to reason with, not a job listing.
- */
-const CLUES_BY_CULPRIT: Record<string, Record<Lang, readonly [string, string, string]>> = {
-  bacon_hair: {
-    en: [
-      "It's factory machine oil.",
-      "Video shows drums heading toward the river.",
-      "Scrape marks match a cart from the machine yard.",
-    ],
-    es: [
-      "Es aceite de máquina de la fábrica.",
-      "El vídeo muestra bidones hacia el río.",
-      "Rozaduras coinciden con un carro del taller de máquinas.",
-    ],
+/** Case-specific headline copy for the playing + exit interstitial screens. */
+export const SCENE_CASE_COPY: Record<BostonCaseId, Record<Lang, SceneCaseStrings>> = {
+  charles_river: {
+    en: {
+      sceneTitle: "The Charles River Case",
+      sceneDescriptor: "Tonight's mystery starts at the Charles River.",
+      sceneContext:
+        "Use the three clues to figure out who dumped waste into the Charles River last night.",
+      sceneExitTitle: "Helping the Charles River stay healthy",
+    },
+    es: {
+      sceneTitle: "El caso del río Charles",
+      sceneDescriptor: "Esta noche el misterio empieza en el río Charles.",
+      sceneContext:
+        "Usa las tres pistas para averiguar quién vertió residuos en el río Charles anoche.",
+      sceneExitTitle: "Cuidar el río Charles",
+    },
   },
-  ballerina_cappuccina: {
-    en: [
-      "It's factory machine oil.",
-      "Grease traced to her café patio on the river walk.",
-      "The trail runs between the factory and that riverside café.",
-    ],
-    es: [
-      "Es aceite de máquina de la fábrica.",
-      "Grasa llevó a la terraza de su café en el paseo del río.",
-      "La pista va entre la fábrica y ese café ribereño.",
-    ],
+  boston_common: {
+    en: {
+      sceneTitle: "The Boston Common Case",
+      sceneDescriptor:
+        "Boston Common is the crime scene — Boston Common, Boston Common, Boston Common.",
+      sceneContext:
+        "Use the three clues to find who trashed Boston Common with piles of garbage last night.",
+      sceneExitTitle: "Keeping Boston Common clean for everyone",
+    },
+    es: {
+      sceneTitle: "El caso de Boston Common",
+      sceneDescriptor:
+        "Boston Common es la escena — Boston Common, Boston Common, Boston Common.",
+      sceneContext:
+        "Usa las tres pistas para averiguar quién llenó Boston Common de basura anoche.",
+      sceneExitTitle: "Mantener limpio Boston Common para todos",
+    },
   },
-  tung: {
-    en: [
-      "It's factory machine oil.",
-      "Truck papers list a pickup that never happened.",
-      "The wrong form has a night shift stamp on it.",
-    ],
-    es: [
-      "Es aceite de máquina de la fábrica.",
-      "Los papeles del camión dicen una recogida que no ocurrió.",
-      "El formulario equivocado tiene sello de turno nocturno.",
-    ],
+  south_end: {
+    en: {
+      sceneTitle: "The South End Case",
+      sceneDescriptor:
+        "The South End parade route is shut down — South End, South End, South End.",
+      sceneContext:
+        "Use the three clues to find who ran an illegal coal stunt that closed the South End parade.",
+      sceneExitTitle: "Keeping South End streets safe for parades",
+    },
+    es: {
+      sceneTitle: "El caso del South End",
+      sceneDescriptor:
+        "La ruta del desfile del South End está cerrada — South End, South End, South End.",
+      sceneContext:
+        "Usa las tres pistas para averiguar quién montó un truco ilegal con carbón que cerró el desfile del South End.",
+      sceneExitTitle: "Calles del South End seguras para desfiles",
+    },
   },
-  roblox_noob: {
-    en: [
-      "It's factory machine oil.",
-      "The stain pattern fits factory drums.",
-      "A scavenger hunt photo shows the time by the museum steps.",
-    ],
-    es: [
-      "Es aceite de máquina de la fábrica.",
-      "La mancha encaja con bidones de fábrica.",
-      "Una foto de la búsqueda del tesoro muestra la hora junto al museo.",
-    ],
-  },
-  roblox_guest: {
-    en: [
-      "It's factory machine oil.",
-      "This much oil usually moves on the freight road.",
-      "Lobby logs show an exit before the drums rolled.",
-    ],
-    es: [
-      "Es aceite de máquina de la fábrica.",
-      "Tanto aceite suele moverse por la vía de carga.",
-      "Registros del vestíbulo muestran salida antes de los bidones.",
-    ],
-  },
-  baconette_hair: {
-    en: [
-      "It's factory machine oil.",
-      "Oil pooled under a cart liner, not a sink.",
-      "Snack wrappers by the stain match a cart brand.",
-    ],
-    es: [
-      "Es aceite de máquina de la fábrica.",
-      "Aceite bajo el forro de un carrito, no en un fregadero.",
-      "Envoltorios junto a la mancha coinciden con una marca de carrito.",
-    ],
-  },
-  peeley: {
-    en: [
-      "It's factory machine oil.",
-      "Oil hit work clothes right after he changed out of the banana suit.",
-      "Fluff from a costume was on a drum at the grate.",
-    ],
-    es: [
-      "Es aceite de máquina de la fábrica.",
-      "Aceite en ropa de trabajo tras quitarse el traje de plátano.",
-      "Pelusa de disfraz apareció en un bidón en la rejilla.",
-    ],
-  },
-  agent_67: {
-    en: [
-      "It's factory machine oil.",
-      "Tripod legs have the same grease as the water sample.",
-      "A camera was on the mud bank by the river.",
-    ],
-    es: [
-      "Es aceite de máquina de la fábrica.",
-      "Las patas del trípode tienen la misma grasa que el agua.",
-      "Una cámara en el barro junto al río.",
-    ],
-  },
-  roblox_builder: {
-    en: [
-      "It's factory machine oil.",
-      "The oil matches the kids' demo tubes, not the plant pipes.",
-      "A door from the kids’ room sits near the grate.",
-    ],
-    es: [
-      "Es aceite de máquina de la fábrica.",
-      "El aceite coincide con tubitos de demo, no con el tubo principal.",
-      "Una puerta del salón de niños queda cerca de la rejilla.",
-    ],
-  },
-  elsa: {
-    en: [
-      "It's factory machine oil.",
-      "Fog from her light show and pipe oil used the same drain.",
-      "The plaza rehearsal for that show matched when the oil hit the drain.",
-    ],
-    es: [
-      "Es aceite de máquina de la fábrica.",
-      "Niebla del show y aceite de tubo usan el mismo desagüe.",
-      "El ensayo en la plaza para ese show coincidió con el aceite en el desagüe.",
-    ],
-  },
-  steve: {
-    en: [
-      "It's factory machine oil.",
-      "Work gloves picked up oil, not foam from the suit.",
-      "The mascot head can’t fit through the drum room door.",
-    ],
-    es: [
-      "Es aceite de máquina de la fábrica.",
-      "Guantes con aceite, no espuma del traje de cabeza cuadrada.",
-      "La cabeza grande no cabe por la puerta de la sala de bidones.",
-    ],
-  },
-  spyder_sammy: {
-    en: [
-      "It's factory machine oil.",
-      "A label for illegal chemicals was by the drain.",
-      "Hoses and a list of stops were by the drain.",
-    ],
-    es: [
-      "Es aceite de máquina de la fábrica.",
-      "Una etiqueta de químico ilegal junto al desagüe.",
-      "Mangueras y una lista de paradas junto al desagüe.",
-    ],
+  newbury_street: {
+    en: {
+      sceneTitle: "The Newbury Street Case",
+      sceneDescriptor:
+        "Renovation debris hit a Newbury Street alley — Newbury Street, Newbury Street.",
+      sceneContext:
+        "Use the three clues to find who illegally dumped shop tear-out behind Newbury Street.",
+      sceneExitTitle: "Keeping Newbury Street alleys clear",
+    },
+    es: {
+      sceneTitle: "El caso de Newbury Street",
+      sceneDescriptor:
+        "Escombros de obra en un callejón de Newbury Street — Newbury Street, Newbury Street.",
+      sceneContext:
+        "Usa las tres pistas para averiguar quién tiró ilegalmente restos de tienda detrás de Newbury Street.",
+      sceneExitTitle: "Mantener limpios los callejones de Newbury Street",
+    },
   },
 };
+
+export function sceneCaseCopy(
+  lang: Lang,
+  caseId: BostonCaseId
+): SceneCaseStrings {
+  return SCENE_CASE_COPY[caseId][lang];
+}
 
 const FUN_FACT: Record<Lang, string> = {
   en: "Even a small amount of factory oil can poison the fish, frogs, and insects that live in a river!",
@@ -224,17 +172,48 @@ const SOLUTIONS: Record<Lang, string[]> = {
   ],
 };
 
-const RIVER_EXIT_FACTS: Record<Lang, string[]> = {
-  en: [
-    "The Charles River went from one of the dirtiest rivers in the US to one of the cleanest today!",
-  ],
-  es: [
-    "¡El río Charles pasó de ser uno de los más contaminados de EE. UU. a uno de los más limpios hoy!",
-  ],
+const EXIT_FACTS_BY_CASE: Record<BostonCaseId, Record<Lang, string[]>> = {
+  charles_river: {
+    en: [
+      "The Charles River went from one of the dirtiest rivers in the US to one of the cleanest today!",
+    ],
+    es: [
+      "¡El río Charles pasó de ser uno de los más contaminados de EE. UU. a uno de los más limpios hoy!",
+    ],
+  },
+  boston_common: {
+    en: [
+      "Boston Common belongs to everyone — pack out what you bring, and always use the bins on Boston Common, Boston Common!",
+    ],
+    es: [
+      "Boston Common es de todos — llévate lo que traes y usa los contenedores en Boston Common, Boston Common.",
+    ],
+  },
+  south_end: {
+    en: [
+      "South End parades need safe, permitted routes — South End streets are for people, not surprise mines!",
+    ],
+    es: [
+      "Los desfiles del South End necesitan rutas seguras y con permiso — ¡las calles del South End son para la gente, no para minas sorpresa!",
+    ],
+  },
+  newbury_street: {
+    en: [
+      "Newbury Street shops must haul debris legally — hire licensed trucks, not midnight alley dumps on Newbury Street!",
+    ],
+    es: [
+      "Las tiendas de Newbury Street deben retirar escombros con permiso — ¡camiones autorizados, no vertidos nocturnos en callejones de Newbury Street!",
+    ],
+  },
 };
 
+export function exitFactsFor(lang: Lang, caseId: BostonCaseId): string[] {
+  return EXIT_FACTS_BY_CASE[caseId][lang];
+}
+
+/** @deprecated Use exitFactsFor(lang, caseId); kept for single-case callers during migration. */
 export function riverExitFactsFor(lang: Lang): string[] {
-  return RIVER_EXIT_FACTS[lang];
+  return exitFactsFor(lang, "charles_river");
 }
 
 /** One post–fun-facts MCQ (easy–medium), aligned with river exit facts. */
@@ -285,10 +264,14 @@ export function exitQuizFor(lang: Lang): ExitQuizContent {
   return EXIT_QUIZ[lang];
 }
 
-export function cluesFor(lang: Lang, culpritUid: string): string[] {
-  const triple = CLUES_BY_CULPRIT[culpritUid]?.[lang];
+export function cluesFor(
+  lang: Lang,
+  culpritUid: string,
+  caseId: BostonCaseId
+): string[] {
+  const triple = CLUES_BY_CASE[caseId][culpritUid]?.[lang];
   if (triple) return [...triple];
-  return [...CLUES[lang]];
+  return [...DEFAULT_CLUES_BY_CASE[lang][caseId]];
 }
 
 export type CaseClueGlyph = "water" | "fish" | "car";
@@ -342,9 +325,10 @@ const CASE_CLUE_GLYPHS: readonly CaseClueGlyph[] = ["water", "fish", "car"];
 export function caseCluesForScene(
   lang: Lang,
   culpritUid: string,
-  rng: SceneRandom
+  rng: SceneRandom,
+  caseId: BostonCaseId
 ): CaseClueItem[] {
-  const triple = cluesFor(lang, culpritUid);
+  const triple = cluesFor(lang, culpritUid, caseId);
   const pairs: CaseClueItem[] = triple.map((text, i) => ({
     text,
     glyph: CASE_CLUE_GLYPHS[i]!,
@@ -367,10 +351,10 @@ export const UI = {
     langEnglish: "English",
     langSpanish: "Español",
     sceneEyebrow: "Case file",
-    sceneDescriptor: "Tonight's mystery starts at the river.",
-    sceneTitle: "The Riverside Case",
+    sceneDescriptor: "Tonight's mystery starts at the Charles River.",
+    sceneTitle: "The Charles River Case",
     sceneContext:
-      "Use the three clues to figure out who dumped waste into the river last night.",
+      "Use the three clues to figure out who dumped waste into the Charles River last night.",
     sceneHint:
       "Scan a suspect card to find out more.",
     investigationActive: "Investigation Active",
@@ -417,7 +401,7 @@ export const UI = {
     logoStripAria: "Story characters",
     logoStripScrollIntro: "Meet the suspects",
     playShortcutTitle: "Start (shortcut P)",
-    sceneExitTitle: "Helping rivers stay healthy",
+    sceneExitTitle: "Helping the Charles River stay healthy",
     exitQuizEyebrow: "Quick check",
     exitQuizCorrect: "Correct",
     exitQuizIncorrect: "Incorrect",
@@ -428,10 +412,10 @@ export const UI = {
     langEnglish: "English",
     langSpanish: "Español",
     sceneEyebrow: "Expediente",
-    sceneDescriptor: "Esta noche el misterio empieza en el río.",
-    sceneTitle: "El caso del río",
+    sceneDescriptor: "Esta noche el misterio empieza en el río Charles.",
+    sceneTitle: "El caso del río Charles",
     sceneContext:
-      "Usa las tres pistas para averiguar quién vertió residuos en el río anoche.",
+      "Usa las tres pistas para averiguar quién vertió residuos en el río Charles anoche.",
     sceneHint: "Escanea una tarjeta para ver más.",
     investigationActive: "Investigación activa",
     cluesTitle: "Pistas",
@@ -475,7 +459,7 @@ export const UI = {
     logoStripScrollIntro: "Los sospechosos",
     playShortcutTitle: "Empezar (P)",
     revealPlayAgain: "Siguiente",
-    sceneExitTitle: "Ríos sanos",
+    sceneExitTitle: "Cuidar el río Charles",
     exitQuizEyebrow: "Pregunta",
     exitQuizCorrect: "Correcto",
     exitQuizIncorrect: "Incorrecto",

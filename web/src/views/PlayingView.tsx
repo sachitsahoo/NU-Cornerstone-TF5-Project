@@ -1,15 +1,16 @@
 import { useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import type { CharacterJson } from "../gameTypes";
-import type { CaseClueItem, Lang } from "../gameContent";
+import type { BostonCaseId, CaseClueItem, Lang } from "../gameContent";
 import {
   imageSrc,
-  localizeCharacter,
+  localizeCharacterForPlay,
+  sceneCaseCopy,
   SUSPECTS_PER_SCENE,
   t,
 } from "../gameContent";
 import { ClueGlyph, SuspectSilhouette } from "./PlayingGlyphs";
-import { SceneRiverBanner } from "./SceneRiverBanner";
+import { SceneCaseBanner } from "./SceneCaseBanner";
 
 type RevealState = {
   correct: boolean;
@@ -20,6 +21,7 @@ type RevealState = {
 type PlayingViewProps = {
   visible: boolean;
   lang: Lang;
+  activeCase: BostonCaseId;
   /** Three case lines + icons for this scene (built with scene RNG in GameShell). */
   caseClues: CaseClueItem[];
   characters: CharacterJson[];
@@ -89,6 +91,7 @@ function SuspectPortrait({ src }: { src: string }) {
 export function PlayingView({
   visible,
   lang,
+  activeCase,
   caseClues,
   characters,
   highlightUid,
@@ -98,10 +101,15 @@ export function PlayingView({
   onContinueReveal,
   onSuspectSelect,
 }: PlayingViewProps) {
+  const scene = useMemo(
+    () => sceneCaseCopy(lang, activeCase),
+    [lang, activeCase]
+  );
+
   const cast = useMemo(() => {
     const row = characters.slice(0, SUSPECTS_PER_SCENE);
-    return row.map((c) => localizeCharacter(c, lang));
-  }, [characters, lang]);
+    return row.map((c) => localizeCharacterForPlay(c, lang, activeCase));
+  }, [characters, lang, activeCase]);
 
   const picked =
     scannedUid != null ? cast.find((c) => c.uid === scannedUid) : undefined;
@@ -110,10 +118,10 @@ export function PlayingView({
     if (!reveal) return null;
     return {
       correct: reveal.correct,
-      picked: localizeCharacter(reveal.picked, lang),
-      culprit: localizeCharacter(reveal.culprit, lang),
+      picked: localizeCharacterForPlay(reveal.picked, lang, activeCase),
+      culprit: localizeCharacterForPlay(reveal.culprit, lang, activeCase),
     };
-  }, [reveal, lang]);
+  }, [reveal, lang, activeCase]);
 
   return (
     <div
@@ -125,7 +133,7 @@ export function PlayingView({
         <div className="scene__shell scene__shell--wide">
           <header className="scene__topbar">
             <div className="scene__topbar-left">
-              <h1 className="scene__topbar-title">{t(lang, "sceneTitle")}</h1>
+              <h1 className="scene__topbar-title">{scene.sceneTitle}</h1>
             </div>
             <div className="scene__topbar-status" role="status">
               <span className="scene__topbar-dot" aria-hidden />
@@ -137,7 +145,7 @@ export function PlayingView({
 
           <div className="scene__split">
             <div className="scene__river-wrap">
-              <SceneRiverBanner />
+              <SceneCaseBanner caseId={activeCase} lang={lang} />
               {confirmOpen && picked && (
                 <div
                   className="scene-river-confirm"
@@ -215,7 +223,7 @@ export function PlayingView({
             >
               <div className="scene-clues-panel">
                 <div className="scene-clues__intro">
-                  <p className="scene-clues__lede">{t(lang, "sceneContext")}</p>
+                  <p className="scene-clues__lede">{scene.sceneContext}</p>
                   <p className="scene-clues__hint">{t(lang, "sceneHint")}</p>
                 </div>
                 <ol className="scene-clues-list">

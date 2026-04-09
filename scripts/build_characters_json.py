@@ -9,7 +9,8 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "characters.json"
 WEB_SRC_DATA = ROOT / "web" / "src" / "data" / "characters.json"
 
-# Simple words. Pollution in the game is factory machine oil. Tie each role to that oil and the river scene.
+# Simple words. Base JSON is the Charles River / factory-oil case; the web app adds Boston Common,
+# South End, and Newbury Street cases via web/src/caseCluesByCase.ts and web/src/caseExplanations.ts.
 
 
 def C(*lines):

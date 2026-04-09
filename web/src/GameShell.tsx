@@ -2,21 +2,33 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useBridgeWebSocket } from "./hooks/useBridgeWebSocket";
 import {
+  BOSTON_CASE_IDS,
   caseCluesForScene,
   charByUid,
   createSceneRandom,
+  exitFactsFor,
   exitQuizFor,
   FALLBACK_CHARACTERS,
   filterDemoRoster,
   pickCulpritForRound,
+  pickRandomCase,
   pickSceneSuspects,
   prepareSceneSuspects,
   randomSceneSeed,
-  riverExitFactsFor,
   SUSPECTS_PER_SCENE,
+  type BostonCaseId,
   type CaseClueItem,
   type Lang,
 } from "./gameContent";
+
+/** `?case=charles_river|boston_common|south_end|newbury_street` forces that case (kiosk testing). */
+function caseIdFromUrl(): BostonCaseId | null {
+  const raw = new URLSearchParams(window.location.search).get("case");
+  if (!raw) return null;
+  return (BOSTON_CASE_IDS as readonly string[]).includes(raw)
+    ? (raw as BostonCaseId)
+    : null;
+}
 import type { CharacterJson, CharactersApiResponse } from "./gameTypes";
 import { useScrollParallax } from "./useScrollParallax";
 import {
@@ -35,9 +47,6 @@ import { SceneExitLoadingOverlay } from "./views/SceneExitLoadingOverlay";
 
 /** Time the single fun-fact screen is shown before the exit quiz. */
 const EXIT_FACT_READ_MS = 6000;
-/** Full interstitial length = one beat per fact (EN/ES arrays stay same length). */
-const EXIT_SCENE_LOAD_MS =
-  riverExitFactsFor("en").length * EXIT_FACT_READ_MS;
 /** Exit quiz overlay fade-out; keep in sync with `.exit-quiz` CSS transition. */
 const EXIT_TO_HOME_ANIM_MS = 480;
 
@@ -138,6 +147,10 @@ export default function GameShell() {
   /** Case clues + glyph order for this scene (from same RNG as roster and alibis). */
   const [sceneCaseClues, setSceneCaseClues] = useState<CaseClueItem[]>([]);
 
+  const [activeCase, setActiveCase] = useState<BostonCaseId>("charles_river");
+  const activeCaseRef = useRef<BostonCaseId>("charles_river");
+  activeCaseRef.current = activeCase;
+
   /** Empty = random culprit each play; set first uid to fix culprit for testing. */
   const [roundCulprits, setRoundCulprits] = useState<string[]>([]);
   const culpritUidRef = useRef<string>("bacon_hair");
@@ -188,6 +201,9 @@ export default function GameShell() {
   const exitToLandingAnimLockRef = useRef(false);
 
   const confirmTimerRef = useRef<number | null>(null);
+
+  const exitSceneLoadMs =
+    exitFactsFor(lang, activeCase).length * EXIT_FACT_READ_MS;
 
   const sendLed = useCallback((r: number, g: number, b: number) => {
     void fetch("/api/led", {
@@ -345,12 +361,15 @@ export default function GameShell() {
       const rng = createSceneRandom(sceneSeed);
       const cul = pickCulpritForRound(roster, roundCulprits);
       culpritUidRef.current = cul;
+      const caseId = caseIdFromUrl() ?? pickRandomCase();
+      activeCaseRef.current = caseId;
+      setActiveCase(caseId);
       const picked = prepareSceneSuspects(
         pickSceneSuspects(roster, cul, rng).slice(0, SUSPECTS_PER_SCENE),
         cul,
         rng
       );
-      setSceneCaseClues(caseCluesForScene(next, cul, rng));
+      setSceneCaseClues(caseCluesForScene(next, cul, rng, caseId));
       sceneSuspectsRef.current = picked;
       setSceneSuspects(picked);
       setPlayActive(true);
@@ -479,6 +498,7 @@ export default function GameShell() {
     setView("landing");
     viewRef.current = "landing";
     setPlayActive(false);
+    setLang((l) => (l === "es" ? "en" : l));
     // Clear await: if we set true here, a release during the prior exit animation
     // leaves no button_up, so button_down stays blocked on landing/playing.
     awaitingButtonUpRef.current = false;
@@ -527,19 +547,20 @@ export default function GameShell() {
 
   useEffect(() => {
     if (!sceneExitLoading) return undefined;
-    const n = riverExitFactsFor(lang).length;
+    const n = exitFactsFor(lang, activeCase).length;
+    const loadMs = n * EXIT_FACT_READ_MS;
     const tick = window.setInterval(() => {
       setExitFactIndex((i) => (n > 0 ? (i + 1) % n : 0));
     }, EXIT_FACT_READ_MS);
     const done = window.setTimeout(() => {
       window.clearInterval(tick);
       openExitQuizAfterFunFacts();
-    }, EXIT_SCENE_LOAD_MS);
+    }, loadMs);
     return () => {
       window.clearInterval(tick);
       window.clearTimeout(done);
     };
-  }, [sceneExitLoading, lang, openExitQuizAfterFunFacts]);
+  }, [sceneExitLoading, lang, activeCase, openExitQuizAfterFunFacts]);
 
   const onBridgeMessage = useCallback(
     (msg: BridgeMessage) => {
@@ -1022,6 +1043,7 @@ export default function GameShell() {
         <PlayingView
           visible={playingVisible}
           lang={lang}
+          activeCase={activeCase}
           caseClues={sceneCaseClues}
           characters={sceneSuspects}
           highlightUid={highlightUid}
@@ -1035,9 +1057,10 @@ export default function GameShell() {
 
       <SceneExitLoadingOverlay
         lang={lang}
+        activeCase={activeCase}
         active={sceneExitLoading}
         factIndex={exitFactIndex}
-        durationMs={EXIT_SCENE_LOAD_MS}
+        durationMs={exitSceneLoadMs}
       />
 
       {exitQuizPhase && (
