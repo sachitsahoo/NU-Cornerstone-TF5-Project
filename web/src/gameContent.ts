@@ -394,6 +394,11 @@ export const UI = {
     exitQuizCorrect: "Correct",
     exitQuizIncorrect: "Incorrect",
     exitQuizNextHome: "Next",
+    enjoymentRatingEyebrow: "Quick feedback",
+    enjoymentRatingTitle: "How much did you enjoy this?",
+    enjoymentRatingHint:
+      "Use the other button to cycle stars (starts at 5, then 1–5). Press to continue.",
+    enjoymentRatingContinue: "Continue",
   },
   es: {
     chooseLanguage: "Elige idioma",
@@ -452,6 +457,11 @@ export const UI = {
     exitQuizCorrect: "Correcto",
     exitQuizIncorrect: "Incorrecto",
     exitQuizNextHome: "Siguiente",
+    enjoymentRatingEyebrow: "Tu opinión",
+    enjoymentRatingTitle: "¿Cuánto disfrutaste la experiencia?",
+    enjoymentRatingHint:
+      "Usa el otro botón para cambiar estrellas (empieza en 5, luego 1–5). Presiona para seguir.",
+    enjoymentRatingContinue: "Continuar",
   },
 } as const;
 

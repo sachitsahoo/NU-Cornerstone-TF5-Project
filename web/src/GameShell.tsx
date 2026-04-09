@@ -42,6 +42,7 @@ import type { GameView } from "./viewState";
 import { LandingView } from "./views/LandingView";
 import { LanguagePickerOverlay } from "./views/LanguagePickerOverlay";
 import { PlayingView } from "./views/PlayingView";
+import { EnjoymentRatingOverlay } from "./views/EnjoymentRatingOverlay";
 import { ExitQuizOverlay } from "./views/ExitQuizOverlay";
 import { SceneExitLoadingOverlay } from "./views/SceneExitLoadingOverlay";
 
@@ -191,6 +192,12 @@ export default function GameShell() {
   const [quizHoldCharging, setQuizHoldCharging] = useState(false);
   const [quizFeedbackCorrect, setQuizFeedbackCorrect] = useState(false);
   const [exitQuizLeaving, setExitQuizLeaving] = useState(false);
+  /** After MCQ feedback: 1–5 star rating before returning home. */
+  const [enjoymentRatingOpen, setEnjoymentRatingOpen] = useState(false);
+  const enjoymentRatingOpenRef = useRef(false);
+  const [enjoymentStars, setEnjoymentStars] = useState(5);
+  const enjoymentStarsRef = useRef(5);
+  const [enjoymentRatingLeaving, setEnjoymentRatingLeaving] = useState(false);
   /** One-shot after returning from exit quiz so landing can ease in. */
   const [landingEnterSettle, setLandingEnterSettle] = useState(false);
 
@@ -290,6 +297,7 @@ export default function GameShell() {
     (uid: string) => {
       if (sceneExitLoadingRef.current) return;
       if (exitQuizPhaseRef.current) return;
+      if (enjoymentRatingOpenRef.current) return;
       if (revealRef.current) return;
       if (viewRef.current !== "playing") return;
       if (!sceneSuspectsRef.current.some((c) => c.uid === uid)) return;
@@ -504,6 +512,10 @@ export default function GameShell() {
     sceneExitLoadingRef.current = false;
     setExitQuizPhase(null);
     exitQuizPhaseRef.current = null;
+    setEnjoymentRatingOpen(false);
+    enjoymentRatingOpenRef.current = false;
+    setEnjoymentRatingLeaving(false);
+    setExitQuizLeaving(false);
     cancelQuizHold();
     sendBillboardDefault();
     setView("landing");
@@ -517,9 +529,27 @@ export default function GameShell() {
     window.setTimeout(() => setLandingEnterSettle(false), 620);
   }, [cancelQuizHold, sendBillboardDefault]);
 
-  const beginExitToLandingWithAnimation = useCallback(() => {
+  const completeQuizFeedbackAndOpenRating = useCallback(() => {
+    setExitQuizPhase(null);
+    exitQuizPhaseRef.current = null;
+    cancelQuizHold();
+    exitToLandingAnimLockRef.current = false;
+    setExitQuizLeaving(false);
+    enjoymentStarsRef.current = 5;
+    setEnjoymentStars(5);
+    enjoymentRatingOpenRef.current = true;
+    setEnjoymentRatingOpen(true);
+    setEnjoymentRatingLeaving(false);
+    if (exitToLandingAnimTimerRef.current != null) {
+      window.clearTimeout(exitToLandingAnimTimerRef.current);
+      exitToLandingAnimTimerRef.current = null;
+    }
+    sendBillboardDefault();
+  }, [cancelQuizHold, sendBillboardDefault]);
+
+  const beginEnjoymentExitToLandingWithAnimation = useCallback(() => {
     if (exitToLandingAnimLockRef.current) return;
-    if (exitQuizPhaseRef.current !== "feedback") return;
+    if (!enjoymentRatingOpenRef.current) return;
     const reduceMotion =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -528,13 +558,13 @@ export default function GameShell() {
       return;
     }
     exitToLandingAnimLockRef.current = true;
-    setExitQuizLeaving(true);
+    setEnjoymentRatingLeaving(true);
     if (exitToLandingAnimTimerRef.current != null) {
       window.clearTimeout(exitToLandingAnimTimerRef.current);
     }
     exitToLandingAnimTimerRef.current = window.setTimeout(() => {
       exitToLandingAnimTimerRef.current = null;
-      setExitQuizLeaving(false);
+      setEnjoymentRatingLeaving(false);
       exitToLandingAnimLockRef.current = false;
       applyRevealExitToLanding();
     }, EXIT_TO_HOME_ANIM_MS);
@@ -577,6 +607,34 @@ export default function GameShell() {
     (msg: BridgeMessage) => {
       if (msg.type === "status") return;
 
+      if (enjoymentRatingOpenRef.current) {
+        if (msg.type === "tag" || msg.type === "tag_removed") {
+          return;
+        }
+        if (msg.type === "button2_down") {
+          const next =
+            enjoymentStarsRef.current >= 5 ? 1 : enjoymentStarsRef.current + 1;
+          enjoymentStarsRef.current = next;
+          setEnjoymentStars(next);
+          return;
+        }
+        if (msg.type === "button") {
+          beginEnjoymentExitToLandingWithAnimation();
+          return;
+        }
+        if (msg.type === "button_down") {
+          if (awaitingButtonUpRef.current) return;
+          beginEnjoymentExitToLandingWithAnimation();
+          awaitingButtonUpRef.current = true;
+          return;
+        }
+        if (msg.type === "button_up") {
+          awaitingButtonUpRef.current = false;
+          return;
+        }
+        return;
+      }
+
       if (exitQuizPhaseRef.current) {
         const phase = exitQuizPhaseRef.current;
         if (msg.type === "tag" || msg.type === "tag_removed") {
@@ -584,12 +642,12 @@ export default function GameShell() {
         }
         if (phase === "feedback") {
           if (msg.type === "button_down") {
-            beginExitToLandingWithAnimation();
+            completeQuizFeedbackAndOpenRating();
             awaitingButtonUpRef.current = true;
             return;
           }
           if (msg.type === "button") {
-            beginExitToLandingWithAnimation();
+            completeQuizFeedbackAndOpenRating();
             return;
           }
           if (msg.type === "button_up") {
@@ -756,7 +814,8 @@ export default function GameShell() {
       cancelHold,
       cancelQuizHold,
       startQuizHold,
-      beginExitToLandingWithAnimation,
+      completeQuizFeedbackAndOpenRating,
+      beginEnjoymentExitToLandingWithAnimation,
       onContinueReveal,
       selectSuspectByUid,
       lang,
@@ -1087,7 +1146,21 @@ export default function GameShell() {
           holdTrackVisible={quizHoldCharging}
           feedbackCorrect={quizFeedbackCorrect}
           leaving={exitQuizLeaving}
-          onNextHome={beginExitToLandingWithAnimation}
+          onNextHome={completeQuizFeedbackAndOpenRating}
+        />
+      )}
+
+      {enjoymentRatingOpen && (
+        <EnjoymentRatingOverlay
+          lang={lang}
+          stars={enjoymentStars}
+          leaving={enjoymentRatingLeaving}
+          onConfirm={beginEnjoymentExitToLandingWithAnimation}
+          onSetStars={(n) => {
+            const v = Math.min(5, Math.max(1, n));
+            enjoymentStarsRef.current = v;
+            setEnjoymentStars(v);
+          }}
         />
       )}
 

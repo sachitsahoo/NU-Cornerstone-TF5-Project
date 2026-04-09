@@ -1,5 +1,5 @@
 import type { BostonCaseId, Lang } from "../gameContent";
-import { exitFactsFor, sceneCaseCopy, t } from "../gameContent";
+import { exitFactsFor, t } from "../gameContent";
 
 type SceneExitLoadingOverlayProps = {
   lang: Lang;
@@ -20,7 +20,7 @@ export function SceneExitLoadingOverlay({
 
   const facts = exitFactsFor(lang, activeCase);
   const fact = facts[factIndex % facts.length] ?? "";
-  const { sceneExitTitle } = sceneCaseCopy(lang, activeCase);
+  const eyebrow = t(lang, "funFactLabel");
 
   return (
     <div
@@ -28,14 +28,12 @@ export function SceneExitLoadingOverlay({
       role="status"
       aria-live="polite"
       aria-busy="true"
-      aria-label={sceneExitTitle}
+      lang={lang}
+      aria-label={`${eyebrow} ${fact}`}
     >
       <div className="scene-exit-loading__panel">
-        <p className="scene-exit-loading__eyebrow">{t(lang, "funFactLabel")}</p>
-        <h2 className="scene-exit-loading__title" id="scene-exit-title">
-          {sceneExitTitle}
-        </h2>
-        <p className="scene-exit-loading__fact" key={factIndex}>
+        <p className="scene-exit-loading__eyebrow">{eyebrow}</p>
+        <p className="scene-exit-loading__fact" id="scene-exit-fact" key={factIndex}>
           {fact}
         </p>
         <div className="scene-exit-loading__bar" aria-hidden>
