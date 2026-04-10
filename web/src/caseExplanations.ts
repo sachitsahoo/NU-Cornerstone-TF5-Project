@@ -376,7 +376,7 @@ const REVERE_BEACH: Record<Lang, Record<string, Pair>> = {
     },
     spyder_sammy: {
       innocent_explanation:
-        "Permitted sprays on his truck do not match the solvent film on the floating bags. GPS has his rig at the depot during the Revere Beach dump window.",
+        "Permitted sprays on his truck do not match the oily film on the floating bags. GPS has his rig at the depot during the Revere Beach dump window.",
       culprit_explanation:
         "He hid unlabeled jugs inside trash bags and rolled the lot into Revere Beach to dodge hazmat fees. Revere Beach, Revere Beach — a hazmat boom went up after kids found the drums in the foam.",
     },
@@ -450,7 +450,7 @@ const REVERE_BEACH: Record<Lang, Record<string, Pair>> = {
     },
     spyder_sammy: {
       innocent_explanation:
-        "Sus fumigaciones permitidas no coinciden con el disolvente en las bolsas flotantes. GPS pone su camión en el patio durante el vertido en Revere Beach.",
+        "Sus fumigaciones permitidas no coinciden con la película aceitosa en las bolsas flotantes. GPS pone su camión en el patio durante el vertido en Revere Beach.",
       culprit_explanation:
         "Escondió bidones sin etiqueta dentro de bolsas y los rodó al agua en Revere Beach para evitar pagar el manejo de materiales peligrosos. Revere Beach, Revere Beach — los de emergencias acordonaron todo cuando niños hallaron bidones en la espuma.",
     },

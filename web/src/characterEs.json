@@ -1,194 +1,194 @@
 {
   "bacon_hair": {
-    "role": "Mecánico de fábrica",
-    "description": "Trabaja en la fábrica junto al río. Su trabajo es mover los bidones de aceite grandes.",
-    "innocent_explanation": "El aceite del río salió de los bidones de la fábrica. La persona que mueve los bidones en el video no es él.",
-    "culprit_explanation": "Vació los bidones de aceite en el desagüe que va al río. Era el mismo aceite que él usa todos los días en su trabajo.",
+    "role": "Trabajador de fábrica",
+    "description": "Trabaja en la fábrica junto al río. Ayuda a rodar bidones grandes de aceite para las máquinas.",
+    "innocent_explanation": "El aceite del río salió de bidones de fábrica. La persona que mueve los bidones en el video no es él.",
+    "culprit_explanation": "Volcó aceite de máquina de los bidones al desagüe. Ese tubo lleva directo al río.",
     "alibis_innocent": [
-      "El video muestra a alguien más alto que él moviendo bidones. Su turno terminó antes de que eso pasara.",
-      "Su tarjeta marcó que estaba en el muelle cuando el aceite llegó al río. La cámara apuntaba para otro lado.",
-      "Sus guantes no tienen el aceite que había en los bidones. Estaba arreglando una máquina adentro de la planta."
+      "Un video muestra a una persona más alta moviendo los bidones. Su turno ya había terminado.",
+      "Su tarjeta lo registró en el muelle cuando el aceite llegó al río. Una cámara apuntaba mal.",
+      "El aceite en los mangos no coincide con sus guantes. Él arreglaba una máquina adentro."
     ],
     "alibis_guilty": [
-      "Dos bidones decían reciclaje pero el camión nunca los recogió. Rayones en el desagüe coinciden con su carrito de trabajo.",
-      "Ese día se quejó de que era muy caro deshacerse de los bidones. El aceite en el agua es exactamente el mismo que él usa todos los días.",
-      "Una cámara especial mostró sus guantes justo después de que se movieron los bidones. Solo los de su grupo tienen esos guantes."
+      "Dos bidones decían reciclaje, pero ningún camión los recogió. Rayones junto al desagüe coinciden con su carrito.",
+      "Ese día se quejó en el trabajo de las tarifas de los bidones. El aceite del río coincide con el que usa cada día.",
+      "Un video nocturno muestra guantes como los suyos tras mover los bidones. Solo su equipo usa esos guantes."
     ]
   },
   "ballerina_cappuccina": {
     "role": "Dueña de un café",
-    "description": "Tiene un café chiquito en el paseo junto al río. Para limpiar platos y pisos usa jabón y limpiadores en spray.",
-    "innocent_explanation": "El aceite del río es grueso, de fábrica. Su café solo usa jabón para platos y limpiadores normales de cocina.",
-    "culprit_explanation": "Tiró un limpiador de grasa viejo detrás del café. Cuando llovió, ese líquido llegó al río.",
+    "description": "Tiene un café pequeño en el paseo del río. Lava platos y pisos con jabón y botellas de spray.",
+    "innocent_explanation": "La mancha del río es aceite grueso de fábrica. Su café solo usa jabón y limpiadores seguros para comida.",
+    "culprit_explanation": "Tiró limpiador de grasa viejo detrás del café. La lluvia arrastró la mezcla aceitosa al río.",
     "alibis_innocent": [
-      "Su carro ya se había ido antes del derrame. La basura que sacó esa noche solo tenía vasos y sobras de comida.",
-      "Estaba en su casa cuando las cámaras grabaron los bidones moviéndose.",
-      "Los inspectores solo le permiten usar limpiadores de cocina en su café. Ninguno de esos produce el aceite grueso que está en el río."
+      "Se fue en carro antes de que movieran los bidones. Su basura nocturna solo tenía vasos y restos de comida.",
+      "Estaba en su casa cuando las cámaras grabaron los bidones en movimiento.",
+      "Los inspectores solo permiten limpiadores seguros para comida en su local. Ninguno coincide con el aceite grueso del río."
     ],
     "alibis_guilty": [
-      "Unos trabajadores vieron botellas grandes de limpiador de grasa detrás del café cuando cerraron. La etiqueta es la misma que la del líquido encontrado en el desagüe.",
-      "Botellas vacías con su logo estaban cerca del desagüe.",
-      "El aceite fue tirado las mismas noches que llovió. Su celular estuvo detrás del café exactamente esas noches."
+      "Trabajadores vieron garrafas grandes detrás del café al cerrar. Las etiquetas coinciden con limpiador de grasa en la cuneta.",
+      "Botellas vacías con su logo aparecieron junto al desagüe.",
+      "Las horas de vertido coinciden con noches de lluvia. Su celular quedó detrás del café esas noches."
     ]
   },
   "tung": {
     "role": "Supervisor de turno nocturno",
-    "description": "Dirige el turno nocturno en la fábrica junto al río. Firma papeles cuando salen camiones de aceite.",
-    "innocent_explanation": "La persona del video usa ropa naranja de trabajo. Él tenía puesto un chaleco amarillo de supervisor cuando lo grabaron esa noche.",
-    "culprit_explanation": "Firmó papeles falsos para sacar el aceite de la fábrica sin que nadie lo supiera. En vez de ir al centro de reciclaje, ese aceite terminó en el río.",
+    "description": "Dirige el turno nocturno de la fábrica junto al río. Firma papeles cuando salen camiones de aceite.",
+    "innocent_explanation": "El trabajador del video usa ropa naranja de trabajo. Él usaba chaleco amarillo de supervisor en cámara esa noche.",
+    "culprit_explanation": "Firmó papeles falsos para sacar aceite a escondidas. Ese aceite fue al río, no al reciclaje.",
     "alibis_innocent": [
-      "Su camioneta estaba vacía cuando paró junto al desagüe. Los registros no muestran ningún bidón.",
-      "Las cámaras de la planta lo muestran en el taller de reparaciones mientras pasaba lo de los bidones.",
-      "Su tarjeta nunca abrió el cuarto donde están los bidones."
+      "Su camioneta estaba vacía cuando paró junto al desagüe. Sus papeles no muestran bidones a bordo.",
+      "Las cámaras de la planta lo muestran en el taller de reparaciones durante el video de bidones.",
+      "Su tarjeta nunca abrió el cuarto donde guardan los bidones."
     ],
     "alibis_guilty": [
-      "Agarró una chaqueta naranja del guardarropa. Encontraron fibras de esa misma chaqueta en la rejilla del desagüe.",
-      "Cerró un reporte de reparación antes de tiempo. Su celular estaba junto al desagüe a la misma hora.",
-      "Los papeles que firmó dicen que los bidones fueron recogidos, pero eso nunca pasó. La empresa de reciclaje nunca los recibió."
+      "Tomó prestada una chaqueta naranja del vestuario. Fibras en la rejilla coinciden con esa chaqueta.",
+      "Cerró un reporte de reparación antes de tiempo. Su celular marcó junto al desagüe a la misma hora.",
+      "Los formularios que firmó no coinciden con recogidas reales. La empresa de reciclaje nunca recibió los bidones."
     ]
   },
   "roblox_noob": {
     "role": "Guía del museo",
     "description": "Reparte mapas en el museo junto al río. No trabaja dentro de la fábrica de aceite.",
-    "innocent_explanation": "El aceite del río viene de bidones de fábrica. Él no tiene llaves del área de bidones.",
-    "culprit_explanation": "Pidió prestada la tarjeta de un trabajador para entrar donde están los bidones y los llevó al desagüe. No quería pagar para deshacerse del aceite.",
+    "innocent_explanation": "El aceite del río vino de bidones de fábrica. Él no tiene llaves del cuarto de bidones.",
+    "culprit_explanation": "Pidió prestada una tarjeta para entrar al área cerrada de bidones. Movió bidones al desagüe para no pagar retiro seguro.",
     "alibis_innocent": [
-      "Llevó a un grupo de niños en una búsqueda del tesoro antes de que se movieran los bidones.",
-      "Su tarjeta solo abre puertas del museo que son para el público. Nunca entró a la fábrica después de las siete.",
-      "Anotó su salida en la recepción horas antes del video."
+      "Llevó una búsqueda del tesoro con niños antes de mover los bidones.",
+      "Su tarjeta solo abre puertas públicas del museo. Nunca entró a la fábrica después de las siete de la noche.",
+      "Anotó su salida en recepción horas antes de la hora del video de bidones."
     ],
     "alibis_guilty": [
       "Su chaleco de voluntario apareció arrugado junto al desagüe.",
-      "Preguntó cómo abrir la puerta de servicio.",
-      "Había etiquetas de bidones en su mochila. Las manchas de aceite son iguales a las del río."
+      "Preguntó al personal cómo abrir la puerta de servicio.",
+      "Había etiquetas de bidones en su mochila. Manchas de aceite en la bolsa coincidían con el río."
     ]
   },
   "roblox_guest": {
-    "role": "Representante comercial",
-    "description": "Entró con un pase de visita por un día. Le gusta sacar fotos en el camino junto al río.",
-    "innocent_explanation": "El aceite vino de bidones de fábrica durante la noche. Él ya se había ido del centro en un taxi.",
-    "culprit_explanation": "Regresó disfrazado con ropa de trabajo y movió los bidones de aceite. Usó su pase de visita como excusa para entrar.",
+    "role": "Representante de ventas",
+    "description": "Visita con un pase de papel por un día. Le gusta tomar fotos en el camino del río.",
+    "innocent_explanation": "El aceite vino de bidones de fábrica de noche. Él ya se había ido del centro en un viaje compartido.",
+    "culprit_explanation": "Regresó con ropa de trabajo y movió los bidones de aceite. Usó su pase de visita como excusa para entrar.",
     "alibis_innocent": [
-      "Los registros de la entrada muestran que se fue antes de que se movieran los bidones.",
-      "Las cámaras del río no lo muestran cerca del desagüe esa noche.",
+      "Los registros de la entrada muestran que se fue antes de mover los bidones.",
+      "Las cámaras del río no lo muestran en el desagüe esa noche.",
       "Su celular quedó al otro lado de la ciudad hasta la mañana."
     ],
     "alibis_guilty": [
-      "Se ve su pase de visita en un video grabado cerca de los bidones.",
+      "Su pase de invitado aparece en un video cerca de los bidones.",
       "Entró por una puerta lateral que alguien dejó abierta.",
       "Le escribió a un amigo preguntando adónde van los barriles."
     ]
   },
   "baconette_hair": {
     "role": "Vendedora ambulante de comida",
-    "description": "Vende dulces y bebidas en un carrito en el camino junto al río. El carrito es solo para comida.",
-    "innocent_explanation": "El aceite en el río es grueso, de fábrica. Su carrito solo tiene dulces y bebidas.",
-    "culprit_explanation": "Escondió botellitas de aceite bajo el piso del carrito. De noche, cuando surtía su carrito, las vaciaba en el desagüe.",
+    "description": "Vende dulces y bebidas en un carrito en el camino del río. Su carrito debe llevar solo comida.",
+    "innocent_explanation": "El río muestra aceite grueso de máquina de fábrica. Su carrito solo tiene snacks y bebidas.",
+    "culprit_explanation": "Escondió botellitas de aceite bajo el forro del carrito. Las vació en el desagüe al surtir de noche.",
     "alibis_innocent": [
-      "Recogió el carrito antes de que pasara el derrame.",
-      "Los inspectores de salud dicen que en su carrito solo puede haber comida.",
-      "Su pulsera no abre la puerta de la fábrica."
+      "Guardó su carrito antes de que movieran los bidones.",
+      "Los inspectores de salud dicen que solo puede guardar comida en su carrito.",
+      "Su pulsera no puede abrir la puerta de la planta."
     ],
     "alibis_guilty": [
-      "Encontraron botellas escondidas bajo el carrito con el mismo aceite del río.",
-      "Un testigo vio el carrito junto a la rejilla tarde en la noche.",
-      "El pegamento en sus guantes es el mismo que se usa para tapar los bidones."
+      "Garrafas escondidas bajo el piso del carrito tenían el mismo aceite del río.",
+      "Un testigo vio su carrito junto a la rejilla después del horario.",
+      "Pegamento en sus guantes coincidía con el sellador de las tapas de bidón."
     ]
   },
   "peeley": {
     "role": "Asistente de oficina",
-    "description": "Se pone un disfraz de plátano para divertir a los niños en el museo. El traje es grande y esponjoso.",
-    "innocent_explanation": "El video muestra a alguien delgado con ropa de trabajo. Un disfraz de plátano es demasiado grande para mover bidones.",
-    "culprit_explanation": "Se quitó el disfraz y se puso ropa de trabajo que no era suya. Luego rodó los bidones de aceite hasta el desagüe.",
+    "description": "Usa un disfraz de plátano para niños en el museo. El traje es grande, esponjoso y muy visible.",
+    "innocent_explanation": "El video muestra a un trabajador delgado con overol. Un traje de plátano es demasiado grande para rodar bidones.",
+    "culprit_explanation": "Se quitó el traje y se puso ropa de trabajo robada. Luego rodó bidones de aceite al desagüe.",
     "alibis_innocent": [
-      "Seguía en el disfraz cuando se movieron los bidones.",
-      "La puerta que da al desagüe estaba con llave hasta que salieron todos los empleados.",
-      "Sus compañeros lo vieron en el camerino."
+      "Seguía en el traje cuando se movieron los bidones en cámara.",
+      "La puerta del desagüe permaneció con llave hasta que salió el personal.",
+      "Compañeros lo vieron en el camerino en la hora clave."
     ],
     "alibis_guilty": [
-      "Un video lo muestra quitándose el disfraz de plátano y poniéndose un overol naranja.",
+      "Un video lo muestra quitándose el traje y poniéndose overol naranja.",
       "Pelusa del disfraz apareció en un bidón junto a la rejilla.",
-      "Publicó algo en redes sociales desde el callejón detrás del museo."
+      "Publicó en redes desde el callejón detrás del museo."
     ]
   },
   "agent_67": {
-    "role": "Videógrafo independiente",
-    "description": "Graba video del río para el equipo de limpieza de la ciudad. Usa su cámara en un trípode que tiene grasa aceitosa en las patas.",
-    "innocent_explanation": "El aceite del río salió directo de los bidones de la fábrica. Él estaba grabando río arriba cuando eso pasó.",
-    "culprit_explanation": "Tiró aceite extra al desagüe desde un bote pequeño que traía con su cámara. Era el mismo tipo de aceite que usan en la fábrica.",
+    "role": "Camarógrafo de la ciudad",
+    "description": "Filma el río para el equipo de limpieza de la ciudad. Las patas de su trípode tienen grasa pegajosa de trabajo afuera.",
+    "innocent_explanation": "El aceite del río salió directo de bidones de fábrica. Él filmaba río arriba cuando se movieron esos bidones.",
+    "culprit_explanation": "Volcó aceite extra de máquina de un bote pequeño cerca de su equipo al desagüe. Coincidía con el tipo de la fábrica.",
     "alibis_innocent": [
-      "Su cámara apuntaba río arriba mientras pasaba lo de los bidones.",
-      "Su grabación no tiene ningún corte largo que le hubiera dado tiempo de ir a la fábrica.",
-      "La seguridad de la fábrica nunca escaneó su tarjeta cerca de los bidones."
+      "Su cámara siguió apuntando río arriba durante el video de bidones.",
+      "Su grabación completa no muestra un hueco largo para ir a la fábrica.",
+      "La seguridad de la planta nunca escaneó su tarjeta junto a los bidones."
     ],
     "alibis_guilty": [
-      "Los trapos aceitosos de su bolsa de cámara tienen el mismo aceite que el del río.",
-      "Su trípode estuvo plantado en el barro justo frente a la rejilla.",
-      "Tiró un bote de aceite detrás de su maletín de cámara. El aceite del bote coincide con el de la fábrica."
+      "Trapos aceitosos en su bolsa de cámara coinciden con el aceite del río.",
+      "Su trípode quedó clavado en el barro justo en la rejilla.",
+      "Tiró una botella de aceite detrás de su maletín. El aceite coincidió con la mezcla de fábrica."
     ]
   },
   "roblox_builder": {
-    "role": "Instructor de programa juvenil",
-    "description": "Ayuda a los niños a armar proyectos en el museo junto al río. En su mesa usa tubitos de aceite para enseñarles cómo funcionan las máquinas.",
-    "innocent_explanation": "El derrame es de bidones enormes de la fábrica. Él estuvo en el salón de niños toda la noche y las cámaras lo muestran.",
-    "culprit_explanation": "Cuando el museo cerró, vació el aceite que sobró de sus demos en el desagüe. Es el mismo aceite que usa la fábrica.",
+    "role": "Maestro de taller",
+    "description": "Ayuda a niños a armar proyectos en el museo junto al río. Su mesa usa tubitos de aceite para mostrar movimiento.",
+    "innocent_explanation": "El derrame vino de bidones enormes de la planta. Él se quedó en el salón de niños en cámara toda la noche.",
+    "culprit_explanation": "Volcó aceite de máquina sobrante de su mesa de demo al desagüe al cerrar. Coincidía con el tipo de la fábrica.",
     "alibis_innocent": [
-      "Cerró el cuarto de herramientas y se quedó en el taller, y el video lo confirma.",
-      "Su tarjeta nunca abrió el cuarto donde guardan los desechos.",
-      "Los papás de los niños lo estaban viendo en vivo en línea mientras pasaba lo de los bidones."
+      "Cerró el cuarto de herramientas y se quedó en el taller en video.",
+      "Su tarjeta nunca abre el cuarto donde guardan los desechos.",
+      "Los padres lo vieron en transmisión en vivo durante el video de bidones."
     ],
     "alibis_guilty": [
-      "El aceite de su mesa de demos es igual al aceite que está en el río.",
+      "El aceite de su mesa de proyecto coincide con el aceite del río.",
       "Abrió una puerta de túnel que lleva cerca de la rejilla.",
-      "Había tubos de aceite vacíos con su nombre dentro de su casillero."
+      "Tubitos de aceite vacíos con su nombre estaban en su casillero."
     ]
   },
   "elsa": {
     "role": "Artista de la plaza",
-    "description": "Actúa en el show de luces de invierno en la plaza. El show usa máquinas de niebla y luces.",
-    "innocent_explanation": "El derrame principal es aceite grueso de fábrica. Ella estaba en el escenario cuando se movieron los bidones en la planta.",
-    "culprit_explanation": "Vació el líquido sobrante de su máquina de niebla en el desagüe. Ese líquido se mezcló con el aceite que ya estaba en la tubería de la fábrica.",
+    "description": "Actúa en el show de luces de invierno en la plaza. El show usa máquinas de niebla y luces brillantes.",
+    "innocent_explanation": "El derrame principal es aceite grueso de máquina de fábrica. Ella estaba en el escenario cuando rodaron los bidones en la planta.",
+    "culprit_explanation": "Volcó líquido sobrante de niebla en el tubo del desagüe. Se mezcló con aceite de fábrica que ya estaba en el tubo.",
     "alibis_innocent": [
-      "Estuvo con su disfraz puesto hasta el ensayo de noche.",
-      "Los registros del escenario muestran que su micrófono estaba prendido cuando se movieron los bidones.",
-      "Sus cajas de utilería solo tienen luces y purpurina."
+      "Permaneció con el vestuario completo hasta que terminó el ensayo tarde.",
+      "Los registros del escenario muestran su micrófono encendido cuando se movieron los bidones en la planta.",
+      "Sus cajas de utilería solo listan luces y purpurina para el show."
     ],
     "alibis_guilty": [
-      "Una manguera de su máquina de niebla tenía el mismo aceite.",
-      "Preguntó cómo tirar líquido sobrante rápido detrás del escenario.",
-      "Había purpurina en un bidón que es igual a la de su vestuario."
+      "Un tubo de su máquina de niebla tenía el mismo aceite que el río.",
+      "Preguntó cómo vaciar líquido extra rápido detrás del escenario.",
+      "Purpurina en un bidón coincidía con purpurina de su vestuario."
     ]
   },
   "steve": {
-    "role": "Oficinista",
-    "description": "Usa un disfraz de mascota con cabeza cuadrada en los festivales junto al río. No tiene permiso de entrar a la fábrica de aceite.",
-    "innocent_explanation": "El video muestra a un trabajador con overol. El disfraz de mascota es demasiado ancho para caber en el cuarto de los bidones.",
-    "culprit_explanation": "Se quitó el disfraz y se puso un overol que no era suyo. Ayudó a mover los bidones para que nadie supiera que era la mascota.",
+    "role": "Trabajador de oficina",
+    "description": "Usa un traje de mascota con cabeza cuadrada en festivales del río. No puede entrar a la fábrica de aceite.",
+    "innocent_explanation": "El video muestra a un trabajador con overol. El traje de mascota es demasiado ancho para el cuarto de bidones.",
+    "culprit_explanation": "Se quitó el traje y usó overoles robados. Ayudó a rodar bidones para que nadie viera la mascota.",
     "alibis_innocent": [
-      "Esa noche la gente se sacó fotos con él lejos de la fábrica.",
-      "La cabeza del disfraz es muy grande para pasar por la puerta del cuarto de bidones.",
-      "Su pulsera del evento solo abre el salón de convenciones."
+      "Fans se sacaron fotos con él lejos de la planta esa noche.",
+      "La cabeza del disfraz es demasiado grande para pasar por la puerta del cuarto de bidones.",
+      "Su gafete del evento solo abre las puertas del salón de convenciones."
     ],
     "alibis_guilty": [
-      "El aceite de los bidones manchó sus guantes de espuma.",
+      "Aceite de los bidones manchó sus guantes de espuma.",
       "Le mandó un mensaje a un amigo sobre mover cosas pesadas a medianoche.",
-      "En su casillero había ropa de trabajo con su pulsera atascada en el cierre."
+      "Ropa de trabajo en su casillero tenía su pulsera atascada en el cierre."
     ]
   },
   "spyder_sammy": {
     "role": "Técnico de control de plagas",
-    "description": "Rocía insecticida en la orilla del río para mantener los insectos lejos del camino donde camina la gente.",
-    "innocent_explanation": "El derrame es aceite grueso de fábrica. Los sprays que le permiten usar son seguros para el agua y no dejan manchas de aceite.",
-    "culprit_explanation": "Tiró un insecticida ilegal al desagüe para no pagar para deshacerse de él. Ese líquido se mezcló con el aceite de fábrica que ya había en la tubería.",
+    "description": "Rocía líquido contra insectos en el sendero de la orilla del río. Mantiene el camino claro para visitantes.",
+    "innocent_explanation": "El derrame es aceite grueso de máquina de fábrica. Sus rociadores permitidos son seguros para el agua y no dejan mancha de aceite.",
+    "culprit_explanation": "Tiró insecticida ilegal al desagüe para no pagar desecho seguro. Se mezcló con aceite de fábrica que ya estaba en el tubo.",
     "alibis_innocent": [
-      "Su registro de rutas muestra que terminó en la orilla del río antes de que oscureciera.",
-      "Su camión estaba en el patio cuando se grabó el video de los bidones.",
-      "Los químicos que usa son seguros para el agua y están aprobados para trabajar en la orilla del río."
+      "Su registro de rociado muestra que terminó la ruta de orilla antes del atardecer.",
+      "Su camión estaba en el patio cuando grabaron el video de bidones.",
+      "Los rociadores que usa son seguros para el río y aprobados para la orilla."
     ],
     "alibis_guilty": [
-      "Encontraron un envase vacío sin etiqueta cerca del desagüe. Tenía químicos que él no tiene permiso de usar.",
-      "Su registro de ruta tiene un hueco de dos horas la noche en que el aceite llegó al río.",
-      "Los restos de spray en la rejilla del desagüe coinciden con un insecticida ilegal que encontraron en su camión."
+      "Una garrafa vacía sin etiqueta junto al desagüe tenía químicos que no puede llevar.",
+      "Su registro de ruta muestra un hueco de dos horas la noche del aceite en el río.",
+      "Marcas aceitosas en el desagüe coincidieron con botella ilegal en su camión."
     ]
   }
 }

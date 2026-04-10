@@ -315,7 +315,7 @@ const boston_common: Record<string, CharacterCasePools> = {
       guilty: [
         "Pesticide caps from an off-permit brand rolled out when staff opened a bag.",
         "He routed 'extra supplies' through the Common to avoid weigh-station paperwork.",
-        "Residue on his gloves matched a solvent traced to the trash liner.",
+        "Oily marks on his gloves matched a bottle linked to the trash liner.",
       ],
     },
     es: {
@@ -327,7 +327,7 @@ const boston_common: Record<string, CharacterCasePools> = {
       guilty: [
         "Tapas de pesticida de marca no autorizada salieron al abrir una bolsa.",
         "Enrutó 'suministros extra' por el Common para evitar papeleo de báscula.",
-        "Residuo en guantes coincidió con un disolvente rastreado al forro de la bolsa.",
+        "Marcas aceitosas en guantes coincidieron con una botella ligada al forro de la bolsa.",
       ],
     },
   },
@@ -394,7 +394,7 @@ const south_end: Record<string, CharacterCasePools> = {
         "His supervisor badge was scanned at the factory gate, not on Tremont.",
       ],
       guilty: [
-        "Altered haul forms list coal drops on streets with no parade permit on file.",
+        "Altered truck papers list coal drops on streets with no parade permit on file.",
         "His orange vest was found wadded on a pallet of prop coal sacks.",
         "After-hours gate logs show his card at a closed staging yard beside the route.",
       ],
@@ -406,7 +406,7 @@ const south_end: Record<string, CharacterCasePools> = {
         "Su tarjeta de supervisor se escaneó en la entrada de la fábrica, no en Tremont.",
       ],
       guilty: [
-        "Formas de transporte alteradas listan descargas en calles sin permiso de desfile.",
+        "Papeles de camión alterados listan descargas en calles sin permiso de desfile.",
         "Su chaleco naranja apareció arrugado sobre un palé de sacos de carbón de utilería.",
         "Registros nocturnos muestran su tarjeta en un patio cerrado junto a la ruta.",
       ],
@@ -709,7 +709,7 @@ const revere_beach: Record<string, CharacterCasePools> = {
         "His access card never opens beach maintenance gates on the city system.",
       ],
       guilty: [
-        "A haul manifest with his initials lists Revere Beach with no transfer-station stamp.",
+        "Night papers with his initials list Revere Beach with no dump-yard stamp.",
         "Traffic cam shows his cone pattern blocking the beach access lane before high tide.",
         "He approved a truck that offloaded straight onto the sand without weighing in.",
       ],
@@ -721,7 +721,7 @@ const revere_beach: Record<string, CharacterCasePools> = {
         "Su tarjeta nunca abre portones de mantenimiento de playa en el sistema municipal.",
       ],
       guilty: [
-        "Manifiesto con sus iniciales lista Revere Beach sin sello de estación de transferencia.",
+        "Papeles nocturnos con sus iniciales dicen Revere Beach sin sello del patio de basura.",
         "Cámara muestra sus conos bloqueando acceso a la playa antes de pleamar.",
         "Autorizó camión que descargó en arena sin pesar en báscula.",
       ],
@@ -938,25 +938,25 @@ const revere_beach: Record<string, CharacterCasePools> = {
   spyder_sammy: {
     en: {
       innocent: [
-        "Permitted concentrates on his truck do not match the solvent film on floating bags.",
+        "Permitted concentrates on his truck do not match the oily film on floating bags.",
         "GPS shows the spray rig parked at the depot for service during the tide dump.",
         "He finished a marsh contract miles north before the Revere Beach complaint time.",
       ],
       guilty: [
         "Unlabeled jugs floated beside food trash like hazmat dressed up as beach garbage.",
-        "His hose nozzle tested positive for the same solvent sheen on bags in the foam.",
+        "His hose nozzle tested positive for the same oily sheen on bags in the foam.",
         "Truck GPS shows slow rolls along Revere Beach Boulevard as the tide turned.",
       ],
     },
     es: {
       innocent: [
-        "Concentrados permitidos no coinciden con película de disolvente en bolsas flotantes.",
+        "Concentrados permitidos no coinciden con película aceitosa en bolsas flotantes.",
         "GPS muestra equipo de fumigación en taller durante el vertido de marea.",
         "Terminó contrato en marisma al norte antes de la hora de la queja en Revere Beach.",
       ],
       guilty: [
         "Bidones sin etiqueta flotaron junto a comida, como material peligroso disfrazado de basura de playa.",
-        "Boquilla de manguera dio mismo brillo disolvente que bolsas en la espuma.",
+        "Boquilla de manguera dio el mismo brillo aceitoso que bolsas en la espuma.",
         "GPS muestra vueltas lentas por Revere Beach Boulevard al girar la marea.",
       ],
     },

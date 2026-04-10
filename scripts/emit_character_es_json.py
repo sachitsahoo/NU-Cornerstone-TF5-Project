@@ -1,195 +1,20 @@
 #!/usr/bin/env python3
-"""Emit web/src/characterEs.json (Spanish overlays matching characters.json)."""
+"""Emit web/src/characterEs.json from the canonical overlay file (single source of truth)."""
 import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+SRC = ROOT / "web" / "src" / "characterEs.json"
 OUT = ROOT / "web" / "src" / "characterEs.json"
-
-OVERLAY = {
-    "bacon_hair": {
-        "role": "Técnico de Mantenimiento de Planta",
-        "description": "Mueve aceite y químicos para la fábrica junto al río. Puede rodar los bidones de aceite grandes.",
-        "innocent_explanation": "El aceite del río viene de bidones de fábrica. En el vídeo no es él quien rueda los bidones.",
-        "culprit_explanation": "Vertió aceite de los bidones al desagüe pluvial. Es el mismo aceite de máquina que usa en el trabajo.",
-        "alibis_innocent": [
-            "El vídeo muestra a alguien más alto que él moviendo bidones. Su turno terminó antes de moverse los bidones.",
-            "Su tarjeta estaba en el muelle cuando el aceite llegó al río. La cámara miraba mal.",
-            "Sus guantes no coinciden con aceite en las asas. Estaba arreglando una máquina dentro de la planta.",
-        ],
-        "alibis_guilty": [
-            "Dos bidones decían reciclaje pero el camión nunca los llevó. Rozaduras en el desagüe coinciden con su carro.",
-            "Se quejó de tasas de bidones ese día. El aceite del agua coincide con su lote de trabajo.",
-            "Vídeo térmico muestra sus guantes justo después de mover los bidones. Solo su equipo tiene esos guantes.",
-        ],
-    },
-    "ballerina_cappuccina": {
-        "role": "Propietaria de Café Ribereño",
-        "description": "Tiene un café pequeño en el paseo del río. Usa jabón y sprays para platos y suelos.",
-        "innocent_explanation": "El aceite del río es aceite grueso de fábrica. Su café solo usa jabón y limpiadores para comida.",
-        "culprit_explanation": "Vertió desengrasante viejo detrás del café. La lluvia arrastró esa mezcla grasa al río.",
-        "alibis_innocent": [
-            "Su coche salió del parking antes de moverse los bidones. La basura nocturna solo tenía vasos y comida.",
-            "Estaba en casa cuando las cámaras de la planta muestran bidones rodando.",
-            "Inspectores solo permiten limpiadores de comida en su local. Ninguno coincide con el aceite grueso del río.",
-        ],
-        "alibis_guilty": [
-            "Personal vio garrafas detrás del café al cerrar. Las etiquetas coinciden con desengrasante en la cuneta.",
-            "Garrafas vacías con su logo estaban cerca del desagüe.",
-            "Horarios de lluvia coinciden con vertidos. Su móvil quedó detrás del local esas noches.",
-        ],
-    },
-    "tung": {
-        "role": "Supervisor de Turno Nocturno",
-        "description": "Dirige el turno nocturno en la fábrica junto al río. Firma papeles cuando salen camiones de aceite.",
-        "innocent_explanation": "La persona del vídeo lleva naranja de mantenimiento. Él lleva chaleco amarillo de supervisor en cámara esa noche.",
-        "culprit_explanation": "Firmó formularios falsos de camiones para que el aceite saliera mal del sitio. Ese aceite fue al río en vez del reciclador.",
-        "alibis_innocent": [
-            "Su furgoneta estaba vacía cuando paró junto al desagüe. Registros muestran sin bidones.",
-            "Cámaras de la planta lo ponen en el taller de reparación durante el vídeo de bidones.",
-            "Su tarjeta no abrió la jaula de bidones esa noche.",
-        ],
-        "alibis_guilty": [
-            "Tomó una chaqueta naranja del vestuario. Fibras en la rejilla coinciden.",
-            "Cerró un parte de reparación antes. Su móvil estaba junto al desagüe a la misma hora.",
-            "Formularios de camión que firmó no coinciden con recogidas reales. El reciclador nunca recibió esas tasas.",
-        ],
-    },
-    "roblox_noob": {
-        "role": "Voluntario de Sala del Museo",
-        "description": "Reparte mapas en el museo junto al río. No trabaja dentro de la planta de aceite.",
-        "innocent_explanation": "El aceite del río viene de bidones de fábrica. Él no tiene llaves del área de bidones.",
-        "culprit_explanation": "Tomó prestada una tarjeta de mantenimiento y rodó bidones al desagüe. Quiso evitar pagar la tasa de vertido.",
-        "alibis_innocent": [
-            "Dirigió una búsqueda del tesoro para niños antes de moverse los bidones.",
-            "Su tarjeta solo abre puertas públicas del museo. Nunca marcó entrada en la planta después de las siete.",
-            "Firmó salida en recepción horas antes del vídeo.",
-        ],
-        "alibis_guilty": [
-            "Su chaleco de voluntario apareció arrugado junto al desagüe.",
-            "Preguntó cómo abrir la puerta de servicio.",
-            "Etiquetas de bidones en su mochila. Manchas de aceite coinciden con el río.",
-        ],
-    },
-    "roblox_guest": {
-        "role": "Visitante con Pase Diario",
-        "description": "Entra con pase de invitado de un día. Saca fotos en el paseo del río.",
-        "innocent_explanation": "El aceite vino de bidones de fábrica por la noche. Él ya había salido del centro en un coche de app.",
-        "culprit_explanation": "Volvió con ropa de trabajo y movió bidones de aceite. Usó el pase de invitado como tapadera.",
-        "alibis_innocent": [
-            "Registro del vestíbulo muestra su salida antes de moverse los bidones.",
-            "Cámaras del río no lo muestran en el desagüe esa noche.",
-            "Su móvil se quedó al otro lado de la ciudad hasta la mañana.",
-        ],
-        "alibis_guilty": [
-            "Su pase de invitado sale en un clip cerca de los bidones.",
-            "Entró por una puerta lateral que dejaron abierta.",
-            "Escribió a un amigo preguntando adónde van los barriles.",
-        ],
-    },
-    "baconette_hair": {
-        "role": "Vendedora Ambulante del Paseo",
-        "description": "Vende dulces y bebidas en un carrito en el camino del río. El carrito es solo para comida.",
-        "innocent_explanation": "El río muestra aceite grueso de fábrica. Su carrito solo lleva snacks y bebidas.",
-        "culprit_explanation": "Escondió botes de aceite bajo el forro del carrito. Los vertió al desagüe al repostar tarde.",
-        "alibis_innocent": [
-            "Recogió el carrito antes de moverse los bidones.",
-            "Reglas de salud solo listan comida en su carrito.",
-            "Su pulsera no abre la puerta de la planta.",
-        ],
-        "alibis_guilty": [
-            "Garrafas ocultas dieron positivo por el mismo aceite.",
-            "Un testigo vio el carrito en la rejilla tarde.",
-            "Pegamento en sus guantes coincidió con sellador de tapas de bidones.",
-        ],
-    },
-    "peeley": {
-        "role": "Animador de Programas Familiares del Museo",
-        "description": "Usa un disfraz de plátano para niños en el museo. El traje es grande e hinchado.",
-        "innocent_explanation": "El vídeo muestra a alguien delgado con ropa de trabajo. Un traje de plátano es demasiado grande para mover bidones.",
-        "culprit_explanation": "Se quitó el traje y puso ropa de trabajo robada. Luego rodó bidones de aceite al desagüe.",
-        "alibis_innocent": [
-            "Seguía en el traje cuando se movían los bidones.",
-            "La puerta del desagüe estaba cerrada hasta que salió el personal.",
-            "Compañeros lo vieron en el camerino.",
-        ],
-        "alibis_guilty": [
-            "Vídeo lo muestra quitando el traje y poniendo mono naranja.",
-            "Pelusa del disfraz apareció en un bidón en la rejilla.",
-            "Publicó en redes desde el callejón detrás del museo.",
-        ],
-    },
-    "agent_67": {
-        "role": "Videógrafo del Río para la Ciudad",
-        "description": "Graba vídeo del río para el equipo de limpieza de la ciudad. Usa cámara en trípode con grasa aceitosa en las patas.",
-        "innocent_explanation": "El aceite del río salió directo de bidones de fábrica. Él grababa río arriba cuando se movían esos bidones.",
-        "culprit_explanation": "Vertió aceite extra de su lata de trípode al desagüe. Era el mismo tipo de aceite que usan en la fábrica.",
-        "alibis_innocent": [
-            "Su cámara apuntaba río arriba durante el vídeo de bidones.",
-            "Su tarjeta de memoria no tiene un hueco largo para llegar a la planta.",
-            "Seguridad de la planta nunca marcó su tarjeta en los bidones.",
-        ],
-        "alibis_guilty": [
-            "Trapos aceitosos de su bolsa coinciden con el aceite del río.",
-            "Su trípode estuvo en el barro justo en la rejilla.",
-            "Tiró un bote de aceite detrás de su maletín de cámara. El bote coincidía con aceite de fábrica.",
-        ],
-    },
-    "roblox_builder": {
-        "role": "Instructor de Taller del Museo",
-        "description": "Ayuda a los niños a armar proyectos en el museo junto al río. La mesa usa tubitos de aceite de máquina para demos de engranajes.",
-        "innocent_explanation": "El derrame viene de bidones enormes de planta. Él se quedó en la sala de niños toda la noche en cámara.",
-        "culprit_explanation": "Vertió aceite sobrante del demo al desagüe al cerrar. Ese aceite es el mismo que usa la fábrica.",
-        "alibis_innocent": [
-            "Cerró el cuarto de herramientas y se quedó en el taller en vídeo.",
-            "Su tarjeta no abre el pasillo de residuos.",
-            "Padres lo vieron en directo durante el vídeo de bidones.",
-        ],
-        "alibis_guilty": [
-            "Aceite de demo de su mesa coincide con la mancha del río.",
-            "Abrió una puerta de túnel que sale cerca de la rejilla.",
-            "Tubos de aceite vacíos con su nombre en su taquilla.",
-        ],
-    },
-    "elsa": {
-        "role": "Artista de Plaza del Centro",
-        "description": "Actúa en el show de luces de invierno en la plaza. El show usa máquinas de niebla y luces.",
-        "innocent_explanation": "El derrame principal es aceite grueso de fábrica. Ella estaba en el escenario cuando rodaban bidones en la planta.",
-        "culprit_explanation": "Vertió líquido sobrante de niebla al desagüe pluvial. Se mezcló con aceite que ya había en la tubería de la fábrica.",
-        "alibis_innocent": [
-            "Estaba con disfraz completo hasta el ensayo tarde.",
-            "Registros de escena muestran su micrófono cuando los bidones se mueven en la planta.",
-            "Sus cajas de atrezzo solo listan luces y purpurina.",
-        ],
-        "alibis_guilty": [
-            "Una manguera de niebla dio positivo por la misma mezcla de aceite.",
-            "Preguntó dónde verter líquido rápido detrás del escenario.",
-            "Purpurina en un bidón coincidió con su vestuario.",
-        ],
-    },
-    "steve": {
-        "role": "Anfitrión de Evento en el Paseo",
-        "description": "Saluda al público del festival con disfraz de cabeza cuadrada en el paseo ribereño del centro. No puede entrar a la planta de aceite.",
-        "innocent_explanation": "El vídeo muestra a un obrero con mono. El traje de mascota es demasiado ancho para la sala de bidones.",
-        "culprit_explanation": "Se quitó el traje y usó mono robado. Ayudó a rodar bidones de aceite para que nadie viera la mascota.",
-        "alibis_innocent": [
-            "Fans se sacaron fotos con él lejos de la planta esa noche.",
-            "La cabeza del traje no cabe por la puerta de bidones.",
-            "Su pulsera del evento solo abre el salón de convenciones.",
-        ],
-        "alibis_guilty": [
-            "Aceite de los bidones manchó sus guantes de espuma.",
-            "Envió un mensaje sobre mover cosas pesadas a medianoche.",
-            "Ropa de trabajo en su taquilla tenía su pulsera enganchada en la cremallera.",
-        ],
-    },
-}
 
 
 def main():
+    if not SRC.exists():
+        raise SystemExit(f"Missing {SRC}; edit characterEs.json directly.")
+    data = json.loads(SRC.read_text(encoding="utf-8"))
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(OVERLAY, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"Wrote {OUT}")
+    OUT.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"Normalized {OUT} ({len(data)} characters)")
 
 
 if __name__ == "__main__":

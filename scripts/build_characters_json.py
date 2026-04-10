@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Emit characters.json with 6 alibis per character (3 innocent + 3 guilty), uniform length."""
+"""Legacy emitter for characters.json (uniform-length alibis).
+
+Canonical game copy is maintained in `characters.json` and `web/src/characterEs.json`.
+Do not run this unless you intend to replace both files from the embedded CHARS list.
+"""
 import json
 import subprocess
 import sys
@@ -62,7 +66,7 @@ CHARS = [
                 "The oil in the water matches his work lot number.",
             ),
             C(
-                "Heat video shows his gloves right after the drums moved.",
+                "A night video shows his gloves right after the drums moved.",
                 "Only his crew has those gloves.",
             ),
         ],
