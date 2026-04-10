@@ -32,10 +32,12 @@ export function SceneExitLoadingOverlay({
       aria-label={`${eyebrow} ${fact}`}
     >
       <div className="scene-exit-loading__panel">
-        <p className="scene-exit-loading__eyebrow">{eyebrow}</p>
-        <p className="scene-exit-loading__fact" id="scene-exit-fact" key={factIndex}>
-          {fact}
-        </p>
+        <div className="scene-exit-loading__content">
+          <p className="scene-exit-loading__eyebrow">{eyebrow}</p>
+          <p className="scene-exit-loading__fact" id="scene-exit-fact" key={factIndex}>
+            {fact}
+          </p>
+        </div>
         <div className="scene-exit-loading__bar" aria-hidden>
           <div
             className="scene-exit-loading__bar-fill"
