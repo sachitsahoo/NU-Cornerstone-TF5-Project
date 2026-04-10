@@ -22,7 +22,7 @@ export const CLUES_BY_CASE: Record<
       es: [
         "Es aceite de máquina de fábrica camino al río Charles.",
         "El vídeo muestra bidones hacia el desagüe del río Charles.",
-        "Rozaduras coinciden con un carro del taller de máquinas.",
+        "Rayones en el desagüe coinciden con un carro del taller de máquinas.",
       ],
     },
     ballerina_cappuccina: {
@@ -69,8 +69,8 @@ export const CLUES_BY_CASE: Record<
       ],
       es: [
         "Muestras del río Charles coinciden con este aceite de fábrica.",
-        "Tanto aceite suele moverse por la vía de carga hacia el río Charles.",
-        "Registros del vestíbulo muestran salida antes de los bidones hacia el río Charles.",
+        "Esa cantidad de aceite normalmente va por la ruta de carga hacia el río Charles.",
+        "El registro del vestíbulo muestra que salió antes de que los bidones fueran al río Charles.",
       ],
     },
     baconette_hair: {
@@ -204,7 +204,7 @@ export const CLUES_BY_CASE: Record<
       es: [
         "Volantes nuevos del tour del museo estaban bajo la capa superior de basura.",
         "Un sello de búsqueda del tesoro en cartón coincide con su tarjeta de ruta del miércoles.",
-        "Lectores de gafete muestran salida de personal hacia el parque en la hora del vertido.",
+        "Los registros de tarjeta muestran salida de personal hacia el parque en la hora del vertido.",
       ],
     },
     roblox_guest: {
@@ -385,7 +385,7 @@ export const CLUES_BY_CASE: Record<
       ],
       es: [
         "Tela amarilla del traje enganchada en un clavo de la pancarta del truco del carbón.",
-        "Geotag de transmisión en vivo ubica su móvil detrás del set de mina falsa.",
+        "Un geotag de la transmisión en vivo lo ubica detrás del set de mina falsa.",
         "Pegatinas de plátano del disfraz cubrían el pavimento acordonado.",
       ],
     },
@@ -409,7 +409,7 @@ export const CLUES_BY_CASE: Record<
       ],
       es: [
         "Madera del taller infantil formó paredes de túnel falso en el asfalto.",
-        "Papeles de alquiler de herramientas listan su móvil para entrega al alba en Tremont.",
+        "Papeles de alquiler de herramientas registran su número para una entrega al alba en Tremont.",
         "Aserrín bajo sacos coincide con el suelo del taller del museo junto a su banco.",
       ],
     },
@@ -444,7 +444,7 @@ export const CLUES_BY_CASE: Record<
         "Hose residue tested as a concentrate not approved for street application.",
       ],
       es: [
-        "Bidones sin etiqueta junto al carbón donde hazmat precintó la acera.",
+        "Bidones sin etiqueta junto al carbón donde materiales peligrosos precintaron la acera.",
         "GPS del camión marca cada punto cerrado del mapa impreso del desfile.",
         "Residuo en manguera dio concentrado no aprobado para uso en calle.",
       ],
@@ -543,7 +543,7 @@ export const CLUES_BY_CASE: Record<
       ],
       es: [
         "Patas del trípode con sal seca coinciden con salpicaduras en bolsa de obra rota.",
-        "Metadatos de metraje lo muestran filmando la marea sacando basura en lo poco profundo.",
+        "Los metadatos del video lo muestran filmando la marea sacando basura en lo poco profundo.",
         "Vendió clips titulados 'vertido de medianoche en Revere Beach' antes del comunicado municipal.",
       ],
     },
@@ -590,7 +590,7 @@ export const CLUES_BY_CASE: Record<
         "Truck GPS shows slow rolls along Revere Beach Boulevard during the tide change.",
       ],
       es: [
-        "Bidones sin etiqueta flotaron junto a basura de comida como hazmat disfrazado.",
+        "Bidones sin etiqueta flotaron junto a basura de comida, como material peligroso disfrazado de desecho normal.",
         "Boquilla de manguera dio película de disolvente igual a bolsas en la resaca.",
         "GPS del camión muestra vueltas lentas por Revere Beach Boulevard en el cambio de marea.",
       ],
@@ -630,7 +630,7 @@ export const DEFAULT_CLUES_BY_CASE: Record<Lang, Record<BostonCaseId, string[]>>
     boston_common: [
       "Montones enormes de bolsas aparecieron en el césped de la noche a la mañana.",
       "El personal del parque dice que los pastos estaban claros al cerrar ayer.",
-      "Quien hizo esto ignoró a propósito todos los contenedores de basura y reciclaje.",
+      "Quien hizo esto ignoró a propósito todos los basureros y el reciclaje.",
     ],
     south_end: [
       "La minería ilegal en el South End está arruinando la ciudad: calles rotas, polvo de carbón y desfile cancelado.",
@@ -640,7 +640,7 @@ export const DEFAULT_CLUES_BY_CASE: Record<Lang, Record<BostonCaseId, string[]>>
     revere_beach: [
       "Basura aparece en el agua de Revere Beach: bolsas y plástico que no deberían llegar al océano.",
       "Personal de playa dice que la marea arrastra basura de alguien que vertió en la orilla de noche.",
-      "Revere Beach tiene contenedores y normas; quien hizo esto empujó basura directo al agua.",
+      "Revere Beach tiene basureros y normas; quien hizo esto empujó basura directo al agua.",
     ],
   },
 };

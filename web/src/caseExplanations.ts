@@ -84,7 +84,7 @@ const COMMON: Record<Lang, Record<string, Pair>> = {
       innocent_explanation:
         "Él mueve bidones, pero cámaras lo ponen dentro de la planta cuando Boston Common se llenó de basura. Las bolsas de Boston Common no coinciden con sus guantes.",
       culprit_explanation:
-        "Arrastró forros de bidones llenos de basura a Boston Common, Boston Common, Boston Common — demasiado perezoso para un contenedor real.",
+        "Arrastró forros de bidones llenos de basura a Boston Common, Boston Common, Boston Common — demasiado flojo para usar un basurero de verdad.",
     },
     ballerina_cappuccina: {
       innocent_explanation:
@@ -94,13 +94,13 @@ const COMMON: Record<Lang, Record<string, Pair>> = {
     },
     tung: {
       innocent_explanation:
-        "Registros del turno nocturno lo dejan en la planta durante el vertido en Boston Common. Las bolsas en Boston Common no tienen sus sellos.",
+        "El registro del turno nocturno lo pone en la fábrica durante el vertido en Boston Common. Las bolsas en Boston Common no tienen sus sellos.",
       culprit_explanation:
         "Transportó basura industrial en una furgoneta y la vació en Boston Common para evitar tarifas. Boston Common pagó el precio.",
     },
     roblox_noob: {
       innocent_explanation:
-        "Su gafete solo abre puertas del museo. Seguridad de Boston Common nunca lo escaneó tirando las pilas enormes.",
+        "Su tarjeta solo abre puertas del museo. Seguridad de Boston Common nunca lo registró tirando las pilas enormes.",
       culprit_explanation:
         "Pidió prestado un carrito del muelle y apiló basura en Boston Common como broma. Boston Common, Boston Common — los visitantes tuvieron que rodearla.",
     },
@@ -108,7 +108,7 @@ const COMMON: Record<Lang, Record<string, Pair>> = {
       innocent_explanation:
         "Registros del vestíbulo muestran su salida antes del desastre en Boston Common. Cámaras en Boston Common no lo enlazan con las bolsas grandes.",
       culprit_explanation:
-        "Volvió de noche con bolsas de obra y las vació en Boston Common. Boston Common, Boston Common — el pase de invitado era tapadera.",
+        "Volvió de noche con bolsas de obra y las vació en Boston Common. Boston Common, Boston Common — el pase de invitado era una excusa.",
     },
     baconette_hair: {
       innocent_explanation:
@@ -124,7 +124,7 @@ const COMMON: Record<Lang, Record<string, Pair>> = {
     },
     agent_67: {
       innocent_explanation:
-        "Su metraje prueba que filmaba río arriba, no apilando bolsas en Boston Common. Marcas de tiempo de Boston Common no coinciden con sus tarjetas.",
+        "Su video prueba que filmaba río arriba, no apilando bolsas en Boston Common. Las marcas de tiempo de Boston Common no cuadran con sus tarjetas de memoria.",
       culprit_explanation:
         "Usó la furgoneta del equipo para tirar equipo viejo en Boston Common tras un rodaje. Boston Common, Boston Common — maletines del trípode estaban en el montón.",
     },
@@ -299,7 +299,7 @@ const SOUTH: Record<Lang, Record<string, Pair>> = {
     },
     spyder_sammy: {
       innocent_explanation:
-        "Su camión estaba en el depósito al sellarse el South End. Sus químicos permitidos no incluyen teatro de carbón en el South End.",
+        "Su camión estaba en el patio cuando se cerró el South End. Sus químicos permitidos no incluyen trucos de carbón en el South End.",
       culprit_explanation:
         "Guardó bidones sin etiqueta junto a utilería en la acera del South End. South End, South End — emergencias cerraron todo el tramo del South End.",
     },
@@ -384,7 +384,7 @@ const REVERE_BEACH: Record<Lang, Record<string, Pair>> = {
   es: {
     bacon_hair: {
       innocent_explanation:
-        "Registros de turno lo dejan en planta cuando bolsas entraron al mar. Arena en botas coincide con patio de fábrica, no con la línea de algas de Revere Beach.",
+        "El registro de turno lo pone en la fábrica cuando bolsas entraron al mar. Arena en botas coincide con el patio de la fábrica, no con la orilla de Revere Beach.",
       culprit_explanation:
         "Llevó basura de planta a Revere Beach y empujó bolsas al agua para evitar tasas. Revere Beach, Revere Beach — plástico de su ruta volvió a la orilla para que todos lo vieran.",
     },
@@ -402,15 +402,15 @@ const REVERE_BEACH: Record<Lang, Record<string, Pair>> = {
     },
     roblox_noob: {
       innocent_explanation:
-        "Escaneos de gafete lo mantienen dentro del museo en noche de galería. Ninguna cámara del muelle lo muestra arrastrando bolsas hacia Revere Beach.",
+        "La tarjeta lo mantiene dentro del museo en noche de galería. Ninguna cámara del muelle lo muestra arrastrando bolsas hacia Revere Beach.",
       culprit_explanation:
         "Pidió prestado un carrito, apiló basura de eventos y la tiró por el muro al mar en Revere Beach. Volantes del mapa del museo flotaron con la basura.",
     },
     roblox_guest: {
       innocent_explanation:
-        "Su pase registró salida antes de la mancha de basura en lo poco profundo. Datos del móvil lo ponen en tren lejos de Revere Beach en pleamar.",
+        "Su pase registró salida antes de la mancha de basura en lo poco profundo. Su celular lo ubica en el tren, lejos de Revere Beach, cuando subió la marea.",
       culprit_explanation:
-        "Volvió de noche con bolsas negras y las rodó a la resaca en Revere Beach. Revere Beach, Revere Beach — sellos de entrada en Wonderland lo muestran yendo a la arena.",
+        "Volvió de noche con bolsas negras y las rodó al agua en Revere Beach. Revere Beach, Revere Beach — el registro de entrada en Wonderland lo muestra yendo hacia la arena.",
     },
     baconette_hair: {
       innocent_explanation:
@@ -426,7 +426,7 @@ const REVERE_BEACH: Record<Lang, Record<string, Pair>> = {
     },
     agent_67: {
       innocent_explanation:
-        "Su contrato era metraje municipal céntrico; metadatos sin trípode en arena de Revere Beach durante el vertido.",
+        "Su contrato era video para la ciudad; los metadatos no muestran trípode en la arena de Revere Beach durante el vertido.",
       culprit_explanation:
         "Filmó la marea sacando basura para un reel de ‘impacto’ y empujó una bolsa más para la toma. Revere Beach, Revere Beach — sal arruinó el lente pero no sus subidas.",
     },
@@ -450,9 +450,9 @@ const REVERE_BEACH: Record<Lang, Record<string, Pair>> = {
     },
     spyder_sammy: {
       innocent_explanation:
-        "Fumigaciones permitidas no coinciden con película de disolvente en bolsas flotantes. GPS pone su camión en depósito en la hora del vertido en Revere Beach.",
+        "Sus fumigaciones permitidas no coinciden con el disolvente en las bolsas flotantes. GPS pone su camión en el patio durante el vertido en Revere Beach.",
       culprit_explanation:
-        "Escondió bidones sin etiqueta dentro de bolsas y rodó todo a Revere Beach para evitar tasas hazmat. Revere Beach, Revere Beach — emergencias acordonaron cuando niños hallaron bidones en la espuma.",
+        "Escondió bidones sin etiqueta dentro de bolsas y los rodó al agua en Revere Beach para evitar pagar el manejo de materiales peligrosos. Revere Beach, Revere Beach — los de emergencias acordonaron todo cuando niños hallaron bidones en la espuma.",
     },
   },
 };

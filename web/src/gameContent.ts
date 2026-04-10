@@ -124,9 +124,9 @@ export const SCENE_CASE_COPY: Record<BostonCaseId, Record<Lang, SceneCaseStrings
     es: {
       sceneTitle: "El caso de Boston Common",
       sceneDescriptor:
-        "Boston Common es el patio compartido de la ciudad: alguien tiró bolsas y basura suelta por el césped y los senderos, no en los contenedores.",
+        "Boston Common es el patio compartido de la ciudad: alguien tiró bolsas y basura suelta por el césped y los senderos, no en los basureros.",
       sceneContext:
-        "Usa las tres pistas para averiguar quién destrozó Boston Common anoche y perjudicó el parque del que todos dependen.",
+        "Usa las tres pistas para averiguar quién llenó de basura Boston Common anoche.",
       sceneExitTitle: "Mantener limpio Boston Common para todos",
     },
   },
@@ -162,7 +162,7 @@ export const SCENE_CASE_COPY: Record<BostonCaseId, Record<Lang, SceneCaseStrings
       sceneDescriptor:
         "Alguien está tirando basura al agua en Revere Beach: bolsas, plástico y desechos que entran con la marea.",
       sceneContext:
-        "Usa las tres pistas para averiguar quién mete basura al mar en Revere Beach en vez de usar contenedores y retiro autorizado.",
+        "Usa las tres pistas para averiguar quién mete basura al mar en Revere Beach en vez de usar los basureros y los servicios de basura.",
       sceneExitTitle: "Cuidar el agua en Revere Beach",
     },
   },
@@ -189,7 +189,7 @@ const SOLUTIONS: Record<Lang, string[]> = {
   es: [
     "Revisar tuberías con sensores y publicar los datos.",
     "Plantar vegetación en la orilla. Filtra el agua antes de entrar al río.",
-    "Que los trabajadores puedan reportar sin represalias.",
+    "Que los trabajadores puedan avisar si ven algo mal, sin miedo a meterse en problemas.",
   ],
 };
 
@@ -207,7 +207,7 @@ const EXIT_FACTS_BY_CASE: Record<BostonCaseId, Record<Lang, string[]>> = {
       "Litter brings rats and hurts the grass. Use the bins.",
     ],
     es: [
-      "La basura atrae ratas y daña el césped. Usa los contenedores.",
+      "La basura atrae ratas y daña el césped. Usa los basureros.",
     ],
   },
   south_end: {
@@ -440,9 +440,9 @@ export const UI = {
     landingPlayStarting: "Iniciando…",
     landingTitleLine1: "Contaminación",
     landingTitleLine2: "Misterio",
-    logoBcCaption: "Ballerina Cappuccina: Dueña De Un Café",
-    logoBhCaption: "Bacon Hair: Mecánico De Fábrica",
-    logoSahurCaption: "Tung: Supervisor De Turno Nocturno",
+    logoBcCaption: "Ballerina Cappuccina: Dueña de un café",
+    logoBhCaption: "Bacon Hair: Mecánico de fábrica",
+    logoSahurCaption: "Tung: Supervisor de turno nocturno",
     logoStripAria: "Sospechosos",
     logoStripScrollIntro: "Los sospechosos",
     playShortcutTitle: "Empezar (P)",

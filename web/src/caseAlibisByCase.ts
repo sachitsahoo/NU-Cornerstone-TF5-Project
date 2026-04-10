@@ -112,7 +112,7 @@ const boston_common: Record<string, CharacterCasePools> = {
     },
     es: {
       innocent: [
-        "Lectores de gafete lo muestran dentro con un grupo escolar durante el vertido.",
+        "La tarjeta lo muestra dentro con un grupo escolar durante el vertido.",
         "Su ruta de búsqueda del tesoro siguió caminos pavimentados, lejos de las pilas.",
         "No tiene llaves de mantenimiento del parque.",
       ],
@@ -139,7 +139,7 @@ const boston_common: Record<string, CharacterCasePools> = {
     es: {
       innocent: [
         "El vestíbulo registra salida de su pase antes de que aparecieran las pilas.",
-        "Datos de ubicación del móvil lo mantienen al otro lado del río hasta la mañana.",
+        "La ubicación de su celular lo pone al otro lado del río hasta la mañana.",
         "Nunca tuvo acceso al almacén de mantenimiento del parque.",
       ],
       guilty: [
@@ -218,12 +218,12 @@ const boston_common: Record<string, CharacterCasePools> = {
       innocent: [
         "Su cámara estaba fija al perfil urbano mientras crecían las pilas.",
         "Marcas de tarjeta muestran grabación continua sin huecos largos.",
-        "Supervisores de limpieza confirman que archivaba metraje en otra zona esa noche.",
+        "Supervisores de limpieza confirman que grababa video en otra zona esa noche.",
       ],
       guilty: [
         "Marcas de arrastre de su maletín coinciden con surcos en la basura fresca.",
         "Clips borrados recuperados muestran bolsas con pata de trípode al borde.",
-        "Vendió metraje 'exclusivo' del desorden a un blog antes del personal del parque.",
+        "Vendió video 'exclusivo' del desorden a un blog antes de que llegara el personal del parque.",
       ],
     },
   },
@@ -296,7 +296,7 @@ const boston_common: Record<string, CharacterCasePools> = {
       innocent: [
         "Fotos de fans lo muestran con el traje completo lejos de la zona de basura.",
         "La cabeza del disfraz no pasa por el portón estrecho del patio de mantenimiento.",
-        "Su gafete de evento solo se escaneó en el salón de convenciones esa noche.",
+        "Su pulsera del evento solo se escaneó en el salón de convenciones esa noche.",
       ],
       guilty: [
         "Arena en guantes de espuma coincidió con basura de comida rápida en el montón.",
@@ -321,7 +321,7 @@ const boston_common: Record<string, CharacterCasePools> = {
     es: {
       innocent: [
         "Su registro de fumigación termina antes del atardecer; la basura llegó horas después.",
-        "GPS del camión deja el vehículo en el depósito durante el vertido.",
+        "GPS del camión lo pone en el patio durante el vertido.",
         "Los químicos de su permiso no coinciden con la grasa de comida en las bolsas.",
       ],
       guilty: [
@@ -377,7 +377,7 @@ const south_end: Record<string, CharacterCasePools> = {
       innocent: [
         "Cerraba cajas cuando la policía acordonó el pasillo — lo confirma el personal.",
         "El número de serie del generador rastreado no coincide con cuentas de su café.",
-        "Su local no tiene bodega para utilería de carbón ni aparejos.",
+        "Su local no tiene bodega para utilería de carbón ni equipo de montaje.",
       ],
       guilty: [
         "Un generador amarrado a las vallas se alquiló con su tarjeta de negocio.",
@@ -403,7 +403,7 @@ const south_end: Record<string, CharacterCasePools> = {
       innocent: [
         "Cámaras lo muestran firmando mantenimiento nocturno dentro de la planta durante el cierre.",
         "Papeles de camión con su sello son de días antes; rutas no coinciden con el mapa del desfile.",
-        "Su gafete de supervisor se escaneó en la entrada de la fábrica, no en Tremont.",
+        "Su tarjeta de supervisor se escaneó en la entrada de la fábrica, no en Tremont.",
       ],
       guilty: [
         "Formas de transporte alteradas listan descargas en calles sin permiso de desfile.",
@@ -429,7 +429,7 @@ const south_end: Record<string, CharacterCasePools> = {
       innocent: [
         "Estaba a mitad de tour dentro del museo cuando levantaron las vallas.",
         "Los mapas impresos que reparte solo muestran salas, no cierres de calle.",
-        "Datos de gafete no lo muestran al oeste de la plaza del museo esa noche.",
+        "La tarjeta no lo registra al oeste de la plaza del museo esa noche.",
       ],
       guilty: [
         "Mapas de tienda con su letra marcan un falso 'tour mina de carbón' en la ruta.",
@@ -454,7 +454,7 @@ const south_end: Record<string, CharacterCasePools> = {
     es: {
       innocent: [
         "Su pase de invitado venció antes de que llegaran inspectores; no pudo reingresar solo.",
-        "Datos del móvil lo ponen en tren saliendo del centro cuando sellaron la ruta.",
+        "Su celular lo ubica en el tren saliendo del centro cuando sellaron la ruta.",
         "No tenía credenciales de contratista para mover utilería en la calle.",
       ],
       guilty: [
@@ -507,11 +507,11 @@ const south_end: Record<string, CharacterCasePools> = {
       innocent: [
         "Iba en traje de plátano saludando familias a dos cuadras de las vallas.",
         "Las mangas del traje enganchan todo; no pudo tensar lonas con limpieza.",
-        "Registros Wi‑Fi del museo muestran su gafete de disfraz adentro durante el truco.",
+        "Los registros de Wi-Fi del museo muestran que su disfraz estaba adentro durante el truco.",
       ],
       guilty: [
         "Tela amarilla del traje quedó enganchada en un clavo de la pancarta del carbón.",
-        "Un geotag de transmisión en vivo ubica su móvil detrás de la mina falsa.",
+        "Un geotag de transmisión en vivo ubica su celular detrás de la mina falsa.",
         "Pegatinas de plátano del disfraz cubrían el pavimento acordonado.",
       ],
     },
@@ -533,7 +533,7 @@ const south_end: Record<string, CharacterCasePools> = {
       innocent: [
         "Sus lentes apuntaban al equipo de limpieza del río, no a la cuadrícula del desfile.",
         "Metadatos sin tomas exportadas del montón de carbón desde su equipo esa noche.",
-        "Archivó metraje en archivo municipal antes del cierre de ruta.",
+        "Entregó su video al archivo municipal antes del cierre de la ruta.",
       ],
       guilty: [
         "Polvo de carbón dentro del maletín coincide con el del montón de utilería.",
@@ -563,7 +563,7 @@ const south_end: Record<string, CharacterCasePools> = {
       ],
       guilty: [
         "Madera del taller infantil formó paredes de túnel falso en el asfalto.",
-        "Papeles de alquiler de herramientas listan su móvil para entrega al alba en Tremont.",
+        "Papeles de alquiler de herramientas registran su número para una entrega al alba en Tremont.",
         "Aserrín bajo sacos coincide con el suelo del taller del museo junto a su banco.",
       ],
     },
@@ -635,12 +635,12 @@ const south_end: Record<string, CharacterCasePools> = {
     },
     es: {
       innocent: [
-        "Su camión estaba en el depósito según GPS en la ventana del cierre.",
+        "Su camión estaba en el patio según GPS durante la ventana del cierre.",
         "Fumigaciones permitidas en el camión están listadas; ninguna coincide con residuo en lonas.",
         "Hojas de ruta muestran un trabajo en ribera antes del ensayo del desfile.",
       ],
       guilty: [
-        "Bidones sin etiqueta junto al carbón donde hazmat precintó la acera.",
+        "Bidones sin etiqueta junto al carbón donde materiales peligrosos precintaron la acera.",
         "GPS del camión marca cada punto cerrado del mapa impreso del desfile.",
         "Residuo en manguera dio concentrado no aprobado para uso en calle.",
       ],
@@ -742,9 +742,9 @@ const revere_beach: Record<string, CharacterCasePools> = {
     },
     es: {
       innocent: [
-        "Daba tour tardío; escaneos de gafete lo mantienen dentro del museo.",
+        "Daba tour tarde; la tarjeta lo mantiene dentro del museo.",
         "Volantes en la resaca son viejos errores de imprenta, no su lote actual.",
-        "Personal dice que solo preguntó cómo usar contenedores de playa con responsabilidad.",
+        "Personal dice que solo preguntó cómo usar los basureros de la playa bien.",
       ],
       guilty: [
         "Volantes nuevos del tour flotaron con bolsas negras de obra.",
@@ -768,7 +768,7 @@ const revere_beach: Record<string, CharacterCasePools> = {
     },
     es: {
       innocent: [
-        "Su gafete registró salida antes de la mancha de basura en foto del salvavidas.",
+        "Su tarjeta registró salida antes de la mancha de basura que apareció en foto del salvavidas.",
         "Móvil en la línea roja lejos de Revere Beach en pleamar.",
         "Nunca tuvo llave del cobertizo de equipo de playa.",
       ],
@@ -846,7 +846,7 @@ const revere_beach: Record<string, CharacterCasePools> = {
     },
     es: {
       innocent: [
-        "Metadatos fijan su trípode céntrico para metraje municipal durante el vertido en Revere Beach.",
+        "Los metadatos lo ponen grabando video para la ciudad en el centro durante el vertido en Revere Beach.",
         "Tarjetas muestran rodaje continuo sin etiquetas GPS de playa esa noche.",
         "Costra de sal en bolsa dio sal de carretera, no rocío oceánico de arena.",
       ],
@@ -955,7 +955,7 @@ const revere_beach: Record<string, CharacterCasePools> = {
         "Terminó contrato en marisma al norte antes de la hora de la queja en Revere Beach.",
       ],
       guilty: [
-        "Bidones sin etiqueta flotaron junto a comida como hazmat disfrazado de basura de playa.",
+        "Bidones sin etiqueta flotaron junto a comida, como material peligroso disfrazado de basura de playa.",
         "Boquilla de manguera dio mismo brillo disolvente que bolsas en la espuma.",
         "GPS muestra vueltas lentas por Revere Beach Boulevard al girar la marea.",
       ],

@@ -165,7 +165,7 @@ export const EXIT_QUIZ_BY_CASE: Record<
     es: [
       {
         question:
-          "Muchas alcantarillas van al río. ¿Qué no debes verter?",
+          "Muchos desagües van directo al río. ¿Qué no debes tirar ahí?",
         choices: [
           "Solo agua limpia",
           "Pintura, aceite o químicos",
@@ -183,7 +183,7 @@ export const EXIT_QUIZ_BY_CASE: Record<
           "Ves basura volando hacia el río Charles. ¿Qué haces primero?",
         choices: [
           "Dejarla al viento",
-          "Recogerla o usar un contenedor cercano",
+          "Recogerla o usar un basurero cercano",
           "Empujarla al agua",
           "Enterrarla en la arena",
         ],
@@ -191,7 +191,7 @@ export const EXIT_QUIZ_BY_CASE: Record<
         feedbackCorrectBlurb:
           "Sí—la basura pequeña se acumula y llega al río.",
         feedbackIncorrectBlurb:
-          "La basura suele ir al agua. Los contenedores y llevártela ayudan.",
+          "La basura suele llegar al agua. Usa basureros o llévate lo que traes.",
       },
       {
         question: "¿Por qué peces y ranas necesitan agua limpia?",
@@ -209,24 +209,24 @@ export const EXIT_QUIZ_BY_CASE: Record<
       },
       {
         question:
-          "Si alguien vierte agua jabonosa en una alcantarilla, ¿adónde suele ir?",
+          "Si alguien tira agua jabonosa en un desagüe de la calle, ¿adónde va?",
         choices: [
           "A ningún lado",
-          "A arroyos o al río sin depurar como el agua residual",
+          "A arroyos o al río sin limpiarse",
           "A una fuente de agua potable",
           "A una piscina",
         ],
         correctIndex: 1,
         feedbackCorrectBlurb:
-          "Las alcantarillas pluviales no pasan por la planta: solo lluvia limpia.",
+          "Los desagües no limpian el agua. Solo la lluvia debe ir ahí.",
         feedbackIncorrectBlurb:
-          "Muchas alcantarillas van al exterior. Jabón y suciedad también dañan.",
+          "Muchos desagües van directo al exterior. El jabón y la suciedad también dañan el río.",
       },
       {
         question: "¿Cómo puede ayudar una familia al río Charles?",
         choices: [
           "Verter pintura vieja afuera",
-          "Limpiar, reciclar y usar basureros",
+          "Participar en limpiezas, reciclar y usar basureros",
           "Ignorar las señales",
           "Dejar basura de picnic",
         ],
@@ -247,7 +247,7 @@ export const EXIT_QUIZ_BY_CASE: Record<
         ],
         correctIndex: 1,
         feedbackCorrectBlurb:
-          "Las plantas frenan y limpian el escorrentía.",
+          "Las plantas frenan y limpian el agua antes de que llegue al río.",
         feedbackIncorrectBlurb:
           "La vegetación atrapa tierra y contaminantes.",
       },
@@ -282,7 +282,7 @@ export const EXIT_QUIZ_BY_CASE: Record<
       },
       {
         question:
-          "Paseas un perro cerca del río. ¿Qué haces con sus heces?",
+          "Paseas un perro cerca del río. ¿Qué haces con el popó del perro?",
         choices: [
           "Dejarlas en el sendero",
           "En bolsa y al basurero",
@@ -291,9 +291,9 @@ export const EXIT_QUIZ_BY_CASE: Record<
         ],
         correctIndex: 1,
         feedbackCorrectBlurb:
-          "Las heces llevan gérmenes al agua—usa basurero.",
+          "El popó del perro lleva gérmenes al agua. Siempre usa bolsa y basurero.",
         feedbackIncorrectBlurb:
-          "La lluvia las arrastra al río. Siempre bolsa y basura.",
+          "La lluvia arrastra el popó al río. Siempre bolsa y basurero.",
       },
       {
         question: "Los ríos limpios importan en Boston porque…",
@@ -466,7 +466,7 @@ export const EXIT_QUIZ_BY_CASE: Record<
         ],
         correctIndex: 1,
         feedbackCorrectBlurb:
-          "Los contenedores mantienen el parque limpio para todos.",
+          "Los basureros mantienen el parque limpio para todos.",
         feedbackIncorrectBlurb:
           "La basura suelta vuela y atrae plagas—usa el basurero.",
       },
@@ -557,16 +557,16 @@ export const EXIT_QUIZ_BY_CASE: Record<
       {
         question: "Pasear un perro en el Common implica…",
         choices: [
-          "Ignorar heces",
+          "Ignorar el popó del perro",
           "Bolsa y basurero",
-          "Patearlas a los arbustos",
-          "Que la lluvia las limpie",
+          "Patearlo a los arbustos",
+          "Que la lluvia lo limpie",
         ],
         correctIndex: 1,
         feedbackCorrectBlurb:
           "En bolsa evitas gérmenes en el césped y zonas de juego.",
         feedbackIncorrectBlurb:
-          "Las heces contagian—siempre bolsa y basura.",
+          "El popó del perro contagia gérmenes—siempre bolsa y basurero.",
       },
       {
         question: "Boston Common importa porque es…",
