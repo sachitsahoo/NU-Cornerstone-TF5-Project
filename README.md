@@ -41,25 +41,25 @@ flowchart LR
 ## Game Flow
 
 ```mermaid
-stateDiagram-v2
-    [*] --> Landing
-
-    Landing --> LanguagePicker : press P / tap Play
-    LanguagePicker --> Playing : choose EN or ES
-
-    Playing --> Playing : scan any suspect card\n(shows profile + suspicious detail)
-    Playing --> Accuse : scan chosen suspect card\nthen press Button 1
-
-    Accuse --> Result : confirm accusation
-    Result --> Landing : exit / timeout
-
-    Landing --> [*]
-
-    note right of Playing
-        Pico 2 NeoPixel changes color
-        to match scanned character.
-        Idle: purple flicker (#8A00C4).
-    end note
+flowchart TD
+    A([Start]) --> B[/Display Landing Screen\nIdle purple LEDs on Pico 2/]
+    B --> C[/Press Play or key P/]
+    C --> D[/Choose Language\nEnglish or Spanish/]
+    D --> E[/Scan a Suspect Card - RFID/]
+    E --> F[/View Character Profile\nName · Role · Suspicious Detail/]
+    F --> G[Pico 2 LED changes to character color]
+    G --> H{Done investigating?}
+    H -->|No - scan more suspects| E
+    H -->|Ready to accuse| I[/Scan Chosen Suspect Card - RFID/]
+    I --> J[/Press Button 1 to Confirm Accusation/]
+    J --> K{Correct Culprit?}
+    K -->|Yes| L[/Green LED Feedback\nCorrect Reveal Screen/]
+    K -->|No| M[/Red LED Feedback\nIncorrect Reveal Screen/]
+    L --> N[/Exit Quiz Questions/]
+    M --> N
+    N --> O[/Enjoyment Rating/]
+    O --> P[Reset System\nLEDs return to purple]
+    P --> A([End / Restart])
 ```
 
 ---
