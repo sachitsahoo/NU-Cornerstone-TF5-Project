@@ -27,3 +27,10 @@ export type CharactersApiResponse = {
   round_culprits: string[];
   characters: CharacterJson[];
 };
+
+/** Accusation reveal modal (GET characters + runtime picks). */
+export type RevealState = {
+  correct: boolean;
+  picked: CharacterJson;
+  culprit: CharacterJson;
+};

@@ -34,7 +34,7 @@ from bridge_protocol import (
     enrich_ws_payload,
     parse_dev_event_body,
 )
-from hardware.serial_worker import SerialWorker, auto_detect_pico_port, auto_detect_pico_ports
+from hardware.serial_worker import SerialWorker, auto_detect_pico_ports
 
 logger = logging.getLogger("pollution_mystery.bridge")
 logging.basicConfig(
@@ -65,8 +65,15 @@ resolved_led_port: str | None = None
 
 
 def load_characters() -> dict:
-    with open(CHARACTERS_FILE, "r") as f:
-        return json.load(f)
+    try:
+        with open(CHARACTERS_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        logger.error("Missing game data: %s", CHARACTERS_FILE)
+        raise
+    except json.JSONDecodeError as e:
+        logger.error("Invalid JSON in %s: %s", CHARACTERS_FILE, e)
+        raise
 
 
 def load_ports_config() -> tuple[str, str]:
@@ -103,6 +110,14 @@ def append_enjoyment_rating_line(record: dict) -> None:
     with _ratings_file_lock:
         with open(ENJOYMENT_RATINGS_FILE, "a", encoding="utf-8") as f:
             f.write(line)
+
+
+def _led_channel(value) -> int:
+    try:
+        n = int(value)
+    except (TypeError, ValueError):
+        return 0
+    return max(0, min(255, n))
 
 
 def build_tag_map(characters: list) -> dict[str, str]:
@@ -247,9 +262,9 @@ async def api_characters():
 
 @app.post("/api/led")
 async def api_led(body: dict):
-    r = body.get("r", 0)
-    g = body.get("g", 0)
-    b = body.get("b", 0)
+    r = _led_channel(body.get("r", 0))
+    g = _led_channel(body.get("g", 0))
+    b = _led_channel(body.get("b", 0))
     line = f"{r},{g},{b}"
     # Single-Pico setups: LED port is DUMMY but RFID Pico runs firmware that reads
     # serial RGB lines (see microcontroller/main.py) — forward colors to that port.

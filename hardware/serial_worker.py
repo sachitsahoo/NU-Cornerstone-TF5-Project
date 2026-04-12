@@ -101,54 +101,64 @@ class SerialWorker(threading.Thread):
             return
 
         buffer = ""
-        while self._running:
-            try:
-                data = self._ser.read(64).decode(errors="ignore")
-                if not data:
-                    continue
-                buffer += data
-                while "\n" in buffer:
-                    line, buffer = buffer.split("\n", 1)
-                    line = line.strip()
-                    if not line:
+        try:
+            while self._running:
+                try:
+                    data = self._ser.read(64).decode(errors="ignore")
+                    if not data:
                         continue
+                    buffer += data
+                    while "\n" in buffer:
+                        line, buffer = buffer.split("\n", 1)
+                        line = line.strip()
+                        if not line:
+                            continue
 
-                    if line == "REMOVED":
-                        if self._last_uid is not None:
-                            self._last_uid = None
-                            self._miss_count = 0
-                            self._emit({"type": "tag_removed"})
-                        continue
-
-                    matched_uid = self._match_line_to_tag_uid(line)
-
-                    if matched_uid:
-                        self._miss_count = 0
-                        if matched_uid != self._last_uid:
-                            self._last_uid = matched_uid
-                            self._emit({"type": "tag", "uid": matched_uid})
-                    else:
-                        if self._last_uid is not None:
-                            self._miss_count += 1
-                            if self._miss_count >= self._MISS_THRESHOLD:
-                                self._miss_count = 0
+                        if line == "REMOVED":
+                            if self._last_uid is not None:
                                 self._last_uid = None
+                                self._miss_count = 0
                                 self._emit({"type": "tag_removed"})
+                            continue
 
-                    if line == "BUTTON_DOWN":
-                        self._emit({"type": "button_down"})
-                    elif line == "BUTTON_UP":
-                        self._emit({"type": "button_up"})
-                    elif line == "BUTTON":
-                        self._emit({"type": "button"})  # legacy firmware
-                    elif line == "BUTTON2_DOWN":
-                        self._emit({"type": "button2_down"})
-                    elif line == "BUTTON2_UP":
-                        self._emit({"type": "button2_up"})
+                        matched_uid = self._match_line_to_tag_uid(line)
 
-            except Exception as e:
-                self._emit({"type": "status", "connected": False, "message": f"Serial error: {e}"})
-                break
+                        if matched_uid:
+                            self._miss_count = 0
+                            if matched_uid != self._last_uid:
+                                self._last_uid = matched_uid
+                                self._emit({"type": "tag", "uid": matched_uid})
+                        else:
+                            if self._last_uid is not None:
+                                self._miss_count += 1
+                                if self._miss_count >= self._MISS_THRESHOLD:
+                                    self._miss_count = 0
+                                    self._last_uid = None
+                                    self._emit({"type": "tag_removed"})
+
+                        if line == "BUTTON_DOWN":
+                            self._emit({"type": "button_down"})
+                        elif line == "BUTTON_UP":
+                            self._emit({"type": "button_up"})
+                        elif line == "BUTTON":
+                            self._emit({"type": "button"})  # legacy firmware
+                        elif line == "BUTTON2_DOWN":
+                            self._emit({"type": "button2_down"})
+                        elif line == "BUTTON2_UP":
+                            self._emit({"type": "button2_up"})
+
+                except Exception as e:
+                    self._emit({"type": "status", "connected": False, "message": f"Serial error: {e}"})
+                    break
+        finally:
+            ser = self._ser
+            self._ser = None
+            if ser is not None:
+                try:
+                    if ser.is_open:
+                        ser.close()
+                except Exception:
+                    pass
 
     def send_output(self, message: str):
         if self._ser and self._ser.is_open:
