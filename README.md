@@ -167,10 +167,9 @@ LED power must come from **VBUS (5 V)**, not 3V3.
 
 ## Pico Setup
 
-### 1. Flash MicroPython
+### 1. Set up PICO and Flash MicroPython
 
-Download the latest MicroPython `.uf2` from [micropython.org/download/rp2-pico](https://micropython.org/download/rp2-pico/).
-Hold **BOOTSEL**, plug in USB, then drag the `.uf2` file onto the `RPI-RP2` drive that appears.
+Follow directions found on [the FYELIC GitHub](https://github.com/fyelic/fyelic-micropython/tree/main?tab=readme-ov-file#download-instructions).
 
 ### 2. Install the MFRC522 library (Pico 1 only)
 
