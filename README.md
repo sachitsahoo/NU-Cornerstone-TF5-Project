@@ -71,12 +71,12 @@ flowchart TD
 The sequence below shows a full tag-scan cycle, including how the bridge infers tag removal.
 
 ```mermaid
+%%{init: {'themeVariables': {'fontSize': '16px'}}}%%
 sequenceDiagram
     autonumber
     participant P1 as Pico 1 (RFID)
     participant SW as serial_worker
-    participant BR as Bridge (FastAPI)
-    participant WS as WebSocket /ws
+    participant BR as Bridge (:8000)
     participant UI as React UI
 
     loop Every ~50 ms while card present
@@ -84,10 +84,10 @@ sequenceDiagram
     end
 
     SW->>SW: match tag_id → character uid
-    SW->>BR: enqueue {type: tag, uid: "ballerina_cappuccina"}
-    BR->>WS: broadcast {schema: 1, type: tag, uid: ...}
-    WS->>UI: JSON message
-    UI->>UI: show character profile\nPOST /api/led → Pico 2 changes color
+    SW->>BR: enqueue tag event
+    BR->>UI: broadcast JSON via WebSocket /ws
+    UI->>UI: show character profile
+    UI->>BR: POST /api/led → Pico 2 changes color
 
     note over P1,SW: Card removed — Pico 1 stops printing TAG:
 
@@ -95,10 +95,10 @@ sequenceDiagram
         P1--xSW: (no output)
     end
 
-    SW->>BR: enqueue {type: tag_removed}
-    BR->>WS: broadcast {schema: 1, type: tag_removed}
-    WS->>UI: JSON message
-    UI->>UI: return to idle state\nPOST /api/led → Pico 2 returns to purple
+    SW->>BR: enqueue tag_removed event
+    BR->>UI: broadcast JSON via WebSocket /ws
+    UI->>UI: return to idle
+    UI->>BR: POST /api/led → Pico 2 returns to purple
 ```
 
 **Button flow:** Pico 2 prints `BUTTON_DOWN` / `BUTTON2_DOWN` (50 ms debounce in firmware) → `serial_worker` enqueues a `button_down` / `button2_down` event → Bridge broadcasts → React advances game state.
