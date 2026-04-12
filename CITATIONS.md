@@ -2,7 +2,7 @@
 
 ## Generative AI Disclosure
 
-Portions of this project (firmware logic, backend architecture, frontend components, documentation, and debugging) were developed with the assistance of **Claude Code** (powered by Claude Sonnet), an AI programming tool by Anthropic. AI assistance was used throughout the development cycle in compliance with the Cornerstone of Engineering course policy and Project 2 policy requiring disclosure of generative AI use.
+Portions of this project (firmware logic, backend architecture, frontend components, documentation, and debugging) were developed with the assistance of **Claude Code** (powered by Claude Sonnet by Anthropic) and **Cursor** (an AI-assisted code editor by Anysphere). AI assistance was used throughout the development cycle of the computer programming for Project 2 only in compliance with the NU Cornerstone of Engineering course policy and Project 2 policy requiring disclosure of generative AI use.
 
 > Claude Code. Anthropic, 2026. [Online]. Available: https://claude.ai/claude-code
 
@@ -49,3 +49,6 @@ Portions of this project (firmware logic, backend architecture, frontend compone
 
 - **Raspberry Pi Pico** — RP2040 microcontroller board. Raspberry Pi Ltd. https://www.raspberrypi.com/products/raspberry-pi-pico/
 - **MFRC522** — 13.56 MHz RFID reader/writer module. NXP Semiconductors.
+- **NeoPixel LED Strip** — WS2812B addressable RGB LEDs. Adafruit Industries. https://www.adafruit.com/category/168
+- **Push Buttons** — generic push buttons (2x), one obtained from FYELIC, the other from (Amazon)[https://www.amazon.com/Easyget-Shaped-Illuminated-Self-resetting-Projects/dp/B00XRC9URW]
+
