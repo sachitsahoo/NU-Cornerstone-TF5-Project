@@ -1,6 +1,6 @@
 # 🔍 Pollution Mystery — TF5 Cornerstone Project
 
-An interactive Clue-style exhibit powered by two Raspberry Pi Picos, RFID cards, NeoPixel LEDs, and a React web UI served from a Python/FastAPI backend. Players scan suspect cards to investigate river pollution and make their accusation. Made for the final project of Cornerstone of Engineering 1502 at Northeastern University.
+An interactive Clue-style exhibit powered by two Raspberry Pi Picos, RFID cards, NeoPixel LEDs, and a React web UI served from a Python/FastAPI backend. Players scan suspect cards to investigate river pollution and make their accusation. Made for the final project of Cornerstone of Engineering 1501/1502 at Northeastern University.
 
 ---
 
