@@ -9,7 +9,7 @@ An interactive Clue-style exhibit powered by two Raspberry Pi Picos, RFID cards,
 The system has four layers that communicate in sequence.
 
 ```mermaid
-%%{init: {'theme': 'default', 'themeVariables': {'fontSize': '18px'}}}%%
+%%{init: {'themeVariables': {'fontSize': '18px'}}}%%
 flowchart TB
     subgraph Picos["  Microcontrollers  "]
         P1["Pico 1 — RFID\nRFID scan · idle LED"]
