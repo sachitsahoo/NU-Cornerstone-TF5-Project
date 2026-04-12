@@ -29,7 +29,11 @@ function caseIdFromUrl(): BostonCaseId | null {
     ? (raw as BostonCaseId)
     : null;
 }
-import type { CharacterJson, CharactersApiResponse } from "./gameTypes";
+import type {
+  CharacterJson,
+  CharactersApiResponse,
+  RevealState,
+} from "./gameTypes";
 import { useScrollParallax } from "./useScrollParallax";
 import {
   BRIDGE_EVENT_SCHEMA_NAME,
@@ -83,12 +87,6 @@ const DEV_UI = {
   simTagRemoved: "Simulate tag removed",
 } as const;
 
-type RevealState = {
-  correct: boolean;
-  picked: CharacterJson;
-  culprit: CharacterJson;
-};
-
 export default function GameShell() {
   const debugFromQuery =
     new URLSearchParams(window.location.search).get("debug") === "1";
@@ -119,15 +117,9 @@ export default function GameShell() {
   const pickerLangRef = useRef<Lang>("en");
   pickerLangRef.current = pickerLang;
 
-  // Hold-to-confirm: fill progress [0..1]
+  /** Language picker / exit quiz can show a hold-style track; flow is short-press confirm (progress stays 0). */
   const [holdProgress, setHoldProgress] = useState(0);
-  /** True from first button_down through hold delay + 3s confirm — drives immediate fill track. */
   const [holdCharging, setHoldCharging] = useState(false);
-  const holdStartRef = useRef<number | null>(null);
-  const holdRafRef = useRef<number | null>(null);
-  const holdConfirmTimerRef = useRef<number | null>(null);
-  // Delay before the fill bar appears — button must be held this long to enter hold mode
-  const holdDelayTimerRef = useRef<number | null>(null);
   // True when the picker was opened by the current button press (ignore its release)
   const pickerOpenedThisPressRef = useRef(false);
   // True after returning from reveal — ignore button_down until button is released
@@ -203,10 +195,6 @@ export default function GameShell() {
   /** One-shot after returning from exit quiz so landing can ease in. */
   const [landingEnterSettle, setLandingEnterSettle] = useState(false);
 
-  const quizHoldDelayTimerRef = useRef<number | null>(null);
-  const quizHoldRafRef = useRef<number | null>(null);
-  const quizHoldConfirmTimerRef = useRef<number | null>(null);
-  const quizHoldStartRef = useRef<number | null>(null);
   const quizPickerOpenedThisPressRef = useRef(false);
 
   const exitToLandingAnimTimerRef = useRef<number | null>(null);
@@ -278,19 +266,6 @@ export default function GameShell() {
   }, []);
 
   const cancelQuizHold = useCallback(() => {
-    if (quizHoldDelayTimerRef.current != null) {
-      window.clearTimeout(quizHoldDelayTimerRef.current);
-      quizHoldDelayTimerRef.current = null;
-    }
-    if (quizHoldRafRef.current != null) {
-      cancelAnimationFrame(quizHoldRafRef.current);
-      quizHoldRafRef.current = null;
-    }
-    if (quizHoldConfirmTimerRef.current != null) {
-      window.clearTimeout(quizHoldConfirmTimerRef.current);
-      quizHoldConfirmTimerRef.current = null;
-    }
-    quizHoldStartRef.current = null;
     setQuizHoldProgress(0);
     setQuizHoldCharging(false);
   }, []);
@@ -330,19 +305,6 @@ export default function GameShell() {
   );
 
   const cancelHold = useCallback(() => {
-    if (holdDelayTimerRef.current != null) {
-      window.clearTimeout(holdDelayTimerRef.current);
-      holdDelayTimerRef.current = null;
-    }
-    if (holdRafRef.current != null) {
-      cancelAnimationFrame(holdRafRef.current);
-      holdRafRef.current = null;
-    }
-    if (holdConfirmTimerRef.current != null) {
-      window.clearTimeout(holdConfirmTimerRef.current);
-      holdConfirmTimerRef.current = null;
-    }
-    holdStartRef.current = null;
     setHoldProgress(0);
     setHoldCharging(false);
   }, []);
@@ -401,69 +363,6 @@ export default function GameShell() {
     },
     [cancelHold, characters, sendBillboardDefault, roundCulprits]
   );
-
-  const HOLD_MS = 800;
-
-  /** Exit-quiz MCQ: fill duration for hold-to-confirm. */
-  const QUIZ_HOLD_MS = 1000;
-
-  const startHold = useCallback(() => {
-    cancelHold();
-    setHoldCharging(true);
-    const start = Date.now();
-    holdStartRef.current = start;
-
-    const tick = () => {
-      const elapsed = Date.now() - start;
-      const progress = Math.min(elapsed / HOLD_MS, 1);
-      setHoldProgress(progress);
-      if (progress < 1) {
-        holdRafRef.current = requestAnimationFrame(tick);
-      }
-    };
-    holdRafRef.current = requestAnimationFrame(tick);
-
-    holdConfirmTimerRef.current = window.setTimeout(() => {
-      holdRafRef.current = null;
-      setHoldProgress(1);
-      onLanguagePick(pickerLangRef.current);
-    }, HOLD_MS);
-  }, [cancelHold, onLanguagePick]);
-
-  const startQuizHold = useCallback(() => {
-    cancelQuizHold();
-    setQuizHoldCharging(true);
-    const start = Date.now();
-    quizHoldStartRef.current = start;
-
-    const tick = () => {
-      const elapsed = Date.now() - start;
-      const progress = Math.min(elapsed / QUIZ_HOLD_MS, 1);
-      setQuizHoldProgress(progress);
-      if (progress < 1) {
-        quizHoldRafRef.current = requestAnimationFrame(tick);
-      }
-    };
-    quizHoldRafRef.current = requestAnimationFrame(tick);
-
-    quizHoldConfirmTimerRef.current = window.setTimeout(() => {
-      quizHoldRafRef.current = null;
-      setQuizHoldProgress(1);
-      const q = exitQuizFor(lang, activeCase, scenePlaySeed);
-      const correct = quizHighlightIndexRef.current === q.correctIndex;
-      setExitQuizPhase("feedback");
-      exitQuizPhaseRef.current = "feedback";
-      cancelQuizHold();
-      setQuizFeedbackCorrect(correct);
-      if (correct) {
-        const [r, g, b] = LED_FEEDBACK_CORRECT;
-        sendLed(r, g, b);
-      } else {
-        const [r, g, b] = LED_FEEDBACK_WRONG;
-        sendLed(r, g, b);
-      }
-    }, QUIZ_HOLD_MS);
-  }, [cancelQuizHold, sendLed, lang, activeCase, scenePlaySeed]);
 
   const submitReveal = useCallback(() => {
     const uid = scannedUidRef.current;
@@ -618,8 +517,6 @@ export default function GameShell() {
 
   const onBridgeMessage = useCallback(
     (msg: BridgeMessage) => {
-      if (msg.type === "status") return;
-
       if (enjoymentRatingOpenRef.current) {
         if (msg.type === "tag" || msg.type === "tag_removed") {
           return;
@@ -695,11 +592,6 @@ export default function GameShell() {
             awaitingButtonUpRef.current = false;
             if (quizPickerOpenedThisPressRef.current) {
               quizPickerOpenedThisPressRef.current = false;
-            } else if (
-              quizHoldDelayTimerRef.current != null ||
-              quizHoldStartRef.current != null
-            ) {
-              cancelQuizHold();  // cancel in-progress hold; no cycle here — use Button 2
             }
             return;
           }
@@ -769,8 +661,6 @@ export default function GameShell() {
           if (pickerOpenedThisPressRef.current) {
             // This release paired with the press that opened the picker — ignore
             pickerOpenedThisPressRef.current = false;
-          } else if (holdDelayTimerRef.current != null || holdStartRef.current != null) {
-            cancelHold();  // cancel in-progress hold; no cycle here — use Button 2
           }
           return;
         }
@@ -823,10 +713,8 @@ export default function GameShell() {
       submitReveal,
       sendLed,
       sendBillboardDefault,
-      startHold,
       cancelHold,
       cancelQuizHold,
-      startQuizHold,
       completeQuizFeedbackAndOpenRating,
       beginEnjoymentExitToLandingWithAnimation,
       onContinueReveal,

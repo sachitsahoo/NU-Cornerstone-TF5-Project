@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { createPortal } from "react-dom";
-import type { CharacterJson } from "../gameTypes";
+import type { CharacterJson, RevealState } from "../gameTypes";
 import type { BostonCaseId, CaseClueItem, Lang } from "../gameContent";
 import {
   imageSrc,
@@ -11,12 +11,6 @@ import {
 } from "../gameContent";
 import { ClueGlyph, SuspectSilhouette } from "./PlayingGlyphs";
 import { SceneCaseBanner } from "./SceneCaseBanner";
-
-type RevealState = {
-  correct: boolean;
-  picked: CharacterJson;
-  culprit: CharacterJson;
-};
 
 type PlayingViewProps = {
   visible: boolean;
