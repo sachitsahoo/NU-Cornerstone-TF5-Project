@@ -42,7 +42,10 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    A([Start]) --> B[/Display Landing Screen\nIdle purple LEDs on Pico 2/]
+    A([Boot / Fresh Start]) -->|first launch| B
+    P -->|after game ends| B
+
+    B[/Display Landing Screen\nIdle purple LEDs on Pico 2/]
     B --> C[/Press Play or key P/]
     C --> D[/Choose Language\nEnglish or Spanish/]
     D --> E[/Scan a Suspect Card - RFID/]
@@ -59,7 +62,6 @@ flowchart TD
     M --> N
     N --> O[/Enjoyment Rating/]
     O --> P[Reset System\nLEDs return to purple]
-    P --> A([End / Restart])
 ```
 
 ---
