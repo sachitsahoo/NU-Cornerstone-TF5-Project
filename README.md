@@ -34,7 +34,7 @@ flowchart TB
     BRG -- "r,g,b  via USB" --> P2
 ```
 
-**Fallback:** if a Pico is not connected, its `serial_worker` enters DUMMY mode — events from that device are silently dropped but the UI still loads.
+**Fallback:** if a Pico is not connected, its `serial_worker` enters DUMMY mode. Events from that device are silently dropped but the UI still loads.
 
 ---
 
@@ -192,7 +192,7 @@ Open a serial monitor (e.g. Thonny's shell) and scan each RFID card. The Pico pr
 TAG: 390485036
 ```
 
-Note these numbers — you'll need them when editing `characters.json`.
+Note these numbers. You'll need them when editing `characters.json`.
 
 ### RFID Card → Character Map
 
@@ -316,7 +316,7 @@ Open `http://localhost:5173` in a browser. The Vite dev server proxies all WebSo
 cd web && npm run build
 ```
 
-The bridge will then serve the built UI at `http://127.0.0.1:8000/` — no separate web server needed.
+The bridge will then serve the built UI at `http://127.0.0.1:8000/`. No separate web server needed.
 
 ---
 
@@ -363,13 +363,13 @@ Add a new object to the `"characters"` array:
 }
 ```
 
-- `uid` — short identifier used internally (letters and underscores only).
-- `tag_ids` — one or more raw tag numbers printed by the Pico. Multiple IDs let you assign several physical cards to one character.
-- `led_color` — RGB `[R, G, B]` sent to Pico 2's NeoPixel strip when this character is scanned.
-- `image` — path to a portrait PNG relative to the project root.
-- `innocent_explanation` / `culprit_explanation` — text shown at the reveal depending on outcome.
+- `uid`: short identifier used internally (letters and underscores only).
+- `tag_ids`: one or more raw tag numbers printed by the Pico. Multiple IDs let you assign several physical cards to one character.
+- `led_color`: RGB `[R, G, B]` sent to Pico 2's NeoPixel strip when this character is scanned.
+- `image`: path to a portrait PNG relative to the project root.
+- `innocent_explanation` / `culprit_explanation`: text shown at the reveal depending on outcome.
 
-The app reloads `characters.json` on each launch — no code changes needed.
+The app reloads `characters.json` on each launch. No code changes needed.
 
 ### Editing UI copy or translations
 
