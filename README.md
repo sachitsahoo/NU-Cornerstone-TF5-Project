@@ -174,7 +174,7 @@ Hold **BOOTSEL**, plug in USB, then drag the `.uf2` file onto the `RPI-RP2` driv
 
 ### 2. Install the MFRC522 library (Pico 1 only)
 
-Download `mfrc522.py` from [github.com/wendlers/micropython-mfrc522](https://github.com/wendlers/micropython-mfrc522) and copy it to the Pico root using Thonny or rshell.(Also available from [github.com/fyelic/fyelic-micropython/tree/main/examples/RFID](https://github.com/fyelic/fyelic-micropython/tree/main/examples/RFID)
+Download `mfrc522.py` from [github.com/wendlers/micropython-mfrc522](https://github.com/wendlers/micropython-mfrc522) and copy it to the Pico root using Thonny or rshell.(Also available from [github.com/fyelic/fyelic-micropython/tree/main/examples/RFID](https://github.com/fyelic/fyelic-micropython/tree/main/examples/RFID))
 
 ### 3. Copy the firmware
 
