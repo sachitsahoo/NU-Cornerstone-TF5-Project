@@ -9,29 +9,29 @@ An interactive Clue-style exhibit powered by two Raspberry Pi Picos, RFID cards,
 The system has four layers that communicate in sequence.
 
 ```mermaid
-flowchart LR
-    subgraph Microcontrollers
-        P1["Pico 1 — RFID\n(rfid/main.py)\nRFID scan + idle LED"]
-        P2["Pico 2 — LED+Button\n(led_button/main.py)\nNeoPixel + 2 buttons"]
+%%{init: {'theme': 'default', 'themeVariables': {'fontSize': '18px'}}}%%
+flowchart TB
+    subgraph Picos["  Microcontrollers  "]
+        P1["Pico 1 — RFID\nRFID scan · idle LED"]
+        P2["Pico 2 — LED + Button\nNeoPixel · Button 1 · Button 2"]
     end
 
-    subgraph Backend["Backend  (bridge.py · :8000)"]
-        SW1["serial_worker\n(RFID port)"]
-        SW2["serial_worker\n(LED port)"]
-        BRG["FastAPI\n/ws · /api/characters\n/api/led · /dev/event"]
+    subgraph Bk["  bridge.py  (:8000)  "]
+        SW1["serial_worker\nRFID port"]
+        SW2["serial_worker\nLED port"]
+        BRG["FastAPI\n/ws  ·  /api/characters  ·  /api/led"]
     end
 
-    subgraph Frontend
-        UI["React UI\n(Vite · :5173)"]
+    subgraph FE["  Frontend  "]
+        UI["React UI\nVite · :5173"]
     end
 
-    P1 -- "TAG: &lt;id&gt; over USB serial" --> SW1
-    SW1 -- "tag / tag_removed events" --> BRG
-    P2 -- "BUTTON_DOWN / BUTTON2_DOWN\nover USB serial" --> SW2
-    SW2 -- "button events" --> BRG
-    BRG -- "JSON over WebSocket /ws" --> UI
-    UI -- "POST /api/led {r,g,b}" --> BRG
-    BRG -- "r,g,b\\n over USB serial" --> P2
+    P1 -- "TAG: &lt;id&gt;  via USB" --> SW1
+    P2 -- "BUTTON_DOWN / BUTTON2_DOWN  via USB" --> SW2
+    SW1 & SW2 -- "events" --> BRG
+    BRG -- "JSON via WebSocket /ws" --> UI
+    UI -- "POST /api/led  r,g,b" --> BRG
+    BRG -- "r,g,b  via USB" --> P2
 ```
 
 **Fallback:** if a Pico is not connected, its `serial_worker` enters DUMMY mode — events from that device are silently dropped but the UI still loads.
