@@ -52,3 +52,4 @@ Portions of this project (firmware logic, backend architecture, frontend compone
 - **NeoPixel LED Strip** — WS2812B addressable RGB LEDs. Adafruit Industries. https://www.adafruit.com/category/168
 - **Push Buttons** — generic push buttons (2x), one obtained from FYELIC, the other from (Amazon)[https://www.amazon.com/Easyget-Shaped-Illuminated-Self-resetting-Projects/dp/B00XRC9URW]
 
+fix
