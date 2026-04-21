@@ -12,21 +12,21 @@ The system has four layers that communicate in sequence.
 %%{init: {'themeVariables': {'fontSize': '18px'}}}%%
 flowchart TB
     subgraph Picos["  Microcontrollers  "]
-        P1["Pico 1 — RFID\nRFID scan · idle LED"]
-        P2["Pico 2 — LED + Button\nNeoPixel · Button 1 · Button 2"]
+        P1["Pico 1 — RFID<br>RFID scan · idle LED"]
+        P2["Pico 2 — LED + Button<br>NeoPixel · Button 1 · Button 2"]
     end
 
     subgraph Bk["  bridge.py  (:8000)  "]
-        SW1["serial_worker\nRFID port"]
-        SW2["serial_worker\nLED port"]
-        BRG["FastAPI\n/ws  ·  /api/characters  ·  /api/led"]
+        SW1["serial_worker<br>RFID port"]
+        SW2["serial_worker<br>LED port"]
+        BRG["FastAPI<br>/ws  ·  /api/characters  ·  /api/led"]
     end
 
     subgraph FE["  Frontend  "]
-        UI["React UI\nVite · :5173"]
+        UI["React UI<br>Vite · :5173"]
     end
 
-    P1 -- "TAG: &lt;id&gt;  via USB" --> SW1
+    P1 -- "TAG: <id>  via USB" --> SW1
     P2 -- "BUTTON_DOWN / BUTTON2_DOWN  via USB" --> SW2
     SW1 & SW2 -- "events" --> BRG
     BRG -- "JSON via WebSocket /ws" --> UI
